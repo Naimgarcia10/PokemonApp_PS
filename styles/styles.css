@@ -30,4 +30,72 @@ footer img{
     margin-right: 4rem;
     width: 9rem;
     float: right;
+<<<<<<< HEAD
 }
+=======
+}
+
+/* main */
+.mainContent{
+    display: block;
+}
+
+.mainContent div{
+    display: flex;
+    margin-left: 42rem;
+    margin-top: 2rem;
+}
+
+.mainContent img{
+    width: 10rem;
+}
+
+#begginerButton{
+    background-color: var(--Goldenrod);
+    
+    
+}
+#expertButton{
+    background-color: var(--Tomato);
+    
+}
+
+#expertButton, #begginerButton{
+    margin-top: 3rem;
+    margin-right: 3rem;
+    border-radius: 0.4rem;
+    border-style: none;
+    width: 8rem;
+    height: 6rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* tutorial */
+.tarjeta_tutorial{
+    display: block;
+}
+
+.tarjeta_tutorial .contenido{
+    display: block;
+    max-width: 60rem;
+    background-color: var(--LightSlateGray);
+}
+
+.tarjeta_tutorial .contenido .subcontenido{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tarjeta_tutorial .contenido .subcontenido img{
+    width: 25%;
+}
+
+.tarjeta_tutorial .imagen{
+    width: 65rem;    
+    border-radius: 40px;
+}
+
+.tarjeta_tutorial .contenido img
+>>>>>>> 518e52b19116e5ee676123d672a2b26ca0c5ab90
