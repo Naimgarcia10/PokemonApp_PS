@@ -69,7 +69,7 @@ footer img{
 }
 
 /* tutorial */
-main{
+.main-tarjeta-tutorial{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -97,10 +97,12 @@ main{
 }
 
 .tarjeta_tutorial .contenido img{
+    cursor: pointer;
     width: 12.5%;
 }
 .tarjeta_tutorial .contenido p{
     background-color: var(--LightSlateGray);
+    font-size: large;
     text-align: center;
     border-radius: 20px;
     min-width: 50rem;
