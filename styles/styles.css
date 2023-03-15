@@ -81,12 +81,14 @@ footer img{
 
 .tarjeta_tutorial .titulo{
     text-align: center;
+    margin-bottom: 0.4rem;
 }
 .tarjeta_tutorial .imagen{
     border-radius: 40px;
     width: 1040px;
     height: 585px;
     object-fit: cover;
+    margin-bottom: 0.4rem;
 }
 .tarjeta_tutorial .contenido{
     display: flex;
