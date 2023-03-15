@@ -2,3 +2,40 @@ p{
     font-size: xx-large;
     color:var(--Coral);
 }
+
+/* main */
+.mainContent{
+    display: block;
+}
+
+.mainContent div{
+    display: flex;
+    margin-left: 42rem;
+    margin-top: 5rem;
+
+}
+
+.mainContent img{
+    width: 10rem;
+}
+
+#begginerButton{
+    background-color: var(--Goldenrod);
+    
+    
+}
+#expertButton{
+    background-color: var(--Tomato);
+    
+}
+
+#expertButton, #begginerButton{
+    margin-top: 3rem;
+    margin-right: 3rem;
+    border-radius: 0.4rem;
+    border-style: none;
+    width: 8rem;
+    height: 6rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
