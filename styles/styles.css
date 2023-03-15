@@ -30,9 +30,6 @@ footer img{
     margin-right: 4rem;
     width: 9rem;
     float: right;
-<<<<<<< HEAD
-}
-=======
 }
 
 /* main */
@@ -97,5 +94,6 @@ footer img{
     border-radius: 40px;
 }
 
-.tarjeta_tutorial .contenido img
->>>>>>> 518e52b19116e5ee676123d672a2b26ca0c5ab90
+.tarjeta_tutorial .contenido img{
+    
+}
