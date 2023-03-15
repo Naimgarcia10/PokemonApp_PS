@@ -67,3 +67,31 @@ footer img{
     font-size: 1.5rem;
     font-weight: bold;
 }
+
+/* tutorial */
+.tarjeta_tutorial{
+    display: block;
+}
+
+.tarjeta_tutorial .contenido{
+    display: block;
+    max-width: 60rem;
+    background-color: var(--LightSlateGray);
+}
+
+.tarjeta_tutorial .contenido .subcontenido{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tarjeta_tutorial .contenido .subcontenido img{
+    width: 25%;
+}
+
+.tarjeta_tutorial .imagen{
+    width: 65rem;    
+    border-radius: 40px;
+}
+
+.tarjeta_tutorial .contenido img
