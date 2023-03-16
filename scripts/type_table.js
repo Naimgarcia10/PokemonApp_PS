@@ -2,6 +2,17 @@
 const typeSelect = document.getElementById('type-select');
 var tipos = [];
 
+function lista_a_string(lista){
+  var stringDebilidades = "";
+  for(let i=0;i<lista.length;i++){
+    stringDebilidades += lista[i].name;
+    if(i < lista.length - 1){
+      stringDebilidades += ", ";
+    }
+  }
+  return stringDebilidades;
+}
+
 fetch('../json/type.json')
 	.then(response => response.json())
 	.then(data => {
@@ -22,14 +33,13 @@ typeSelect.addEventListener('change', () => {
   });  
   console.log(tipoEncontrado);
 
-  // iteramos el array de debilidades
-  var listaDebilidades = tipoEncontrado.damage_relations.double_damage_from;
-  var stringDebilidades = "";
-  for(let i=0;i<listaDebilidades.length;i++){
-    stringDebilidades += listaDebilidades[i].name;
-    if(i < listaDebilidades.length - 1){
-      stringDebilidades += ", ";
-    }
-  }
-  document.querySelector(".valor").innerHTML = stringDebilidades;
+  // ATACANDO
+  document.querySelector(".eficazcontra").innerHTML = lista_a_string(tipoEncontrado.damage_relations.double_damage_to);
+  document.querySelector(".pocoeficazcontra").innerHTML = lista_a_string(tipoEncontrado.damage_relations.half_damage_to);
+  document.querySelector(".nulocontra").innerHTML = lista_a_string(tipoEncontrado.damage_relations.no_damage_to);
+
+  // DEFENDIENDO
+  document.querySelector(".debil_a").innerHTML = lista_a_string(tipoEncontrado.damage_relations.double_damage_from);
+  document.querySelector(".resistente_a").innerHTML = lista_a_string(tipoEncontrado.damage_relations.half_damage_from);
+  document.querySelector(".inmune_a").innerHTML = lista_a_string(tipoEncontrado.damage_relations.no_damage_from);
 });
