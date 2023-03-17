@@ -102,6 +102,7 @@ footer img{
     cursor: pointer;
     width: 12.5%;
 }
+
 .tarjeta_tutorial .contenido p{
     background-color: var(--LightSlateGray);
     font-size: large;
