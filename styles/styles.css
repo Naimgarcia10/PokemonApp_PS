@@ -1,6 +1,32 @@
-header{
+header{    
+    display: flex;
+    align-items: center;
     background-color:var(--DarkOrange);
     width: 100%;
+}
+
+/* la navbar de principiantes se activa con un javascript */    
+header .navbar_principiantes{
+    display: none;
+}
+
+header .navbar_principiantes ul{
+    list-style: none;    
+    padding: 2rem;
+}
+
+header .navbar_principiantes a{
+    color: var(--AntiqueWhite);
+}
+
+header .navbar_principiantes ul li{    
+    border-style:initial;
+    display: inline;
+    padding: 1.2rem;
+    margin: 1.2rem;
+    background-color: var(--Crimson);    
+    font-weight: bold;
+    font-size: 1.5rem;
 }
 
 footer div{
@@ -18,8 +44,8 @@ a,p{
 }
 
 header img{
-    width: 4rem;
-    margin: 0.2rem;
+    width: 6rem;
+    margin: 1rem;
 }
 footer p{
     margin-left: 4rem;
