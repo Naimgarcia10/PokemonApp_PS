@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokemon</title>
+    <link rel="stylesheet" href="../styles/index.css">
+</head>
+
+<body>
+    <script type="module" src="../scripts/components/header.js"></script>
+    <main>
+        <div class="main-tarjeta-tutorial">
+            <div class="tarjeta_tutorial">
+                <h1 class="titulo">Tutorial Pokemon</h1>
+                <img id="imagen-tutorial" class="imagen" src="../images/imagen1.jpg">
+
+                <div class="contenido">
+                    <img id="flecha_izquierda" src="../icons/flecha izquierda.png">
+                    <p id="texto-tutorial">Welcome to the competitive tutorial.</p>
+                    <img id="flecha_derecha" src="../icons/flecha derecha.png">
+                </div>
+
+            </div>
+        </div>
+        <div class="tabla-tipos">
+            <div class="container">
+                <h1>Tipos de Pokemon</h1>
+                <label for="type-select">Selecciona un tipo:</label>
+                <select id="type-select"></select>
+            </div>
+
+            <div class="weekness">
+                <img class="imagentipo" src="">
+
+                <h2><u>Atacando</u></h2>
+
+                <h3>Eficaz contra:</h3>
+                <p class="eficazcontra"></p>
+                <h3>Poco eficaz contra:</h3>
+                <p class="pocoeficazcontra"></p>
+                <h3>Nulo contra:</h3>
+                <p class="nulocontra"></p>
+
+                <h2><u>Defendiendo</u></h2>
+
+                <h3>Débil a:</h3>
+                <p class="debil_a"></p>
+                <h3>Resistente a:</h3>
+                <p class="resistente_a"></p>
+                <h3>Inmune a:</h3>
+                <p class="inmune_a"></p>
+            </div>
+            
+        </div>
+        <div class="cuestionario">
+        </div>
+    </main>
+    <script type="module" src="../scripts/components/footer.js"></script>
+    <script type="module" src="../scripts/entregable.js"></script>
+    <script type="module" src="../scripts/type_table.js"></script>
+</body>
+
+</html>

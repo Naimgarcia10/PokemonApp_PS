@@ -1,4 +1,139 @@
-p{
-    font-size: xx-large;
-    color:var(--Coral);
+header{    
+    display: flex;
+    align-items: center;
+    background-color:var(--DarkOrange);
+    width: 100%;
+}
+
+/* la navbar de principiantes se activa con un javascript */    
+header .navbar_principiantes{
+    display: none;
+}
+
+header .navbar_principiantes ul{
+    list-style: none;    
+    padding: 2rem;
+}
+
+header .navbar_principiantes a{
+    color: var(--AntiqueWhite);
+}
+
+header .navbar_principiantes ul li{    
+    border-style:initial;
+    display: inline;
+    padding: 1.2rem;
+    margin: 1.2rem;
+    background-color: var(--Crimson);    
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+footer div{
+    display: flex;
+    background-color:var(--Goldenrod);
+    width: 100%;
+    min-height: 3rem;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+}
+
+a,p{
+    color: var(--Black);
+}
+
+header img{
+    width: 6rem;
+    margin: 1rem;
+}
+footer p{
+    margin-left: 4rem;
+    margin-right: 4rem;
+    margin-bottom: 0px;
+}
+footer img{
+    margin-right: 4rem;
+    width: 9rem;
+    float: right;
+}
+
+/* main */
+.mainContent{
+    display: block;
+}
+
+.mainContent div{
+    display: flex;
+    margin-left: 42rem;
+    margin-top: 2rem;
+}
+
+.mainContent img{
+    width: 10rem;
+}
+
+#begginerButton{
+    background-color: var(--Goldenrod);
+    
+    
+}
+#expertButton{
+    background-color: var(--Tomato);
+    
+}
+
+#expertButton, #begginerButton{
+    margin-top: 3rem;
+    margin-right: 3rem;
+    border-radius: 0.4rem;
+    border-style: none;
+    width: 8rem;
+    height: 6rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* tutorial */
+.main-tarjeta-tutorial{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tarjeta_tutorial{
+    display: block;
+}
+
+.tarjeta_tutorial .titulo{
+    text-align: center;
+    margin-bottom: 0.4rem;
+}
+.tarjeta_tutorial .imagen{
+    border-radius: 40px;
+    width: 1040px;
+    height: 585px;
+    object-fit: cover;
+    margin-bottom: 0.4rem;
+}
+.tarjeta_tutorial .contenido{
+    display: flex;
+    max-width: 60rem;
+    justify-content: center;
+    align-items: center;
+    margin-left: 2.5rem;
+}
+
+.tarjeta_tutorial .contenido img{
+    cursor: pointer;
+    width: 12.5%;
+}
+.tarjeta_tutorial .contenido p{
+    background-color: var(--LightSlateGray);
+    font-size: large;
+    text-align: center;
+    border-radius: 20px;
+    min-width: 50rem;
+    min-height: 5rem;
+    padding: 1rem;
 }
