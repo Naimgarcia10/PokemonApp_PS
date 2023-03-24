@@ -1,0 +1,14 @@
+[
+    {
+        "question":"¿Qué pokémon es el que aparece en la imagen?",
+        "image":"questionLugia.png",
+        "correctAnswer": "Lugia",
+        "incorrectAnswers":["Ho-Oh", "Celebi", "Jirachi"]       
+    },
+    {
+        "question":"¿Cuál es este pokémon?",
+        "image":"pikachuMain.png",        
+        "correctAnswer": "Pikachu",
+        "incorrectAnswers":["Raichu", "Pichu", "Dedenne"]
+    }
+]
