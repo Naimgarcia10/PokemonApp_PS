@@ -1,3 +1,30 @@
+document.addEventListener("DOMContentLoaded", () => {
+    //selecciona los elementos a cambiar
+    let imagen = document.getElementById("imagen-tutorial");
+    let texto = document.getElementById("texto-tutorial");
+
+    fetch('http://localhost:8080/tutorial/' + 0)
+        .then(response => {
+            if (response.ok) {
+                ultima_pagina_ok = contador_paginas;    //almaceno el valor las ultimas respuestas que fueron exitosa
+                return response.json();
+            }
+        })
+        .then(data => {
+
+            //cargo los nuevos contenidos
+            imagen.src = data.encodedImage;
+            texto.textContent = data.texto;
+
+        }).catch(error => {
+
+            //en caso de error con el servidor, no aumento el contador
+            console.log('Error en la petición:', error);
+            contador_paginas = ultima_pagina_ok;
+
+        });
+});
+
 //asocio las acciones a los elementos 
 const flecha_derecha = document.getElementById("flecha_derecha");
 const flecha_izquierda = document.getElementById("flecha_izquierda");
@@ -47,7 +74,7 @@ function http_tutorial(event) {
     //realizo la petición http, si el tutorial tiene 3 paginas, ira de 0 a 2
     fetch('http://localhost:8080/tutorial/' + contador_paginas)
         .then(response => {
-            if(response.ok){
+            if (response.ok) {
                 ultima_pagina_ok = contador_paginas;    //almaceno el valor las ultimas respuestas que fueron exitosa
                 return response.json();
             }
