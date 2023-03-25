@@ -77,16 +77,16 @@ footer img{
 
 .tarjeta_tutorial{
     display: block;
+    text-align: center;
 }
 
 .tarjeta_tutorial .titulo{
-    text-align: center;
     margin-bottom: 0.4rem;
 }
 .tarjeta_tutorial .imagen{
     border-radius: 40px;
-    width: 1040px;
-    height: 585px;
+    width: 800px;
+    height: 450px;
     object-fit: cover;
     margin-bottom: 0.4rem;
 }
@@ -95,7 +95,6 @@ footer img{
     max-width: 60rem;
     justify-content: center;
     align-items: center;
-    margin-left: 2.5rem;
 }
 
 .tarjeta_tutorial .contenido img{
@@ -107,7 +106,7 @@ footer img{
     font-size: large;
     text-align: center;
     border-radius: 20px;
-    min-width: 50rem;
+    min-width: 40rem;
     min-height: 5rem;
     padding: 1rem;
 }
