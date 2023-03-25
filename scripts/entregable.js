@@ -55,7 +55,7 @@ function http_tutorial(event) {
         .then(data => {
 
             //cargo los nuevos contenidos
-            imagen.src = data.ruta_imagen;
+            imagen.src = data.encodedImage;
             texto.textContent = data.texto;
 
         }).catch(error => {

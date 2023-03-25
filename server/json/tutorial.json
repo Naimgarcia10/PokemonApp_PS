@@ -1,16 +1,16 @@
 [
     {
-        "ruta_imagen":"../images/imagen1.jpg",
+        "ruta_imagen":"server/imagenes_tutorial/imagen1.jpg",
         "texto":"tutorial parte 1"
     },
 
     {
-        "ruta_imagen":"../images/imagen2.jpg",
+        "ruta_imagen":"server/imagenes_tutorial/imagen2.jpg",
         "texto":"tutorial parte 2"
     },
 
     {
-        "ruta_imagen":"../images/imagen3.webp",
+        "ruta_imagen":"server/imagenes_tutorial/imagen3.jpg",
         "texto":"tutorial parte 3"
     }
 ]
