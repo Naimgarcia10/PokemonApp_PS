@@ -27,3 +27,25 @@ buscador.addEventListener('input', function() {
     }
   }
 });
+
+/*
+##############################################
+#      Seccion: Funcion Filtrado Indice      #
+##############################################
+*/
+    function mostrarFilas(letra) {
+        var tabla = document.getElementById("tabla");
+        var filas = tabla.getElementsByTagName("tr");
+        for (var i = 0; i < filas.length; i++) {
+            var celda = filas[i].getElementsByTagName("td")[0];
+            if (celda) {
+                var textoCelda = celda.textContent || celda.innerText;
+                if (textoCelda.charAt(0).toUpperCase() === letra.toUpperCase()) {
+                    filas[i].style.display = "";
+                } else {
+                    filas[i].style.display = "none";
+                }
+            }
+        }
+    }
+
