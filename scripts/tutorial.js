@@ -34,7 +34,7 @@ flecha_izquierda.addEventListener("click", http_tutorial);
 //controlador de pagina seleccionada y rango de tutorial
 let ultima_pagina_ok;
 let contador_paginas = 0;
-const tutorial_size = 2;
+const tutorial_size = 36;
 
 //funcion que se acciona con los eventos de las flechas del tutorial
 function http_tutorial(event) {
