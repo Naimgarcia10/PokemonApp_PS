@@ -10,6 +10,12 @@ export const load = (route, func) => fetch(route)
     })
 
 // loadOver("../../../components/Footer/index.html", document.querySelector('script[src="/scripts/components/footer.js"]'))
+const headerCargado = new CustomEvent("HeaderCargado", {
+    bubbles: true,
+    detail: {
+        message: "Header cargado satisfactoriamente."
+    }
+})
 export const loadOver = (route, node) => fetch(route)
     .then(res => res.text())
     .then(data => {
@@ -18,4 +24,5 @@ export const loadOver = (route, node) => fetch(route)
         elm.innerHTML = `<div class="loaded">${data}</div>`
         frag.append(elm)
         node.replaceWith(frag)
+        document.dispatchEvent(headerCargado);
     })
