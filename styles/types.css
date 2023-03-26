@@ -1,8 +1,10 @@
-.weekness_offensive{
-    border-radius: 5px;
+.main_title{
+    font-size: 2rem;
+}
+
+.weekness_offensive{    
     padding: 7px;
     margin: 10px 0;
-    font-size: 14px;
     font-weight: bold;
     color: #333;
     margin-left:28rem;
@@ -10,18 +12,13 @@
     margin-top: -19rem;
 }
 
-
-
-
-.offensive{
-    background-color: #FF8C00;
+.cuadrado_naranja{
+    background-color: var(--DarkOrange);
     padding:1rem;
-   
 }
 
 .weekness_resistance{
-    
-    
+        
     border-radius: 5px;
     padding: 7px;
     margin: 2rem 0;
@@ -32,11 +29,6 @@
     margin-right:7rem;
 }
 
-.resistance{
-    background-color: #FF8C00;
-    padding:1rem;
-}
-
 .container {
     border: 2px solid black;
     padding: 1rem;
@@ -44,18 +36,20 @@
     margin: auto;
     text-align:left;
     margin-left:4rem;
-    margin-top:18rem;
+    margin-top:10rem;
 }
 
 h1 {
-    text-align: center;
-    
-    font-size: 24px;
+    text-align: center;    
+    font-size: 1.5rem;
 }
 
-label {
-    
-    font-size: 18px;
+label {    
+    font-size: 1.2rem;
+}
+
+p{
+    font-size: 1.2rem;
 }
 
 #type-select {
@@ -67,3 +61,30 @@ label {
     margin-left:0rem;
 }
 
+.rectangulo_efectividad{
+    border-radius: 0.4rem;
+    display: inline-block;
+    padding: 0.3rem;    
+    color: white;
+}
+
+.efectivo{
+    background-color: var(--BrightGreen);    
+}
+
+.no_efectivo{
+    background-color: var(--Red);    
+}
+
+.nulo{
+    background-color: black;    
+}
+
+.contenedor_tipos{
+    margin-top: 0.2rem;
+    margin-bottom: 1rem;    
+}
+
+.contenedor_tipos img{
+    margin-right: 0.4rem;
+}
