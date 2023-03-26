@@ -11,6 +11,11 @@ fetch('../json/questions.json')
 	.then(response => response.json())
 	.then(data => {
 		preguntas = data;  
+        for(let i=0;i<preguntas.length;i++){
+            preguntas[i].answers = preguntas[i].incorrectAnswers;
+            preguntas[i].answers.push(preguntas[i].correctAnswer);
+            randomizar_array(preguntas[i].answers);
+        }
 	})
 	.catch(error => console.log(error));
 
@@ -68,11 +73,14 @@ function cargar_pregunta(){
         imagen.src = "";
     }
     borrar_opciones();
-    let lista_opciones = preguntas[indice]["incorrectAnswers"].slice();
-    lista_opciones.push(preguntas[indice].correctAnswer);    
+    let lista_opciones = preguntas[indice]["answers"].slice();           
     for(let i=0;i<lista_opciones.length;i++){
         añadir_opcion(lista_opciones[i], i);
     }
+}
+
+function randomizar_array(array){
+    array.sort(() => Math.random() - 0.5);
 }
 
 function añadir_opcion(name, number){
@@ -133,6 +141,7 @@ function mostrar_nota(puntos){
     borrar_opciones();
     let enunciado = document.querySelector(".enunciado");
     enunciado.innerHTML = "&nbsp;";
+    enunciado.classList.add("hide");
 
     let left_arrow = document.querySelector("#left_button");
     left_arrow.style.display = "none";
@@ -146,7 +155,7 @@ function mostrar_nota(puntos){
     let subdescription = cuadrado_quiz.querySelector("#quiz_subdescription");
     subdescription.textContent = puntos + "/" + preguntas.length;    
     let description2 = cuadrado_quiz.querySelector("#quiz_description2");
-    let numero_preguntas = preguntas.length;
+    let numero_preguntas = preguntas.length;    
 
     let aprobado = (puntos >= (numero_preguntas / 2));
     if(aprobado){
@@ -162,6 +171,7 @@ function mostrar_nota(puntos){
     let reset_button = document.querySelector("#reset_button");
     reset_button.style.display = "inline-block";
     reset_button.addEventListener("click", function(){
+        enunciado.classList.remove("hide");
         cuadrado_quiz.classList.remove("aprobado");
         cuadrado_quiz.classList.remove("suspendido");
         reset_button.style.display = "none";
