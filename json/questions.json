@@ -6,7 +6,7 @@
         "incorrectAnswers":["1", "2", "Infinite"]       
     },
     {
-        "question":"How many time do you have for attacking?",
+        "question":"How much time do you have for attacking?",
         "image":null,        
         "correctAnswer": "60 seconds",
         "incorrectAnswers":[
