@@ -1,14 +1,167 @@
 [
     {
-        "question":"¿Qué pokémon es el que aparece en la imagen?",
-        "image":"questionLugia.png",
-        "correctAnswer": "Lugia",
-        "incorrectAnswers":["Ho-Oh", "Celebi", "Jirachi"]       
+        "question":"What is the maximum amount of Pokémon that we can have in our team?",
+        "image":null,
+        "correctAnswer": "6",
+        "incorrectAnswers":["1", "2", "Infinite"]       
     },
     {
-        "question":"¿Cuál es este pokémon?",
-        "image":"pikachuMain.png",        
-        "correctAnswer": "Pikachu",
-        "incorrectAnswers":["Raichu", "Pichu", "Dedenne"]
+        "question":"How many time do you have for attacking?",
+        "image":null,        
+        "correctAnswer": "60 seconds",
+        "incorrectAnswers":[
+                            "10 seconds",
+                            "30 seconds",
+                            "45 seconds"
+                            ]
+    },
+    {
+        "question":"Which button should we press for fighting?",
+        "image":"pokemon_buttons.png",        
+        "correctAnswer": "Battle",
+        "incorrectAnswers":[
+                            "Pokémon",
+                            "Run"
+                            ]
+    },
+    {
+        "question":"Which button should we press for surrendering?",
+        "image":"pokemon_buttons.png",        
+        "correctAnswer": "Run",
+        "incorrectAnswers":[
+                            "Battle",
+                            "Pokémon"                            
+                            ]
+    },
+    {
+        "question":"What's the maximum amount of movements that we can have in a Pokémon?",
+        "image":"movement.png",        
+        "correctAnswer": "4",
+        "incorrectAnswers":[
+                            "2",
+                            "12",
+                            "100"
+                            ]
+    },
+    {
+        "question":"If I'm a water type, which type of attack would you use against me?",
+        "image":null,        
+        "correctAnswer": "Grass",
+        "incorrectAnswers":[
+                            "Fire",
+                            "Water",
+                            "Ground"
+                            ]
+    },
+    {
+        "question":"If I want to improve my defense against physical attacks, I will have to increase my...",
+        "image":null,        
+        "correctAnswer": "Defense",
+        "incorrectAnswers":[
+                            "Special Defense"
+                            ]
+    },
+    {
+        "question":"What is the number that appears on the right of Pokémon movements?",
+        "image":"movement.png",        
+        "correctAnswer": "The amount of times that I can use that movement",
+        "incorrectAnswers":[
+                            "The damage that movement does",
+                            "The priority of the movement"
+                            ]
+    },
+    {
+        "question":"Which button should I press for changing my Pokémon?",
+        "image":"pokemon_buttons.png",        
+        "correctAnswer": "Pokémon",
+        "incorrectAnswers":[
+                            "Battle",
+                            "Run"                            
+                            ]
+    },
+    {
+        "question":"What happens if your Pokémon gets weakened?",
+        "image":null,        
+        "correctAnswer": "You change your Pokémon if you have at least one alive",
+        "incorrectAnswers":[
+                            "You lose",                            
+                            "You surrender"
+                            ]
+    },
+    {
+        "question":"Are the base statistics between two different Pokémon the same?",
+        "image":null,        
+        "correctAnswer": "No",
+        "incorrectAnswers":[
+                            "Yes"
+                            ]
+    },
+    {
+        "question":"What does HP mean?",
+        "image":null,        
+        "correctAnswer": "Health Points",
+        "incorrectAnswers":[
+                            "Hard Points",
+                            "High Points"
+                            ]
+    },
+    {
+        "question":"What are \"priority moves\" in Pokémon?",
+        "image":null,        
+        "correctAnswer": "Movements that always attack first",
+        "incorrectAnswers":[
+                            "Strongest movements",
+                            "Most popular movements",
+                            "Slowest movements"
+                            ]
+    },
+    {
+        "question":"What is the maximum number of levels a statistic (other than HP) can be raised in a battle?",
+        "image":null,        
+        "correctAnswer": "6 levels",
+        "incorrectAnswers":[
+                            "1 level",
+                            "100 levels",
+                            "There's no limit"
+                            ]
+    },
+    {
+        "question":"What does a Pokemon's nature do?",
+        "image":null,        
+        "correctAnswer": "Change a Pokémon base stats",
+        "incorrectAnswers":[
+                            "It changes the ability",
+                            "Know the habitat of a Pokémon",
+                            "Change the amount of movements a Pokémon can learn"
+                            ]
+    },
+    {
+        "question":"What's the use of STAB?",
+        "image":null,        
+        "correctAnswer": "Boost attacks of your own type",
+        "incorrectAnswers":[
+                            "Attack before the rival",
+                            "It restores your HP",
+                            "Its use is purely visual"
+                            ]
+    },
+    {
+        "question":"What are the items used for in Pokémon battles?",
+        "image":null,        
+        "correctAnswer": "For increasing the stats or healing the Pokémon",
+        "incorrectAnswers":[
+                            "For having more movements",
+                            "Only for selling them"
+                            ]
+    },
+    {
+        "question":"Which one of these is a status condition?",
+        "image":null,        
+        "correctAnswer": "Paralized",
+        "incorrectAnswers":[
+                            "Weakened",
+                            "Exhausted",
+                            "Slowed down"
+                            ]
     }
 ]
