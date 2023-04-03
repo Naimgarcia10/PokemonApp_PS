@@ -166,6 +166,16 @@ footer img {
     padding: 1rem;
 }
 
+/*boton de sonido*/
+.boton_audio{
+    text-align: left;
+    margin-left: 3rem;
+    margin-top: 1rem;
+}
+.boton_audio img{
+    width: 3rem;
+    cursor: pointer;
+}
 
 
 /* begginerHomepage */
