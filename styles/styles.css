@@ -122,11 +122,9 @@ footer img {
 @keyframes zoomIn {
     from {
       transform: scale(0.5);
-      opacity: 0.3;
     }
     to {
       transform: scale(1);
-      opacity: 1;
     }
 }
 
@@ -153,8 +151,11 @@ footer img {
 .tarjeta_tutorial .contenido img {
     cursor: pointer;
     width: 12.5%;
+    transition: 0.4s;
 }
-
+.tarjeta_tutorial .contenido img:hover{
+    transform: scale(1.1);
+}
 .tarjeta_tutorial .contenido p {
     background-color: var(--LightSlateGray);
     font-size: x-large;
@@ -164,6 +165,8 @@ footer img {
     min-height: 5rem;
     padding: 1rem;
 }
+
+
 
 /* begginerHomepage */
 .beginnerContent {
