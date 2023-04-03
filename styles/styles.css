@@ -156,7 +156,7 @@ footer img {
 .tarjeta_tutorial .contenido img:hover{
     transform: scale(1.1);
 }
-.tarjeta_tutorial .contenido p {
+#texto-tutorial{
     background-color: var(--LightSlateGray);
     font-size: x-large;
     text-align: center;
