@@ -1,3 +1,4 @@
+/* tutorial */
 .main-tarjeta-tutorial {
     display: flex;
     justify-content: center;
@@ -14,11 +15,29 @@
 }
 
 .tarjeta_tutorial .imagen {
+    animation: zoomIn 0.3s ease-out;
+}
+
+@keyframes zoomIn {
+    from {
+      transform: scale(0.5);
+    }
+    to {
+      transform: scale(1);
+    }
+}
+
+#imagen-tutorial{
     border-radius: 40px;
     width: 800px;
     height: 450px;
     object-fit: cover;
     margin-bottom: 0.4rem;
+    transition: 1s;
+}
+
+.tarjeta_tutorial .imagen:hover{
+    transform:scale(1.1);
 }
 
 .tarjeta_tutorial .contenido {
@@ -31,11 +50,14 @@
 .tarjeta_tutorial .contenido img {
     cursor: pointer;
     width: 12.5%;
+    transition: 0.4s;
 }
-
-.tarjeta_tutorial .contenido p {
+.tarjeta_tutorial .contenido img:hover{
+    transform: scale(1.1);
+}
+#texto-tutorial{
     background-color: var(--LightSlateGray);
-    font-size: large;
+    font-size: x-large;
     text-align: center;
     border-radius: 20px;
     min-width: 40rem;
@@ -43,10 +65,13 @@
     padding: 1rem;
 }
 
-#texto-tutorial{
-    color: white;
+/*boton de sonido*/
+.boton_audio{
+    text-align: left;
+    margin-left: 3rem;
+    margin-top: 1rem;
 }
-
 .boton_audio img{
-    width: 3.5rem;
+    width: 3rem;
+    cursor: pointer;
 }

@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded",()=>{
     imagen_audio.addEventListener("click",()=>{
         let audio = document.getElementById("audio");
         audio.volume = 0.03;
-        audio.loop;
+        //audio.loop;
         if(audio.paused){
             audio.play();
             imagen_audio.src = "../icons/boton_pause.png";
