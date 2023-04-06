@@ -1,0 +1,48 @@
+.main-tarjeta-tutorial {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tarjeta_tutorial {
+    display: block;
+    text-align: center;
+}
+
+.tarjeta_tutorial .titulo{
+    margin-bottom: 0.4rem;
+}
+
+.tarjeta_tutorial .imagen {
+    border-radius: 40px;
+    width: 800px;
+    height: 450px;
+    object-fit: cover;
+    margin-bottom: 0.4rem;
+}
+
+.tarjeta_tutorial .contenido {
+    display: flex;
+    max-width: 60rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.tarjeta_tutorial .contenido img {
+    cursor: pointer;
+    width: 12.5%;
+}
+
+.tarjeta_tutorial .contenido p {
+    background-color: var(--LightSlateGray);
+    font-size: large;
+    text-align: center;
+    border-radius: 20px;
+    min-width: 40rem;
+    min-height: 5rem;
+    padding: 1rem;
+}
+
+#texto-tutorial{
+    color: white;
+}
