@@ -2,7 +2,7 @@
 const typeSelect = document.getElementById('type-select');
 var tipos = [];
 
-function lista_a_string(container, lista){
+function agregar_imagenes(container, lista){
   /*
   Recorro la lista que me dan, y por cada imagen que me den, creo un elemento
   */  
@@ -52,12 +52,12 @@ typeSelect.addEventListener('change', () => {
     }
   }
   // ATACANDO
-  lista_a_string(document.querySelector("#eficazcontra"), tipoEncontrado.damage_relations.double_damage_to);    
-  lista_a_string(document.querySelector("#pocoeficazcontra"), tipoEncontrado.damage_relations.half_damage_to);
-  lista_a_string(document.querySelector("#nulocontra"), tipoEncontrado.damage_relations.no_damage_to);
+  agregar_imagenes(document.querySelector("#eficazcontra"), tipoEncontrado.damage_relations.double_damage_to);    
+  agregar_imagenes(document.querySelector("#pocoeficazcontra"), tipoEncontrado.damage_relations.half_damage_to);
+  agregar_imagenes(document.querySelector("#nulocontra"), tipoEncontrado.damage_relations.no_damage_to);
 
   // DEFENDIENDO
-  lista_a_string(document.querySelector("#debil_a"), tipoEncontrado.damage_relations.double_damage_from);    
-  lista_a_string(document.querySelector("#resistente_a"), tipoEncontrado.damage_relations.half_damage_from);
-  lista_a_string(document.querySelector("#inmune_a"), tipoEncontrado.damage_relations.no_damage_from);
+  agregar_imagenes(document.querySelector("#debil_a"), tipoEncontrado.damage_relations.double_damage_from);    
+  agregar_imagenes(document.querySelector("#resistente_a"), tipoEncontrado.damage_relations.half_damage_from);
+  agregar_imagenes(document.querySelector("#inmune_a"), tipoEncontrado.damage_relations.no_damage_from);
 });

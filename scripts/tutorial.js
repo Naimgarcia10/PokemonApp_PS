@@ -80,9 +80,17 @@ function http_tutorial(event) {
             }
         })
         .then(data => {
+            // Agrega la clase fade-in a la imagen
+            imagen.classList.remove('imagen');
 
             //cargo los nuevos contenidos
             imagen.src = data.encodedImage;
+
+            // Agrega un listener de evento load a la imagen para esperar a que se cargue por completo antes de remover la clase fade-in
+            imagen.addEventListener('load', () => {
+                imagen.classList.add('imagen');
+            });
+            
             texto.textContent = data.texto;
 
         }).catch(error => {

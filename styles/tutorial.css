@@ -46,3 +46,7 @@
 #texto-tutorial{
     color: white;
 }
+
+.boton_audio img{
+    width: 3.5rem;
+}
