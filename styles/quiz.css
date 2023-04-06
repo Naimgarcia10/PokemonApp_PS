@@ -1,12 +1,30 @@
 .cuadrado_quiz{
+    
+    
     background-color: var(--Crimson);
-    width: 50vw;    
+    width: 50vw;
+    height: 80vh;
     text-align: center;
     margin: auto;
     margin-top: 2rem; 
     margin-bottom: 1rem;
     position: relative;        
 }
+
+.enunciado {
+    background-color:orange;
+    border: 2px solid black;
+    
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+
+.enunciado.hide{
+    background-color: transparent;
+    border: 0px;
+}
+  
 
 .cuadrado_quiz.aprobado{
     background-color: var(--MediumSpringGreen)
@@ -39,11 +57,12 @@
 }
 
 .option{
-    border-style:initial;
+    
+    border: 2px solid darkred;
     display: inline-block;
     padding: 1.2rem;
     margin: 1.2rem;
-    background-color: var(--LightSlateGray);    
+    background-color: rgb(145, 145, 145);    
     font-weight: bold;
     font-size: 1.5rem;
 }
@@ -56,7 +75,20 @@
     width: 5rem;
     height: 5rem;    
     margin: 2rem;  
-    display: none;    
+    display: none;
+        
+}
+
+#left_button{ 
+    position: absolute;
+    left: 20rem;
+    bottom: 1rem;
+}
+
+#right_button{
+    position: absolute;
+    right: 20rem;
+    bottom: 1rem;
 }
 
 .arrow_button:hover{
