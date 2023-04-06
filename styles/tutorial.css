@@ -20,7 +20,7 @@
 
 @keyframes zoomIn {
     from {
-      transform: scale(0.5);
+      transform: scale(0.8);
     }
     to {
       transform: scale(1);
@@ -56,13 +56,14 @@
     transform: scale(1.1);
 }
 #texto-tutorial{
-    background-color: var(--LightSlateGray);
+    background-color: #6c757d;
     font-size: x-large;
     text-align: center;
     border-radius: 20px;
     min-width: 40rem;
     min-height: 5rem;
     padding: 1rem;
+    color: white;
 }
 
 /*boton de sonido*/
