@@ -68,10 +68,12 @@
 /*boton de sonido*/
 .boton_audio{
     text-align: left;
+    position: absolute;
     margin-left: 3rem;
     margin-top: 1rem;
 }
 .boton_audio img{
-    width: 3rem;
+    width: 10rem;
+    height: auto;
     cursor: pointer;
 }

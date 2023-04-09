@@ -102,3 +102,16 @@
     bottom: 0;
     right: 0;    
 }
+
+.boton_audio{
+    position: absolute;
+    top: 8rem;
+    margin-left: 3rem;
+    margin-top: 1rem;
+}
+
+.boton_audio img{
+    width: 10rem;
+    height: auto;
+    cursor: pointer;
+}
