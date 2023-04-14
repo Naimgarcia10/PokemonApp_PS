@@ -52,6 +52,7 @@ function ocultar_elementos(){
     }   
     const start_button = document.querySelector(".cuadrado_quiz .start_button");
     start_button.style.display = "none";
+    cuadrado_quiz.style.gridTemplateRows = "11rem 4rem 5rem";
 }
 
 function manejar_pulsaciones(event){
@@ -91,7 +92,7 @@ function cargar_pregunta(){
     borrar_opciones();
     let lista_opciones = preguntas[indice]["answers"].slice();           
     for(let i=0;i<lista_opciones.length;i++){
-        añadir_opcion(lista_opciones[i], i);
+        añadir_opcion(lista_opciones[i], i+1);
     }
 }
 
@@ -104,7 +105,7 @@ function añadir_opcion(name, number){
     let opt_element = document.createElement("button");
     opt_element.className = "option";
     opt_element.textContent = name;
-    opt_element.id = number;
+    opt_element.id = "opcion" + number;
 
     /* ¿El usuario había marcado ya anteriormente una opción en esta pregunta? */    
     if(respuestas_usuario[indice] == name){
@@ -112,9 +113,8 @@ function añadir_opcion(name, number){
     }  
 
     /* Meter el radio button en el contenedor */
-    let options_list = document.querySelector("#opciones");
-    options_list = document.querySelector("#opciones");          
-    options_list.appendChild(opt_element);      
+    let cuadrado_quiz = document.querySelector(".cuadrado_quiz");    
+    cuadrado_quiz.appendChild(opt_element);      
     opciones_elementos.push(opt_element);
 
     /* Añadimos un event listener para cambiar el color cada vez que se pulsa uno */
@@ -129,18 +129,20 @@ function marcar_opcion(opt_element){
         respuestas_usuario[indice] = "";           
     } else{        
         // comprobamos que solo haya una opción marcada (por el momento las preguntas son de una sola opción)
-        let options_list = document.querySelector("#opciones");
-        for(let i=0;i<options_list.children.length;i++){
-            options_list.children[i].classList.remove("marcada");
-        }
+        let options_list = document.querySelectorAll(".option");
+        options_list.forEach(option => {
+            option.classList.remove("marcada");
+        })
         opt_element.classList.add("marcada");
         respuestas_usuario[indice] = opt_element.textContent;
     }
 }
 
 function borrar_opciones(){
-    let options_list = document.querySelector("#opciones");    
-    options_list.innerHTML = "";
+    let options_list = document.querySelectorAll(".option");
+    options_list.forEach(option => {
+        option.remove();
+    });    
     opciones_elementos = [];
 }
 
@@ -190,6 +192,7 @@ function mostrar_nota(puntos){
         imagen.src = imagePath + "suspenso.png";
         description2.textContent = "Keep practicing!";
     }
+    cuadrado_quiz.style.gridTemplateRows = "5rem 25rem 5rem";
 
     let reset_button = document.querySelector("#reset_button");
     reset_button.style.display = "inline-block";
