@@ -43,6 +43,7 @@
 
 .cuadrado_quiz .enunciado {
     grid-area: enunciado;
+    font-size: 2.4rem;
     background-color:orange;
     border: 2px solid black;
     text-align: center;
@@ -69,10 +70,11 @@
     padding: 2rem;
 }
 
-.option{          
+.option{    
+    transform: scale(0.85);      
     border: 2px solid darkred;    
     padding: 1.2rem;
-    margin: 1.2rem;    
+    margin: 0.2rem;    
     background-color: rgb(145, 145, 145);    
     font-weight: bold;
     font-size: 1.5rem;
