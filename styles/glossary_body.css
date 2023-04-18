@@ -104,13 +104,12 @@ left: 11.2rem;
 margin-top: 1rem;
 }
 
-#subtitles{
+
+.subtitles:not(:last-child) {
   display: flex;
-  gap: 15rem;
   position: relative;
+  margin: 0 auto;
+  gap: 15rem;
+  margin-left: 13rem;
   top: 3rem;
-  left: 13rem;
-  
-
-
 }
