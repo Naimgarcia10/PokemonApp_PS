@@ -1,4 +1,20 @@
 /*
+#####################################################################
+#     Seccion: Función que rellena la tabla a partir de un JSON     #
+#####################################################################
+*/
+
+$(document).ready(function() {
+  $.getJSON("../json/glossary.json", function(datos) {
+      for (var i = 0; i < datos.length; i++) {
+          var fila = "<tr><td>" + datos[i].columna1 + "</td><td>" + datos[i].columna2 + "</td></tr>";
+          $("#tabla").append(fila);
+      }
+  });
+});
+
+
+/*
 ##############################################
 #        Seccion: Función de busqueda        #
 ##############################################
