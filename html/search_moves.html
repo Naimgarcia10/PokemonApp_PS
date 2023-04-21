@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+
+<head>
+  <title>Glossary</title>
+  <link rel="stylesheet" href="../styles/index.css">
+  <link rel="stylesheet" type="text/css" href="../styles/search_moves.css">
+  
+</head>
+<body>
+  <script type="module" src="../scripts/components/header_expertos.js"></script>
+  <main>
+    <h1 class="title">Glossary</h1>
+
+    <div class="index-bar">
+      <a href="#" onclick="mostrarFilas('A')">A</a> | 
+      <a href="#" onclick="mostrarFilas('B')">B</a> | 
+      <a href="#" onclick="mostrarFilas('C')">C</a> | 
+      <a href="#" onclick="mostrarFilas('D')">D</a> | 
+      <a href="#" onclick="mostrarFilas('E')">E</a> | 
+      <a href="#" onclick="mostrarFilas('F')">F</a> | 
+      <a href="#" onclick="mostrarFilas('G')">G</a> | 
+      <a href="#" onclick="mostrarFilas('H')">H</a> | 
+      <a href="#" onclick="mostrarFilas('I')">I</a> | 
+      <a href="#" onclick="mostrarFilas('J')">J</a> | 
+      <a href="#" onclick="mostrarFilas('K')">K</a> | 
+      <a href="#" onclick="mostrarFilas('L')">L</a> | 
+      <a href="#" onclick="mostrarFilas('M')">M</a> | 
+      <a href="#" onclick="mostrarFilas('N')">N</a> | 
+      <a href="#" onclick="mostrarFilas('O')">O</a> | 
+      <a href="#" onclick="mostrarFilas('P')">P</a> | 
+      <a href="#" onclick="mostrarFilas('Q')">Q</a> | 
+      <a href="#" onclick="mostrarFilas('R')">R</a> |
+      <a href="#" onclick="mostrarFilas('S')">S</a> | 
+      <a href="#" onclick="mostrarFilas('T')">T</a> | 
+      <a href="#" onclick="mostrarFilas('U')">U</a> |
+      <a href="#" onclick="mostrarFilas('V')">V</a> | 
+      <a href="#" onclick="mostrarFilas('W')">W</a> | 
+      <a href="#" onclick="mostrarFilas('X')">X</a> |
+      <a href="#" onclick="mostrarFilas('Y')">Y</a> | 
+      <a href="#" onclick="mostrarFilas('Z')">Z</a>
+    </div>
+
+    <div class="glossary">
+      <div>
+        <input type="text" id="buscador" placeholder="Search...">
+      </div>
+    
+      <div class="lista">
+        <table id="tabla">
+          <thead>
+            <tr>
+              <th>Nombre del Movimiento</th>
+              <th>Tipo</th>
+              <th>Categoría</th>
+              <th>PP</th>
+              <th>Poder</th>
+              <th>Precisión</th>
+              <th>Prioridad</th>
+              <th>Pokémon</th>
+            </tr>
+          </thead>
+          <tbody id="tabla-cuerpo">
+            <!-- Agregar más filas aquí -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+    
+  </main>
+  <script src="../scripts/moves.js"></script>
+  <script type="module" src="../scripts/components/footer.js"></script>
+
+
+
+
+</body>
+
+
+</html>
