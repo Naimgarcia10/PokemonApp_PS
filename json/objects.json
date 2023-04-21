@@ -1,0 +1,20 @@
+{
+    "items": [
+      {
+        "name": "Potion",
+        "icon": "../images/objects/potion.png",
+        "description": "A spray-type medicine for treating wounds. It can be used to restore 20 HP to an injured Pokémon."
+      },
+      {
+        "name": "Great Ball",
+        "icon": "../images/objects/great.png",
+        "description": "A good, high-performance Ball that provides a higher Pokémon catch rate than a standard Poké Ball."
+      },
+      {
+        "name": "Max Revive",
+        "icon": "../images/objects/max-revive.png",
+        "description": "A medicine that can revive fainted Pokémon. It also fully restores a Pokémon's HP."
+      }
+    ]
+  }
+  

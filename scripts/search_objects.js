@@ -1,3 +1,20 @@
+/*
+#####################################################################
+#     Seccion: Función que rellena la tabla a partir de un JSON     #
+#####################################################################
+*/
+
+$(document).ready(function() {
+  $.getJSON("../json/objects.json", function(data) {
+    for (var i = 0; i < data.items.length; i++) {
+      var image = "<img src='" + data.items[i].icon + "'>";
+      var fila = "<tr><td>" + data.items[i].name + "</td><td>" + image + "</td><td>" + data.items[i].description + "</td></tr>";
+      $("#tabla").append(fila);
+    }
+  });
+});
+
+
 
 /*
 ##############################################
