@@ -1,14 +1,12 @@
 package backend;
 
-public class item{
-    
+public class Terms {
+
     public String name;
     public String description;
     
-    public item(String name, String description){
+    public Terms(String name, String description){
         this.name = name;
         this.description = description;
     }
-
-
 }

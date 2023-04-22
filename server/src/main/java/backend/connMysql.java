@@ -2,11 +2,11 @@ package backend;
 
 import java.sql.*;
 
-public class connMysql {
+public class ConnMysql {
 
     private static Connection conn;
 
-    public connMysql(String url, String user, String password) throws Exception{
+    public ConnMysql(String url, String user, String password) throws Exception{
         conn = DriverManager.getConnection(url, user, password);
     }
 
