@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(data => {
 
             //cargo los nuevos contenidos
-            imagen.src = data.encodedImage;
+            imagen.src = data.ruta_imagen;
             texto.textContent = data.texto;
 
         }).catch(error => {
@@ -84,7 +84,7 @@ function http_tutorial(event) {
             imagen.classList.remove('imagen');
 
             //cargo los nuevos contenidos
-            imagen.src = data.encodedImage;
+            imagen.src = data.ruta_imagen;
 
             // Agrega un listener de evento load a la imagen para esperar a que se cargue por completo antes de remover la clase fade-in
             imagen.addEventListener('load', () => {

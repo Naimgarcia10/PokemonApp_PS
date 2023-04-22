@@ -13,5 +13,11 @@ public class server {
             res.redirect("/html/home.html");
             return "";
         });
+
+        Spark.get("/tutorial/:index", (rq,rs)->{
+            String param = rq.params(":index");
+            int index = Integer.parseInt(param);
+            return jsonManager.get_tutorial(index);
+        });
     }
 }
