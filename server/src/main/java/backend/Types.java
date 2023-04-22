@@ -9,4 +9,13 @@ public class Types {
         this.name = name;
         this.picture = picture;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+    
 }

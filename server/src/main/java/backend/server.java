@@ -5,7 +5,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.protobuf.Type;
 
 public class Server {
     public static void main(String[] args) {

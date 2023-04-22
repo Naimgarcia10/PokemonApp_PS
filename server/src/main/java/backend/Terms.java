@@ -2,11 +2,20 @@ package backend;
 
 public class Terms {
 
-    public String name;
-    public String description;
+    private String name;
+    private String description;
     
     public Terms(String name, String description){
         this.name = name;
         this.description = description;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+    
 }
