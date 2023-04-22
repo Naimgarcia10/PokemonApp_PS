@@ -1,0 +1,80 @@
+/* tutorial */
+.main-tarjeta-tutorial {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tarjeta_tutorial {
+    display: block;
+    text-align: center;
+}
+
+.tarjeta_tutorial .titulo{
+    margin-bottom: 0.4rem;
+}
+
+.tarjeta_tutorial .imagen {
+    animation: zoomIn 0.3s ease-out;
+}
+
+@keyframes zoomIn {
+    from {
+      transform: scale(0.8);
+    }
+    to {
+      transform: scale(1);
+    }
+}
+
+#imagen-tutorial{
+    border-radius: 40px;
+    width: 800px;
+    height: 450px;
+    object-fit: cover;
+    margin-bottom: 0.4rem;
+    transition: 1s;
+}
+
+.tarjeta_tutorial .imagen:hover{
+    transform:scale(1.1);
+}
+
+.tarjeta_tutorial .contenido {
+    display: flex;
+    max-width: 60rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.tarjeta_tutorial .contenido img {
+    cursor: pointer;
+    width: 12.5%;
+    transition: 0.4s;
+}
+.tarjeta_tutorial .contenido img:hover{
+    transform: scale(1.1);
+}
+#texto-tutorial{
+    background-color: #6c757d;
+    font-size: x-large;
+    text-align: center;
+    border-radius: 20px;
+    min-width: 40rem;
+    min-height: 5rem;
+    padding: 1rem;
+    color: white;
+}
+
+/*boton de sonido*/
+.boton_audio{
+    text-align: left;
+    position: absolute;
+    margin-left: 3rem;
+    margin-top: 1rem;
+}
+.boton_audio img{
+    width: 10rem;
+    height: auto;
+    cursor: pointer;
+}
