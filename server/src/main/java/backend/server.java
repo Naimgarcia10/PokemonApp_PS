@@ -20,9 +20,9 @@ public class server {
         });
 
         /*Base de datos*/
-        String url = "jdbc:mysql://localhost:3306/sakila";
+        /*String url = "jdbc:mysql://localhost:3306/sakila";
         String user = "root";
-        String password = "12345";
+        String password = "12345";*/
 
         String url_remote = "jdbc:mysql://beugk46erqljqvqdzm9s-mysql.services.clever-cloud.com:3306/beugk46erqljqvqdzm9s";
         String user_remote = "u2j5iqnwhemyff19";
