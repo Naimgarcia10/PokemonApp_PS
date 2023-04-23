@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let imagen = document.getElementById("imagen-tutorial");
     let texto = document.getElementById("texto-tutorial");
 
-    fetch('http://localhost:8080/tutorial/' + 0)
+    fetch('http://pokemonapp.sytes.net:8080/tutorial/' + 0)
         .then(response => {
             if (response.ok) {
                 ultima_pagina_ok = contador_paginas;    //almaceno el valor las ultimas respuestas que fueron exitosa
