@@ -11,10 +11,11 @@ import com.google.gson.GsonBuilder;
 
 public class Server {
 
-    private static String accessData[] = new String[3];
+    private static String accessData[];
 
     private static void initializeData() throws Exception{
-
+        
+        accessData = new String[3];
         FileReader fr = new FileReader("server\\src\\main\\java\\backend\\access\\access.txt");
         BufferedReader br = new BufferedReader(fr);
         String line = "";
