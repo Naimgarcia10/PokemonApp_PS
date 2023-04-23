@@ -1,21 +1,38 @@
 package backend;
 
 import spark.Spark;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.sql.*;
 import java.util.ArrayList;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 public class Server {
+
+    private static String accessData[] = new String[3];
+
+    private static void initializeData() throws Exception{
+
+        FileReader fr = new FileReader("server\\src\\main\\java\\backend\\access\\access.txt");
+        BufferedReader br = new BufferedReader(fr);
+        String line = "";
+
+        for(int i = 0;(line = br.readLine()) != null;i++){
+            accessData[i] = line;
+        }
+
+        br.close();
+    }
+
     public static void main(String[] args) {
 
-        String url = "jdbc:mysql://83.57.167.76:3306/pokemondb";
-        String user = "root";
-        String password = "PokemonAPP_PS";
         ConnMysql conn;
 
         try {
-            conn = new ConnMysql(url, user, password);
+            Server.initializeData();
+            conn = new ConnMysql(accessData[0], accessData[1], accessData[2]);
         } catch (Exception e) {
             System.out.println(e);
             return;
