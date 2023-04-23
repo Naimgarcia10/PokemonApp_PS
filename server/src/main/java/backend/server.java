@@ -1,7 +1,6 @@
 package backend;
 
 import spark.Spark;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.sql.*;
@@ -116,6 +115,32 @@ public class Server {
                              rs.getString("picture"),
                              conn);
 
+                array.add(item);
+            }
+            return gson.toJson(array);
+        });
+
+        Spark.get("/getMovements", (req, res) -> {
+
+            String query = "SELECT idMovement, movements.name, types.name AS type, movement_class.name AS category, pp, power, accuracy, priority " +
+            "FROM movements " +
+            "LEFT JOIN types ON movements.idType = types.idType " +
+            "LEFT JOIN movement_class ON movements.idClass = movement_class.idClass";
+
+            ResultSet rs = conn.queryMysql(query);
+            Gson gson = new GsonBuilder().create();
+            ArrayList<Movements> array = new ArrayList<>();
+
+            while (rs.next()) {
+                Movements item = new Movements(rs.getString("name"),
+                                rs.getString("type"),
+                                rs.getString("category"),
+                                rs.getInt("pp"),
+                                rs.getInt("power"),
+                                rs.getInt("accuracy"),
+                                rs.getInt("priority"),
+                                rs.getInt("idMovement"),
+                                conn);
                 array.add(item);
             }
             return gson.toJson(array);
