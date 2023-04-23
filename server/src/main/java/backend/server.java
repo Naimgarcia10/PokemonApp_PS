@@ -51,7 +51,7 @@ public class Server {
         Spark.get("/tutorial/:index", (rq, rs) -> {
             String param = rq.params(":index");
             int index = Integer.parseInt(param);
-            return JsonManager.get_tutorial(index);
+            return JsonTutorial.get_tutorial(index);
         });
 
         /**/

@@ -3,7 +3,7 @@ package backend;
 import java.io.FileReader;
 import com.google.gson.*;
 
-public class JsonManager {
+public class JsonTutorial {
 
     public static String get_tutorial(int index) {
 
