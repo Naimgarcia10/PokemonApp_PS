@@ -106,34 +106,19 @@ public class Server {
 
         Spark.get("/getTypes", (req, res) -> {
 
-            String query = "SELECT idType, name, picture FROM types WHERE idType = 2";
+            String query = "SELECT idType, name, picture FROM types";
             ResultSet rs = conn.queryMysql(query);
             Gson gson = new GsonBuilder().create();
             ArrayList<Types> array = new ArrayList<>();
+            while (rs.next()) {
+                Types item = new Types(rs.getString("idType"),
+                             rs.getString("name"),
+                             rs.getString("picture"),
+                             conn);
 
-            rs.next();
-            Types item = new Types(rs.getString("idType"), rs.getString("name"), rs.getString("picture"));
-
-            /*tengo el id y empieza la logica de otras consultas*/
-            /* "damage_relations": {
-                "double_damage_from": [2],
-                "double_damage_to": [],
-                "half_damage_from": [],
-                "half_damage_to": [6, 9],
-                "no_damage_from": [8],
-                "no_damage_to": [8]
+                array.add(item);
             }
-            */
-            DamageRelations dr = new DamageRelations(2, conn);
-            System.out.println(dr.getDouble_damage_from());
-            
-
-            //item = new Types(rs.getString("idTypeEffective"), "", "");
-            //System.out.println(item.getId());
-            //array.add(item);
-            //return gson.toJson(array);
-            return "";
-
+            return gson.toJson(array);
         });
 
     }
