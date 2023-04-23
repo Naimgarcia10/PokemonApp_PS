@@ -25,12 +25,12 @@ public class Movements {
         this.power = power;
         this.accuracy = accuracy;
         this.priority = priority;
-        this.initialize_pokemonMovements(idMovement, conn);
+        this.pokemonsWhoLearnsIt = null;
 
     }
 
-    public void initialize_pokemonMovements(int idMovement, ConnMysql conn) throws Exception{
-        pokemonsWhoLearnsIt = new ArrayList<PokemonsWhoLearnsIt>();
+    public static ArrayList<PokemonsWhoLearnsIt> getPokemonsWhoLearnsIt(int idMovement, ConnMysql conn) throws Exception{
+        ArrayList<PokemonsWhoLearnsIt> pokemonsWhoLearnsIt = new ArrayList<PokemonsWhoLearnsIt>();
         String query = "SELECT pokemon.name AS name, learning_methods.name AS learn_method, level, pokemon.image AS image " +
          "FROM pokemon_learns_movement " +
          "LEFT JOIN pokemon ON pokemon_learns_movement.idPokemon = pokemon.idPokemon " +
@@ -39,12 +39,12 @@ public class Movements {
          ResultSet rs = conn.queryMysql(query);
          
          while(rs.next()){
-            this.pokemonsWhoLearnsIt.add(new PokemonsWhoLearnsIt( rs.getString("name"),
+            pokemonsWhoLearnsIt.add(new PokemonsWhoLearnsIt( rs.getString("name"),
                                                             rs.getString("learn_method"),
                                                             rs.getInt("level"),
                                                             rs.getString("image")));
          }
-         
+         return pokemonsWhoLearnsIt;
     }
 
 

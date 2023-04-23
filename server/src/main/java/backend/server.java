@@ -128,7 +128,7 @@ public class Server {
             "LEFT JOIN movement_class ON movements.idClass = movement_class.idClass";
 
             ResultSet rs = conn.queryMysql(query);
-            Gson gson = new GsonBuilder().create();
+            Gson gson = new GsonBuilder().serializeNulls().create();
             ArrayList<Movements> array = new ArrayList<>();
 
             while (rs.next()) {
@@ -144,6 +144,13 @@ public class Server {
                 array.add(item);
             }
             return gson.toJson(array);
+        });
+
+        Spark.get("/getPokemonsWhoLearnsIt/:idMovement", (rq, rs) -> {
+            Gson gson = new GsonBuilder().create();
+            String idMovement = rq.params(":idMovement");
+            String result = gson.toJson(Movements.getPokemonsWhoLearnsIt(Integer.parseInt(idMovement), conn));
+            return result;
         });
 
     }
