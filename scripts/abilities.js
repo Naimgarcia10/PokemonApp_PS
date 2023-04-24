@@ -1,22 +1,4 @@
 /*
-#####################################################################
-#     Seccion: Función que rellena la tabla a partir de un JSON     #
-#####################################################################
-*/
-
-$(document).ready(function() {
-  $.getJSON("../json/objects.json", function(data) {
-    for (var i = 0; i < data.items.length; i++) {
-      var image = "<img src='" + data.items[i].icon + "'>";
-      var fila = "<tr><td>" + data.items[i].name + "</td><td>" + image + "</td><td>" + data.items[i].description + "</td></tr>";
-      $("#tabla").append(fila);
-    }
-  });
-});
-
-
-
-/*
 ##############################################
 #        Seccion: Función de busqueda        #
 ##############################################
@@ -66,3 +48,47 @@ buscador.addEventListener('input', function() {
             }
         }
     }
+
+    function fetchPokemonMoves() {
+        fetch("../json/abilities.json")
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Error al cargar el archivo JSON");
+            }
+            return response.json();
+          })
+          .then((data) => {
+            populateTable(data);
+          })
+          .catch((error) => {
+            console.error("Error al cargar los datos de movimientos de Pokémon:", error);
+          });
+      }
+      
+      function populateTable(pokemonMoves) {
+        const tableBody = document.getElementById("tabla-cuerpo");
+      
+        for (const move of pokemonMoves) {
+          const row = document.createElement("tr");
+      
+          for (const key in move) {
+            if (key !== "pokemon") {
+              const cell = document.createElement("td");
+              cell.textContent = move[key];
+              row.appendChild(cell);
+            }
+          }
+      
+          // Agregar la última columna con el botón "Click here"
+          const lastCell = document.createElement("td");
+          const link = document.createElement("a");
+          link.textContent = "Click here";
+          link.href = `pokemon_moves_2.html?move=${encodeURIComponent(move.name)}`;
+          lastCell.appendChild(link);
+          row.appendChild(lastCell);
+      
+          tableBody.appendChild(row);
+        }
+      }
+      
+      document.addEventListener("DOMContentLoaded", fetchPokemonMoves);

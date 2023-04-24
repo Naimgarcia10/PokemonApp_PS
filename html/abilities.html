@@ -9,7 +9,7 @@
 <body>
   <script type="module" src="../scripts/components/header_expertos.js"></script>
   <main>
-    <h1 class="title">Moves</h1>
+    <h1 class="title">Abilities</h1>
 
     <div class="index-bar">
       <a href="#" onclick="mostrarFilas('A')">A</a> | 
@@ -44,30 +44,26 @@
       <div>
         <input type="text" id="buscador" placeholder="Search...">
       </div>
-
-      
-
-      <!-- Añade esta tabla dentro del div class="glossary" -->
+    
       <div class="lista">
-        <table id="pokemon-moves-table">
+        <table id="tabla">
           <thead>
             <tr>
-              <th>Pokémon</th>
-              <th>Imagen</th>
-              <th>Método de aprendizaje</th>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Gen</th>
+              <th>Who Has It</th>
             </tr>
           </thead>
-          <tbody id="pokemon-moves-table-body">
-            <!-- Las filas se agregarán dinámicamente -->
+          <tbody id="tabla-cuerpo">
+            <!-- Agregar más filas aquí -->
           </tbody>
         </table>
       </div>
-      
-
-
     </div>
+    
   </main>
-  <script src="../scripts/pokemon_moves_2.js"></script>
+  <script src="../scripts/abilities.js"></script>
   <script type="module" src="../scripts/components/footer.js"></script>
 
 
