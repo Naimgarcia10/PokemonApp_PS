@@ -4,14 +4,25 @@
 #####################################################################
 */
 
-$(document).ready(function() {
-  $.getJSON("../json/glossary.json", function(datos) {
-      for (var i = 0; i < datos.length; i++) {
-          var fila = "<tr><td>" + datos[i].columna1 + "</td><td>" + datos[i].columna2 + "</td></tr>";
-          $("#tabla").append(fila);
+document.addEventListener("DOMContentLoaded", function() {
+  fetch("http://localhost:8080/getTerms")
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("HTTP error " + response.status);
       }
-  });
+      return response.json();
+    })
+    .then(datos => {
+      for (let i = 0; i < datos.length; i++) {
+        let fila = "<tr><td>" + datos[i].columna1 + "</td><td>" + datos[i].columna2 + "</td></tr>";
+        document.querySelector("#tabla").insertAdjacentHTML("beforeend", fila);
+      }
+    })
+    .catch(error => {
+      console.error("Fetch error:", error);
+    });
 });
+
 
 
 /*
