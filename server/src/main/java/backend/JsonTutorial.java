@@ -8,7 +8,7 @@ public class JsonTutorial {
     public static String get_tutorial(int index) {
 
         String res = "";
-        String host = "http://pokemonapp.sytes.net:8080";
+        String host = "http://localhost:8080";
 
         try {
             //Acceso al JSON

@@ -1,9 +1,11 @@
+
+
 document.addEventListener("DOMContentLoaded", () => {
     //selecciona los elementos a cambiar
     let imagen = document.getElementById("imagen-tutorial");
     let texto = document.getElementById("texto-tutorial");
 
-    fetch('http://pokemonapp.sytes.net:8080/tutorial/' + 0)
+    fetch('http://localhost:8080/tutorial/' + 0)
         .then(response => {
             if (response.ok) {
                 ultima_pagina_ok = contador_paginas;    //almaceno el valor las ultimas respuestas que fueron exitosa
@@ -72,7 +74,7 @@ function http_tutorial(event) {
     let texto = document.getElementById("texto-tutorial");
 
     //realizo la petición http, si el tutorial tiene 3 paginas, ira de 0 a 2
-    fetch('http://pokemonapp.sytes.net:8080/tutorial/' + contador_paginas)
+    fetch('http://localhost:8080/tutorial/' + contador_paginas)
         .then(response => {
             if (response.ok) {
                 ultima_pagina_ok = contador_paginas;    //almaceno el valor las ultimas respuestas que fueron exitosa
