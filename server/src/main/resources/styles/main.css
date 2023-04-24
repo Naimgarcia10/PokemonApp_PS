@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=K2D:ital,wght@0,100;0,200;0,300;0,400;0,500;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
+
+
+:root {
+    --DarkSlateGray: #2F4F4F;
+    --LightSlateGray: #778899;
+    --AntiqueWhite: #FAEBD7;
+    --BrightGreen: #02D00A;
+    --MediumSpringGreen: #00FA9A;
+    --Green: #008000;
+    --LightSeaGreen: #20B2AA;
+    --Teal: #008080;
+    --Goldenrod: #DAA520;
+    --Chocolate: #D2691E;
+    --Black: #000000;
+    --Gold: #FFD700;
+    --DarkOrange: #FF8C00;
+    --Red: #FF0000;
+    --OrangeRed: #FF4500;
+    --Crimson: #DC143C;
+    --Tomato: #FF6347;
+    --Coral: #FF7F50;
+}
+
+body {
+    font-family: 'K2D', sans-serif;
+}
+
+.flex {
+    display: flex;
+}
+
+main {
+    min-height: 100vh;
+}
