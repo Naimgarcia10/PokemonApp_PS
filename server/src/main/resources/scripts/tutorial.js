@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let imagen = document.getElementById("imagen-tutorial");
     let texto = document.getElementById("texto-tutorial");
 
-    fetch('http://localhost:8080/tutorial/' + 0)
+    fetch('http://pokemonapp.sytes.net:8080/tutorial/' + 0)
         .then(response => {
             if (response.ok) {
                 ultima_pagina_ok = contador_paginas;    //almaceno el valor las ultimas respuestas que fueron exitosa
@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(data => {
 
             //cargo los nuevos contenidos
-            imagen.src = data.encodedImage;
+            imagen.src = data.ruta_imagen;
             texto.textContent = data.texto;
 
         }).catch(error => {
@@ -72,7 +72,7 @@ function http_tutorial(event) {
     let texto = document.getElementById("texto-tutorial");
 
     //realizo la petición http, si el tutorial tiene 3 paginas, ira de 0 a 2
-    fetch('http://localhost:8080/tutorial/' + contador_paginas)
+    fetch('http://pokemonapp.sytes.net:8080/tutorial/' + contador_paginas)
         .then(response => {
             if (response.ok) {
                 ultima_pagina_ok = contador_paginas;    //almaceno el valor las ultimas respuestas que fueron exitosa
@@ -84,7 +84,7 @@ function http_tutorial(event) {
             imagen.classList.remove('imagen');
 
             //cargo los nuevos contenidos
-            imagen.src = data.encodedImage;
+            imagen.src = data.ruta_imagen;
 
             // Agrega un listener de evento load a la imagen para esperar a que se cargue por completo antes de remover la clase fade-in
             imagen.addEventListener('load', () => {
