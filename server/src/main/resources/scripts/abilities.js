@@ -48,47 +48,48 @@ buscador.addEventListener('input', function() {
             }
         }
     }
+    document.addEventListener("DOMContentLoaded", fetchAbilities);
 
-    function fetchPokemonMoves() {
-        fetch("../json/abilities.json")
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error("Error al cargar el archivo JSON");
-            }
-            return response.json();
-          })
-          .then((data) => {
-            populateTable(data);
-          })
-          .catch((error) => {
-            console.error("Error al cargar los datos de movimientos de Pokémon:", error);
-          });
-      }
-      
-      function populateTable(pokemonMoves) {
-        const tableBody = document.getElementById("tabla-cuerpo");
-      
-        for (const move of pokemonMoves) {
-          const row = document.createElement("tr");
-      
-          for (const key in move) {
-            if (key !== "pokemon") {
-              const cell = document.createElement("td");
-              cell.textContent = move[key];
-              row.appendChild(cell);
-            }
+    function fetchAbilities() {
+      fetch("../json/abilities.json")
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Error al cargar el archivo JSON");
           }
-      
-          // Agregar la última columna con el botón "Click here"
-          const lastCell = document.createElement("td");
-          const link = document.createElement("a");
-          link.textContent = "Click here";
-          link.href = `pokemon_moves_2.html?move=${encodeURIComponent(move.name)}`;
-          lastCell.appendChild(link);
-          row.appendChild(lastCell);
-      
-          tableBody.appendChild(row);
-        }
+          return response.json();
+        })
+        .then((data) => {
+          populateTable(data);
+        })
+        .catch((error) => {
+          console.error("Error al cargar los datos de habilidades de Pokémon:", error);
+        });
+    }
+    
+    function populateTable(abilities) {
+      const tableBody = document.getElementById("pokemon-abilities-table-body");
+    
+      for (const ability of abilities) {
+        const row = tableBody.insertRow();
+    
+        // Nombre de la habilidad
+        const cell1 = row.insertCell();
+        cell1.textContent = ability.name;
+    
+        // Descripción de la habilidad
+        const cell2 = row.insertCell();
+        cell2.textContent = ability.type;
+    
+        // Categoría de la habilidad
+        const cell3 = row.insertCell();
+        cell3.textContent = ability.category;
+    
+        // Enlace a abilities2.html
+        const cell4 = row.insertCell();
+        const link = document.createElement("a");
+        link.textContent = "Click here";
+        link.href = `pokemon_abilities_2.html?ability=${encodeURIComponent(ability.name)}`;
+        cell4.appendChild(link);
       }
-      
-      document.addEventListener("DOMContentLoaded", fetchPokemonMoves);
+    }
+    
