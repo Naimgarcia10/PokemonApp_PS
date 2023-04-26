@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function() {
     })
     .then(datos => {
       for (let i = 0; i < datos.length; i++) {
-        let fila = "<tr><td>" + datos[i].columna1 + "</td><td>" + datos[i].columna2 + "</td></tr>";
+        let fila = "<tr><td>" + datos[i].name + "</td><td>" + datos[i].description + "</td></tr>";
         document.querySelector("#tabla").insertAdjacentHTML("beforeend", fila);
       }
     })
