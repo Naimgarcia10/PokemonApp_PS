@@ -4,15 +4,26 @@
 #####################################################################
 */
 
-$(document).ready(function() {
-  $.getJSON("../json/objects.json", function(data) {
-    for (var i = 0; i < data.items.length; i++) {
-      var image = "<img src='" + data.items[i].icon + "'>";
-      var fila = "<tr><td>" + data.items[i].name + "</td><td>" + image + "</td><td>" + data.items[i].description + "</td></tr>";
-      $("#tabla").append(fila);
-    }
-  });
+document.addEventListener("DOMContentLoaded", function() {
+  fetch("http://localhost:8080/getItems")
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("HTTP error " + response.status);
+      }
+      return response.json();
+    })
+    .then(data => {
+      for (let i = 0; i < data.length; i++) {
+        let image = "<img src='" + data[i].icon + "'>";
+        let fila = "<tr><td>" + data[i].name + "</td><td>" + image + "</td><td>" + data[i].description + "</td></tr>";
+        document.querySelector("#tabla").insertAdjacentHTML("beforeend", fila);
+      }
+    })
+    .catch(error => {
+      console.error("Fetch error:", error);
+    });
 });
+
 
 
 
