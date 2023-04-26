@@ -23,7 +23,7 @@ function getPictureById(id){
   return -1;
 }
 
-fetch('../json/pokemon_types.json')
+fetch("http://localhost:8080/getTypes")
 	.then(response => response.json())
 	.then(data => {
 		tipos = data;

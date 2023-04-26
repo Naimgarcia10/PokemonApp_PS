@@ -1,4 +1,34 @@
 /*
+<<<<<<< HEAD
+=======
+#####################################################################
+#     Seccion: Función que rellena la tabla a partir de un JSON     #
+#####################################################################
+*/
+
+document.addEventListener("DOMContentLoaded", function() {
+  fetch("http://localhost:8080/getTerms")
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("HTTP error " + response.status);
+      }
+      return response.json();
+    })
+    .then(datos => {
+      for (let i = 0; i < datos.length; i++) {
+        let fila = "<tr><td>" + datos[i].name + "</td><td>" + datos[i].description + "</td></tr>";
+        document.querySelector("#tabla").insertAdjacentHTML("beforeend", fila);
+      }
+    })
+    .catch(error => {
+      console.error("Fetch error:", error);
+    });
+});
+
+
+
+/*
+>>>>>>> victor
 ##############################################
 #        Seccion: Función de busqueda        #
 ##############################################

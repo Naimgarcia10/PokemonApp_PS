@@ -1,0 +1,61 @@
+[
+    {
+      "name": "Pulso Dragón",
+      "type": "Dragón",
+      "category": "Especial",
+      "pp": 10,
+      "power": 85,
+      "accuracy": 100,
+      "priority": 0,
+      "pokemon": [
+        {
+          "name": "Dragonite",
+          "learn_method": "level",
+          "level": 55,
+          "image":"../images/pokemones/Dragonite.png"
+        },
+        {
+          "name": "Salamence",
+          "learn_method": "level",
+          "level": 50,
+          "image":"../images/pokemones/Salamance.png"
+        },
+        {
+          "name": "Garchomp",
+          "learn_method": "level",
+          "level": 48,
+          "image":"../images/pokemones/Garchomp.png"
+        }
+      ]
+    },
+    {
+      "name": "Golpe Aéreo",
+      "type": "Volador",
+      "category": "Físico",
+      "pp": 15,
+      "power": 60,
+      "accuracy": 100,
+      "priority": 0,
+      "pokemon": [
+        {
+          "name": "Pidgeot",
+          "learn_method": "level",
+          "level": 38,
+          "image":"../images/pokemones/Pidgeot.png"
+        },
+        {
+          "name": "Fearow",
+          "learn_method": "level",
+          "level": 26,
+          "image":"../images/pokemones/Fearow.png"
+        },
+        {
+          "name": "Noctowl",
+          "learn_method": "level",
+          "level": 33,
+          "image":"../images/pokemones/Noctowl.png"
+        }
+      ]
+    } 
+  ]
+  

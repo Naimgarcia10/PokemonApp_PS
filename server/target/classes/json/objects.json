@@ -1,0 +1,74 @@
+{
+  "items": [
+    {
+      "name": "Potion",
+      "icon": "../images/objects/potion.png",
+      "description": "A spray-type medicine for treating wounds. It can be used to restore 20 HP to an injured Pokémon."
+    },
+    {
+      "name": "Great Ball",
+      "icon": "../images/objects/great.png",
+      "description": "A good, high-performance Ball that provides a higher Pokémon catch rate than a standard Poké Ball."
+    },
+    {
+      "name": "Max Revive",
+      "icon": "../images/objects/max-revive.png",
+      "description": "A medicine that can revive fainted Pokémon. It also fully restores a Pokémon's HP."
+    },
+    {
+      "name": "Escape Rope",
+      "icon": "../images/objects/escape-rope.png",
+      "description": "A long, durable rope. Use it to escape instantly from a dangerous cave or dungeon."
+    },
+    {
+      "name": "Lucky Egg",
+      "icon": "../images/objects/lucky-egg.png",
+      "description": "A consumable item that increases the amount of experience points earned in battle by the holder."
+    },
+    {
+      "name": "TM23",
+      "icon": "../images/objects/tm23.png",
+      "description": "A special item that teaches the move Iron Tail to a compatible Pokémon."
+    },
+    {
+      "name": "Max Potion",
+      "icon": "../images/objects/max-potion.png",
+      "description": "A spray-type medicine for treating wounds. It can be used to restore all of a Pokémon's HP."
+    },
+    {
+      "name": "Big Mushroom",
+      "icon": "../images/objects/big-mushroom.png",
+      "description": "A valuable mushroom that can be sold for a high price. It can be found in dark, damp areas."
+    },
+    {
+      "name": "Super Repel",
+      "icon": "../images/objects/super-repel.png",
+      "description": "A spray-type repellent that keeps wild Pokémon at bay. It lasts longer than the standard Repel."
+    },
+    {
+      "name": "Elixir",
+      "icon": "../images/objects/elixir.png",
+      "description": "A medicine that fully restores the PP of all the moves of a single Pokémon."
+    },
+    {
+      "name": "Sharp Beak",
+      "icon": "../images/objects/sharp-beak.png",
+      "description": "A beak that is as hard as diamond. It is said that it can slice through anything with ease."
+    },
+    {
+      "name": "Leftovers",
+      "icon": "../images/objects/leftovers.png",
+      "description": "A hold item that gradually restores the HP of the holder each turn during battle."
+    },
+    {
+      "name": "Revive",
+      "icon": "../images/objects/revive.png",
+      "description": "A medicine that can revive fainted Pokémon. It restores half of a Pokémon's maximum HP."
+    },
+    {
+      "name": "Big Pearl",
+      "icon": "../images/objects/big-pearl.png",
+      "description": "A valuable pearl that can be sold for a high price. It can be found in the ocean."
+    }
+  ]
+}
