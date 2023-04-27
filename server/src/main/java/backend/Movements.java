@@ -13,7 +13,7 @@ public class Movements {
     private int power;
     private int accuracy;
     private int priority;
-    private List<PokemonsWhoLearnsIt> pokemonsWhoLearnsIt; //lista de pokemons que aprender este movimiento
+    private List<PokemonsWhoLearnsMovements> pokemonsWhoLearnsMovements; //lista de pokemons que aprender este movimiento
 
     public Movements(String name, String type, String category,
     int pp, int power, int accuracy, int priority, int idMovement, ConnMysql conn) throws Exception {
@@ -25,12 +25,12 @@ public class Movements {
         this.power = power;
         this.accuracy = accuracy;
         this.priority = priority;
-        this.pokemonsWhoLearnsIt = null;
+        this.pokemonsWhoLearnsMovements = null;
 
     }
 
-    public static ArrayList<PokemonsWhoLearnsIt> getPokemonsWhoLearnsIt(int idMovement, ConnMysql conn) throws Exception{
-        ArrayList<PokemonsWhoLearnsIt> pokemonsWhoLearnsIt = new ArrayList<PokemonsWhoLearnsIt>();
+    public static ArrayList<PokemonsWhoLearnsMovements> getPokemonsWhoLearnsMovements(int idMovement, ConnMysql conn) throws Exception{
+        ArrayList<PokemonsWhoLearnsMovements> pokemonsWhoLearnsMovements = new ArrayList<PokemonsWhoLearnsMovements>();
         String query = "SELECT pokemon.name AS name, learning_methods.name AS learn_method, level, pokemon.image AS image " +
          "FROM pokemon_learns_movement " +
          "LEFT JOIN pokemon ON pokemon_learns_movement.idPokemon = pokemon.idPokemon " +
@@ -39,12 +39,12 @@ public class Movements {
          ResultSet rs = conn.queryMysql(query);
          
          while(rs.next()){
-            pokemonsWhoLearnsIt.add(new PokemonsWhoLearnsIt( rs.getString("name"),
+            pokemonsWhoLearnsMovements.add(new PokemonsWhoLearnsMovements( rs.getString("name"),
                                                             rs.getString("learn_method"),
                                                             rs.getInt("level"),
                                                             rs.getString("image")));
          }
-         return pokemonsWhoLearnsIt;
+         return pokemonsWhoLearnsMovements;
     }
 
 
@@ -70,9 +70,5 @@ public class Movements {
     public int getPriority() {
         return priority;
     }
-    public List<PokemonsWhoLearnsIt> getPokemon() {
-        return pokemonsWhoLearnsIt;
-    }
 
-    
 }

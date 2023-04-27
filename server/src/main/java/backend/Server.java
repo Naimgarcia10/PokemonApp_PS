@@ -146,10 +146,10 @@ public class Server {
             return gson.toJson(array);
         });
 
-        Spark.get("/getPokemonsWhoLearnsIt/:idMovement", (rq, rs) -> {
+        Spark.get("/getPokemonsWhoLearnsMovements/:idMovement", (rq, rs) -> {
             Gson gson = new GsonBuilder().create();
             String idMovement = rq.params(":idMovement");
-            String result = gson.toJson(Movements.getPokemonsWhoLearnsIt(Integer.parseInt(idMovement), conn));
+            String result = gson.toJson(Movements.getPokemonsWhoLearnsMovements(Integer.parseInt(idMovement), conn));
             return result;
         });
 
