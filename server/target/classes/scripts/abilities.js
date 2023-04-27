@@ -82,7 +82,7 @@ buscador.addEventListener('input', function() {
     
         // Categoría de la habilidad
         const cell3 = row.insertCell();
-        cell3.textContent = ability.category;
+        cell3.textContent = ability.generation;
     
         // Enlace a abilities2.html
         const cell4 = row.insertCell();

@@ -2,7 +2,7 @@
     {
       "name": "Sticky Hold",
       "type": "Items stick to your body, so they can`t be stolen.",
-      "category": "III",
+      "generation": "III",
       
       "pokemon": [
         {
@@ -25,7 +25,7 @@
     {
       "name": "Speed Boost",
       "type": "Its speed increases each turn.",
-      "category": "III",
+      "generation": "III",
       
       "pokemon": [
         {
