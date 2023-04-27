@@ -12,10 +12,11 @@ public class Movements {
     private int power;
     private int accuracy;
     private int priority;
+    private int idMovement;
 
     public Movements(String name, String type, String category,
     int pp, int power, int accuracy, int priority, int idMovement, ConnMysql conn) throws Exception {
-
+        
         this.name = name;
         this.type = type;
         this.category = category;
@@ -23,6 +24,7 @@ public class Movements {
         this.power = power;
         this.accuracy = accuracy;
         this.priority = priority;
+        this.idMovement = idMovement;
 
     }
 
@@ -66,6 +68,9 @@ public class Movements {
     }
     public int getPriority() {
         return priority;
+    }
+    public int getIdMovement() {
+        return idMovement;
     }
 
 }
