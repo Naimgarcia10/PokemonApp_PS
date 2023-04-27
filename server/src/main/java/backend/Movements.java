@@ -2,7 +2,6 @@ package backend;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Movements {
 
@@ -13,7 +12,6 @@ public class Movements {
     private int power;
     private int accuracy;
     private int priority;
-    private List<PokemonsWhoLearnsMovements> pokemonsWhoLearnsMovements; //lista de pokemons que aprender este movimiento
 
     public Movements(String name, String type, String category,
     int pp, int power, int accuracy, int priority, int idMovement, ConnMysql conn) throws Exception {
@@ -25,7 +23,6 @@ public class Movements {
         this.power = power;
         this.accuracy = accuracy;
         this.priority = priority;
-        this.pokemonsWhoLearnsMovements = null;
 
     }
 
