@@ -123,6 +123,33 @@ public class Server {
             return result;
         });
 
+        Spark.get("/getPokemon/:index", (rq, res) -> {
+            String pokemonName = rq.params(":index");
+            String query = "SELECT * FROM pokemon WHERE name = \"" + pokemonName + "\"";
+            ResultSet rs = conn.queryMysql(query);
+            rs.next();
+            Gson gson = new GsonBuilder().create();
+            ArrayList<Pokemon> array = new ArrayList<>();
+            Pokemon pokemon = new Pokemon(rs.getInt("idPokemon")
+                                        , rs.getString("name")
+                                        , rs.getInt("idAbility1")
+                                        , rs.getInt("idAbility2")
+                                        , rs.getInt("idAbility3")
+                                        , rs.getInt("idType1")
+                                        , rs.getInt("idType2")
+                                        , rs.getString("hpBase")
+                                        , rs.getString("attackBase")
+                                        , rs.getString("defenseBase")
+                                        , rs.getString("spatkBase")
+                                        , rs.getString("spdefBase")
+                                        , rs.getString("speedBase")
+                                        , rs.getString("image")
+                                        , conn
+                                        );
+            array.add(pokemon);
+            return gson.toJson(array);
+        });
+
     }
 
 }
