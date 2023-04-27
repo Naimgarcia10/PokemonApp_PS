@@ -1,0 +1,30 @@
+.expertContent {
+    height: 50rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.expertContent ul {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    list-style: none;    
+    padding: 2rem;
+}
+
+.expertContent a{
+    color: var(--AntiqueWhite);
+}
+
+.expertContent ul li {
+    border-style:initial;
+    display: flex;
+    justify-content: center;
+    padding: 1.2rem;
+    margin: 1.2rem;
+    background-color: var(--Crimson);    
+    font-weight: bold;
+    font-size: 1rem;
+}
