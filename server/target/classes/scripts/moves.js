@@ -50,7 +50,7 @@ buscador.addEventListener('input', function() {
     }
 
     function fetchPokemonMoves() {
-        fetch("../json/pokemon_moves.json")
+        fetch("http://localhost:8080/getMovements")
           .then((response) => {
             if (!response.ok) {
               throw new Error("Error al cargar el archivo JSON");
@@ -82,10 +82,8 @@ buscador.addEventListener('input', function() {
           // Agregar la última columna con el botón "Click here"
           const lastCell = document.createElement("td");
           const link = document.createElement("a");
-          link.textContent = "Click here";
-          link.href = `pokemon_moves_2.html?move=${encodeURIComponent(move.name)}`;
-          lastCell.appendChild(link);
-          row.appendChild(lastCell);
+          
+          
       
           tableBody.appendChild(row);
         }

@@ -1,5 +1,4 @@
-{
-  "items": [
+ [
     {
       "name": "Potion",
       "icon": "../images/objects/potion.png",
@@ -71,4 +70,3 @@
       "description": "A valuable pearl that can be sold for a high price. It can be found in the ocean."
     }
   ]
-}
