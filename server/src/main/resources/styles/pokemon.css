@@ -24,17 +24,17 @@
     margin: 0 auto;
     left: 4rem;
 }
-
-#pokemon_type{
-    text-align: center;
-    position: relative;
-    top: 1rem;
-    height: 2rem;
+.pokemon_type_container{
+  display: flex;
+  position: relative;
+  margin: 0 auto;
+  justify-content: center;
+  text-align: center;
 }
 
 #pokemon_abilities{
     position: relative;
-    top: 3rem;
+    top: 1rem;
     text-align: center;
 }
 

@@ -24,12 +24,29 @@ function showPokemon() {
     imageElement.setAttribute('id', 'pokemon_image');
     pokemonDiv.appendChild(imageElement);
   
-    const typeElement = document.createElement('p');
-    typeElement.textContent = `${pokemonType1}${pokemonType2 ? ', ' + pokemonType2 : ''}`;
-    typeElement.setAttribute('id', 'pokemon_type');
-    pokemonDiv.appendChild(typeElement);
+    const container = document.createElement('div');
+    container.classList.add('pokemon_type_container');
+    pokemonDiv.appendChild(container);
+
+    const typeElement1 = document.createElement('img');
+    typeElement1.setAttribute('src', pokemonType1);
+    typeElement1.setAttribute('alt', pokemonType1);
+    typeElement1.setAttribute('id', 'pokemon_type1');
+    typeElement1.classList.add('pokemon_type_img');
+    container.appendChild(typeElement1);
+
+    if (pokemonType2) {
+      const typeElement2 = document.createElement('img');
+      typeElement2.setAttribute('src', pokemonType2);
+      typeElement2.setAttribute('alt', pokemonType2);
+      typeElement2.setAttribute('id', 'pokemon_type2');
+      typeElement2.classList.add('pokemon_type_img');
+      container.appendChild(typeElement2);
+    }
+
+
   
-    const abilitiesElement = document.createElement('p');
+    const abilitiesElement = document.createElement('h2');
   abilitiesElement.innerHTML = `${pokemonAbility1}${pokemonAbility2 ? '<br>' + pokemonAbility2 : ''}${pokemonAbility3 ? '<br>' + pokemonAbility3 : ''}`;
   abilitiesElement.setAttribute('id', 'pokemon_abilities');
   pokemonDiv.appendChild(abilitiesElement);

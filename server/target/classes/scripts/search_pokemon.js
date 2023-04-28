@@ -1,5 +1,6 @@
+const input = document.getElementById('buscador');
+
 async function searchPokemon() {
-  const input = document.getElementById('buscador');
   const searchTerm = input.value;
   const valorInputCodificado = encodeURIComponent(searchTerm);
   const url = `http://localhost:8080/getPokemon/${valorInputCodificado}`;
@@ -42,6 +43,7 @@ async function searchPokemon() {
 
       // Redirigir a la página pokemon.html
       window.location.href = 'pokemon.html';
+
     } else {
       console.error('No se encontró el Pokémon');
     }
@@ -53,14 +55,13 @@ async function searchPokemon() {
 
 
 
-/*
+
 input.addEventListener("keyup", function(event) {
   if (event.keyCode === 13) {
     event.preventDefault();
     if (buscador.value.trim() === "") {
         alert("No se ha introducido ningún Pokémon.");
     }
-    else{window.location.href = "pokemon.html";}
+    else{searchPokemon();}
   }
-
-*/ 
+});
