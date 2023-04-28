@@ -1,133 +1,76 @@
 package backend;
 
 import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 public class DamageRelations {
 
-    private List<Integer> double_damage_from;
-    private List<Integer> double_damage_to;
-    private List<Integer> half_damage_from;
-    private List<Integer> half_damage_to;
-    private List<Integer> no_damage_from;
-    private List<Integer> no_damage_to;
+    public String build_damage_SQL(ConnMysql conn) throws Exception {
+        // Ejecutar la consulta
+        String query = "SELECT t1.name AS type_name, t1.picture AS type_picture, "
+                + "GROUP_CONCAT(DISTINCT t2.picture SEPARATOR ', ') AS double_damage_to, "
+                + "GROUP_CONCAT(DISTINCT t3.picture SEPARATOR ', ') AS double_damage_from, "
+                + "GROUP_CONCAT(DISTINCT t4.picture SEPARATOR ', ') AS half_damage_to, "
+                + "GROUP_CONCAT(DISTINCT t5.picture SEPARATOR ', ') AS half_damage_from, "
+                + "GROUP_CONCAT(DISTINCT t6.picture SEPARATOR ', ') AS no_damage_to, "
+                + "GROUP_CONCAT(DISTINCT t7.picture SEPARATOR ', ') AS no_damage_from "
+                + "FROM types t1 "
+                + "LEFT JOIN type_effective te1 ON t1.idType = te1.idTypeEffective "
+                + "LEFT JOIN types t2 ON t2.idType = te1.idTypeWeak "
+                + "LEFT JOIN type_effective te2 ON t1.idType = te2.idTypeWeak "
+                + "LEFT JOIN types t3 ON t3.idType = te2.idTypeEffective "
+                + "LEFT JOIN type_noteffective tn1 ON t1.idType = tn1.idTypeNotEffective "
+                + "LEFT JOIN types t4 ON t4.idType = tn1.idTypeResistant "
+                + "LEFT JOIN type_noteffective tn2 ON t1.idType = tn2.idTypeResistant "
+                + "LEFT JOIN types t5 ON t5.idType = tn2.idTypeNotEffective "
+                + "LEFT JOIN type_zerodamage tz1 ON t1.idType = tz1.idTypeZeroDamage "
+                + "LEFT JOIN types t6 ON t6.idType = tz1.idTypeImmune "
+                + "LEFT JOIN type_zerodamage tz2 ON t1.idType = tz2.idTypeImmune "
+                + "LEFT JOIN types t7 ON t7.idType = tz2.idTypeZeroDamage "
+                + "GROUP BY t1.idType";
 
-    public DamageRelations(int id, ConnMysql conn) throws Exception {
-        this.initialize(id, conn);
-    }
-
-    private void initialize(int id, ConnMysql conn) throws Exception {
-        this.get_double_damage_from_SQL(id, conn);
-        this.get_double_damage_to_SQL(id, conn);
-        this.get_half_damage_from_SQL(id, conn);
-        this.get_half_damage_to_SQL(id, conn);
-        this.get_no_damage_from_SQL(id, conn);
-        this.get_no_damage_to_SQL(id, conn);
-    }
-
-    private void get_double_damage_from_SQL(int id, ConnMysql conn) throws Exception {
-
-        this.double_damage_from = new ArrayList<Integer>();
-        String columnLabel = "idTypeEffective";
-        String query = "SELECT " + columnLabel + " " +
-                "FROM types " +
-                "JOIN type_effective ON types.idType = type_effective.idTypeWeak " +
-                "WHERE types.idType = " + id;
         ResultSet rs = conn.queryMysql(query);
-        this.addRequestResult(rs, this.double_damage_from, columnLabel);
-
-    }
-
-    private void get_double_damage_to_SQL(int id, ConnMysql conn) throws Exception {
-        this.double_damage_to = new ArrayList<Integer>();
-        String columnLabel = "idTypeWeak";
-        String query = "SELECT " + columnLabel + " " +
-                "FROM types " +
-                "JOIN type_effective ON types.idType = type_effective.idTypeEffective " +
-                "WHERE types.idType = " + id;
-        ResultSet rs = conn.queryMysql(query);
-        this.addRequestResult(rs, this.double_damage_to, columnLabel);
-    }
-
-    private void get_half_damage_from_SQL(int id, ConnMysql conn) throws Exception {
-        this.half_damage_from = new ArrayList<Integer>();
-        String columnLabel = "idTypeNotEffective";
-        String query = "SELECT " + columnLabel + " " +
-                "FROM types " +
-                "JOIN type_noteffective ON types.idType = type_noteffective.idTypeResistant " +
-                "WHERE types.idType = " + id;
-        ResultSet rs = conn.queryMysql(query);
-        this.addRequestResult(rs, this.half_damage_from, columnLabel);
-    }
-
-    private void get_half_damage_to_SQL(int id, ConnMysql conn) throws Exception {
-        this.half_damage_to = new ArrayList<Integer>();
-        String columnLabel = "idTypeResistant";
-        String query = "SELECT " + columnLabel + " " +
-                "FROM types " +
-                "JOIN type_noteffective ON types.idType = type_noteffective.idTypeNotEffective " +
-                "WHERE types.idType = " + id;
-        ResultSet rs = conn.queryMysql(query);
-        this.addRequestResult(rs, this.half_damage_to, columnLabel);
-    }
-
-    private void get_no_damage_from_SQL(int id, ConnMysql conn) throws Exception {
-        this.no_damage_from = new ArrayList<Integer>();
-        String columnLabel = "idTypeZeroDamage";
-        String query = "SELECT " + columnLabel + " " +
-                "FROM types " +
-                "JOIN type_zerodamage ON types.idType = type_zerodamage.idTypeImmune " +
-                "WHERE types.idType = " + id;
-        ResultSet rs = conn.queryMysql(query);
-        this.addRequestResult(rs, this.no_damage_from, columnLabel);
-    }
-
-    private void get_no_damage_to_SQL(int id, ConnMysql conn) throws Exception {
-        this.no_damage_to = new ArrayList<Integer>();
-        String columnLabel = "idTypeImmune";
-        String query = "SELECT " + columnLabel + " " +
-                "FROM types " +
-                "JOIN type_zerodamage ON types.idType = type_zerodamage.idTypeZeroDamage " +
-                "WHERE types.idType = " + id;
-        ResultSet rs = conn.queryMysql(query);
-        this.addRequestResult(rs, this.no_damage_to, columnLabel);
-    }
-
-
-    /*Metodo privado para inserción de resultados*/
-    private void addRequestResult(ResultSet rs, List<Integer> array, String columnLabel) throws Exception {
+        // Construir el objeto JSON utilizando Gson
+        Gson gson = new GsonBuilder().create();
+        JsonArray resultArray = new JsonArray();
 
         while (rs.next()) {
-            array.add(rs.getInt(columnLabel));
+
+            JsonObject resultObject = new JsonObject();
+            resultObject.addProperty("type_name", rs.getString("type_name"));
+            resultObject.addProperty("type_picture", rs.getString("type_picture"));
+
+            String[] doubleDamageTo = rs.getString("double_damage_to") != null
+                    ? rs.getString("double_damage_to").split(", ")
+                    : null;
+            String[] doubleDamageFrom = rs.getString("double_damage_from") != null
+                    ? rs.getString("double_damage_from").split(", ")
+                    : null;
+            String[] halfDamageTo = rs.getString("half_damage_to") != null ? rs.getString("half_damage_to").split(", ")
+                    : null;
+            String[] halfDamageFrom = rs.getString("half_damage_from") != null
+                    ? rs.getString("half_damage_from").split(", ")
+                    : null;
+            String[] noDamageTo = rs.getString("no_damage_to") != null ? rs.getString("no_damage_to").split(", ")
+                    : null;
+            String[] noDamageFrom = rs.getString("no_damage_from") != null ? rs.getString("no_damage_from").split(", ")
+                    : null;
+
+            resultObject.add("double_damage_to", gson.toJsonTree(doubleDamageTo));
+            resultObject.add("double_damage_from", gson.toJsonTree(doubleDamageFrom));
+            resultObject.add("half_damage_to", gson.toJsonTree(halfDamageTo));
+            resultObject.add("half_damage_from", gson.toJsonTree(halfDamageFrom));
+            resultObject.add("no_damage_to", gson.toJsonTree(noDamageTo));
+            resultObject.add("no_damage_from", gson.toJsonTree(noDamageFrom));
+            resultArray.add(resultObject);
         }
 
-    }
-
-    /* Getters */
-
-    public List<Integer> getDouble_damage_from() {
-        return double_damage_from;
-    }
-
-    public List<Integer> getDouble_damage_to() {
-        return double_damage_to;
-    }
-
-    public List<Integer> getHalf_damage_from() {
-        return half_damage_from;
-    }
-
-    public List<Integer> getHalf_damage_to() {
-        return half_damage_to;
-    }
-
-    public List<Integer> getNo_damage_from() {
-        return no_damage_from;
-    }
-
-    public List<Integer> getNo_damage_to() {
-        return no_damage_to;
+        String json = gson.toJson(resultArray);
+        return json;
     }
 
 }
