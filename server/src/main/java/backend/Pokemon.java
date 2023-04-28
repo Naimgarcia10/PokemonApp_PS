@@ -49,10 +49,10 @@ public class Pokemon {
 
     public static String buildType(int idType, ConnMysql conn) throws Exception{
         if(idType==0){return "";}
-        String query = "SELECT name FROM types WHERE idType = " + idType + ";";
+        String query = "SELECT picture FROM types WHERE idType = " + idType + ";";
         ResultSet rs = conn.queryMysql(query);
         rs.next();
-        return rs.getString("name");
+        return rs.getString("picture");
     }
 
     private static String buildAbility(int idAbility, ConnMysql conn) throws Exception {
