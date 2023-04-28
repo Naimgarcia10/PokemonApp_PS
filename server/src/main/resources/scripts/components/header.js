@@ -7,6 +7,7 @@ export const cargarSelectorIdiomas = () => {
         const selectedLang = languagePickerSelect.selectedOptions[0].getAttribute("lang");
         localStorage.setItem("userLanguage", selectedLang);
         console.log("El idioma seleccionado por el usuario es ", selectedLang);
+        location.reload();
     });
 }
 
