@@ -1,0 +1,49 @@
+[
+    {
+      "name": "Sticky Hold",
+      "type": "Items stick to your body, so they can`t be stolen.",
+      "generation": "III",
+      
+      "pokemon": [
+        {
+          "name": "Grimer",
+          "learn_method": "Second Ability",
+          "image":"../images/pokemones/Dragonite.png"
+        },
+        {
+          "name": "Muk",
+          "learn_method": "Second Ability",
+          "image":"../images/pokemones/Salamance.png"
+        },
+        {
+          "name": "Garchomp",
+          "learn_method": "level",
+          "image":"../images/pokemones/Garchomp.png"
+        }
+      ]
+    },
+    {
+      "name": "Speed Boost",
+      "type": "Its speed increases each turn.",
+      "generation": "III",
+      
+      "pokemon": [
+        {
+          "name": "Pidgeot",
+          "learn_method": "level",
+          "image":"../images/pokemones/Pidgeot.png"
+        },
+        {
+          "name": "Fearow",
+          "learn_method": "level",
+          "image":"../images/pokemones/Fearow.png"
+        },
+        {
+          "name": "Noctowl",
+          "learn_method": "level",
+          "image":"../images/pokemones/Noctowl.png"
+        }
+      ]
+    } 
+  ]
+  
