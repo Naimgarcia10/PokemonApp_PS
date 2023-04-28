@@ -24,5 +24,5 @@ export const loadOver = (route, node) => fetch(route)
         elm.innerHTML = `<div class="loaded">${data}</div>`
         frag.append(elm)
         node.replaceWith(frag)
-        document.dispatchEvent(headerCargado);
+        if(route === "header.html") document.dispatchEvent(headerCargado);
     })
