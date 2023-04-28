@@ -68,6 +68,14 @@ max-height: 25rem; /* Establecer la altura máxima de la lista */
 overflow-y: auto; /* Agregar una barra de desplazamiento vertical */
 }
 
+#lupa{
+  height: 1rem;
+  position: relative;
+  bottom: 0.2rem;
+  left: 9rem;
+  cursor: pointer;
+}
+
 table {
 border-collapse: separate;
 border-spacing: 0px 10px;
