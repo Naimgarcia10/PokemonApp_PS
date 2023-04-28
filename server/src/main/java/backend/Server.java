@@ -1,8 +1,6 @@
 package backend;
 
 import spark.Spark;
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.sql.*;
 import java.util.ArrayList;
 import com.google.gson.Gson;
@@ -10,51 +8,23 @@ import com.google.gson.GsonBuilder;
 
 public class Server {
 
-    private static String accessData[];
+    public static void main(String[] args) throws Exception {
 
-    private static void initializeData() throws Exception{
-        
-        accessData = new String[3];
-        FileReader fr = new FileReader("server\\src\\main\\java\\backend\\access\\access.txt");
-        BufferedReader br = new BufferedReader(fr);
-        String line = "";
-
-        for(int i = 0;(line = br.readLine()) != null;i++){
-            accessData[i] = line;
-        }
-
-        br.close();
-    }
-
-    public static void main(String[] args) {
-
-        ConnMysql conn;
-
-        try {
-            Server.initializeData();
-            conn = new ConnMysql(accessData[0], accessData[1], accessData[2]);
-        } catch (Exception e) {
-            System.out.println(e);
-            return;
-        }
-
+        ConnMysql conn = new ConnMysql();
         Spark.staticFiles.location("");
         Spark.port(8080);
 
-        /**/
         Spark.get("/", (req, res) -> {
             res.redirect("/html/home.html");
             return "";
         });
 
-        /**/
         Spark.get("/tutorial/:index", (rq, rs) -> {
             String param = rq.params(":index");
             int index = Integer.parseInt(param);
             return JsonTutorial.get_tutorial(index);
         });
 
-        /**/
         Spark.get("/getItems", (req, res) -> {
 
             String query = "SELECT name, description, icon FROM objects";
@@ -146,11 +116,38 @@ public class Server {
             return gson.toJson(array);
         });
 
-        Spark.get("/getPokemonsWhoLearnsIt/:idMovement", (rq, rs) -> {
+        Spark.get("/getPokemonsWhoLearnsMovements/:idMovement", (rq, rs) -> {
             Gson gson = new GsonBuilder().create();
             String idMovement = rq.params(":idMovement");
-            String result = gson.toJson(Movements.getPokemonsWhoLearnsIt(Integer.parseInt(idMovement), conn));
+            String result = gson.toJson(Movements.getPokemonsWhoLearnsMovements(Integer.parseInt(idMovement), conn));
             return result;
+        });
+
+        Spark.get("/getPokemon/:index", (rq, res) -> {
+            String pokemonName = rq.params(":index");
+            String query = "SELECT * FROM pokemon WHERE name = \"" + pokemonName + "\"";
+            ResultSet rs = conn.queryMysql(query);
+            rs.next();
+            Gson gson = new GsonBuilder().create();
+            ArrayList<Pokemon> array = new ArrayList<>();
+            Pokemon pokemon = new Pokemon(rs.getInt("idPokemon")
+                                        , rs.getString("name")
+                                        , rs.getInt("idAbility1")
+                                        , rs.getInt("idAbility2")
+                                        , rs.getInt("idAbility3")
+                                        , rs.getInt("idType1")
+                                        , rs.getInt("idType2")
+                                        , rs.getString("hpBase")
+                                        , rs.getString("attackBase")
+                                        , rs.getString("defenseBase")
+                                        , rs.getString("spatkBase")
+                                        , rs.getString("spdefBase")
+                                        , rs.getString("speedBase")
+                                        , rs.getString("image")
+                                        , conn
+                                        );
+            array.add(pokemon);
+            return gson.toJson(array);
         });
 
     }

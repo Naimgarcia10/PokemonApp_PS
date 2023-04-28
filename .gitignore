@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 server/target/classes/audio/
 server/target/classes/html/
 server/target/classes/icons/
@@ -5,3 +6,6 @@ server/target/classes/images/
 server/target/classes/json/
 server/target/classes/scripts/
 server/target/classes/styles/
+=======
+.env
+>>>>>>> victor

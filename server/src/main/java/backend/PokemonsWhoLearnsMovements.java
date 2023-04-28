@@ -1,13 +1,13 @@
 package backend;
 
-public class PokemonsWhoLearnsIt {
+public class PokemonsWhoLearnsMovements {
 
     private String name;
     private String learn_method;
     private int level;
     private String image;
 
-    public PokemonsWhoLearnsIt(String name, String learn_method, int level, String image) throws Exception{
+    public PokemonsWhoLearnsMovements(String name, String learn_method, int level, String image) throws Exception{
         this.name = name;
         this.learn_method = learn_method;
         this.level = level;
