@@ -1,0 +1,40 @@
+/* main */
+.mainContent {
+    display: block;
+    margin-top: 1.8rem;
+}
+
+.main_title{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.level {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5rem;
+}
+
+.mainContent img {
+    width: 10rem;
+}
+
+.level_button {
+    margin-top: 3rem;
+    margin-right: 3rem;
+    border-radius: 1rem;
+    border-style: none;
+    width: 8rem;
+    height: 6rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+#begginerButton {
+    background-color: var(--Goldenrod);
+}
+
+#expertButton {
+    background-color: var(--Tomato);
+}
