@@ -8,57 +8,39 @@ import com.google.gson.GsonBuilder;
 
 public class Server {
 
-    public static void main(String[] args) throws Exception {
-
-        ConnMysql conn = new ConnMysql();
+    //Configuración del servidor, puerto y carpeta de archivos estáticos
+    private static void config(){
         Spark.staticFiles.location("");
         Spark.port(8080);
+    }
 
+    //Redireccionamiento a la página de inicio
+    private static void redirect(){
         Spark.get("/", (req, res) -> {
             res.redirect("/html/home.html");
             return "";
         });
+    }
 
+    //Tutorial
+    private static void attendTutorialRequest(){
         Spark.get("/tutorial/:index", (rq, rs) -> {
             String param = rq.params(":index");
             int index = Integer.parseInt(param);
             return JsonTutorial.get_tutorial(index);
         });
+    }
 
-        Spark.get("/getItems", (req, res) -> {
-
-            String query = "SELECT name, description, icon FROM objects";
-            ResultSet rs = conn.queryMysql(query);
-            Gson gson = new GsonBuilder().create();
-            ArrayList<Items> array = new ArrayList<>();
-
-            while (rs.next()) {
-                Items item = new Items(rs.getString("name"), rs.getString("description"), rs.getString("icon"));
-                array.add(item);
-            }
-
-            return gson.toJson(array);
-
+    //Types
+    private static void attendTypesRequest(ConnMysql conn){
+        Spark.get("/getTypes", (req, res) -> {
+            return new DamageRelations().build_damage_SQL(conn);
         });
+    }
 
-        Spark.get("/getAbilities", (req, res) -> {
-
-            String query = "SELECT name, description FROM abilities";
-            ResultSet rs = conn.queryMysql(query);
-            Gson gson = new GsonBuilder().create();
-            ArrayList<Abilities> array = new ArrayList<>();
-
-            while (rs.next()) {
-                Abilities item = new Abilities(rs.getString("name"), rs.getString("description"));
-                array.add(item);
-            }
-
-            return gson.toJson(array);
-
-        });
-
+    //Glossary
+    private static void attendGlossaryRequest(ConnMysql conn){
         Spark.get("/getTerms", (req, res) -> {
-
             String query = "SELECT name, description FROM terms";
             ResultSet rs = conn.queryMysql(query);
             Gson gson = new GsonBuilder().create();
@@ -72,59 +54,12 @@ public class Server {
             return gson.toJson(array);
 
         });
+    }
 
-        Spark.get("/getTypes", (req, res) -> {
-
-            String query = "SELECT idType, name, picture FROM types";
-            ResultSet rs = conn.queryMysql(query);
-            Gson gson = new GsonBuilder().create();
-            ArrayList<Types> array = new ArrayList<>();
-            while (rs.next()) {
-                Types item = new Types(rs.getString("idType"),
-                             rs.getString("name"),
-                             rs.getString("picture"),
-                             conn);
-
-                array.add(item);
-            }
-            return gson.toJson(array);
-        });
-
-        Spark.get("/getMovements", (req, res) -> {
-
-            String query = "SELECT idMovement, movements.name, types.name AS type, movement_class.name AS category, pp, power, accuracy, priority " +
-            "FROM movements " +
-            "LEFT JOIN types ON movements.idType = types.idType " +
-            "LEFT JOIN movement_class ON movements.idClass = movement_class.idClass";
-
-            ResultSet rs = conn.queryMysql(query);
-            Gson gson = new GsonBuilder().serializeNulls().create();
-            ArrayList<Movements> array = new ArrayList<>();
-
-            while (rs.next()) {
-                Movements item = new Movements(rs.getString("name"),
-                                rs.getString("type"),
-                                rs.getString("category"),
-                                rs.getInt("pp"),
-                                rs.getInt("power"),
-                                rs.getInt("accuracy"),
-                                rs.getInt("priority"),
-                                rs.getInt("idMovement"),
-                                conn);
-                array.add(item);
-            }
-            return gson.toJson(array);
-        });
-
-        Spark.get("/getPokemonsWhoLearnsMovements/:idMovement", (rq, rs) -> {
-            Gson gson = new GsonBuilder().create();
-            String idMovement = rq.params(":idMovement");
-            String result = gson.toJson(Movements.getPokemonsWhoLearnsMovements(Integer.parseInt(idMovement), conn));
-            return result;
-        });
-
-        Spark.get("/getPokemon/:index", (rq, res) -> {
-            String pokemonName = rq.params(":index");
+    //Buscador Pokemon
+    private static void attendPokemonSearcher(ConnMysql conn){
+        Spark.get("/getPokemon/:pokemonName", (rq, res) -> {
+            String pokemonName = rq.params(":pokemonName");
             String query = "SELECT * FROM pokemon WHERE name = \"" + pokemonName + "\"";
             ResultSet rs = conn.queryMysql(query);
             rs.next();
@@ -149,7 +84,74 @@ public class Server {
             array.add(pokemon);
             return gson.toJson(array);
         });
-
     }
 
+    //Buscador Objetos
+    private static void attendPokemonItemSearcher(ConnMysql conn){
+        Spark.get("/getItems", (req, res) -> {
+
+            String query = "SELECT name, description, icon FROM objects";
+            ResultSet rs = conn.queryMysql(query);
+            Gson gson = new GsonBuilder().create();
+            ArrayList<Items> array = new ArrayList<>();
+
+            while (rs.next()) {
+                Items item = new Items(rs.getString("name"), rs.getString("description"), rs.getString("icon"));
+                array.add(item);
+            }
+
+            return gson.toJson(array);
+
+        });
+    }
+
+    //Buscador de movimiento pokemon
+    private static void attendPokemonMovementSearcher(ConnMysql conn){
+        Spark.get("/getMovements", (req, res) -> {
+            String query = "SELECT idMovement, movements.name, types.name AS type, movement_class.name AS category, pp, power, accuracy, priority " +
+            "FROM movements " +
+            "LEFT JOIN types ON movements.idType = types.idType " +
+            "LEFT JOIN movement_class ON movements.idClass = movement_class.idClass";
+            ResultSet rs = conn.queryMysql(query);
+            Gson gson = new GsonBuilder().serializeNulls().create();
+            ArrayList<Movements> array = new ArrayList<>();
+
+            while (rs.next()) {
+                Movements item = new Movements(rs.getString("name"),
+                                rs.getString("type"),
+                                rs.getString("category"),
+                                rs.getInt("pp"),
+                                rs.getInt("power"),
+                                rs.getInt("accuracy"),
+                                rs.getInt("priority"),
+                                rs.getInt("idMovement"),
+                                conn);
+                array.add(item);
+            }
+            return gson.toJson(array);
+        });
+    }
+
+    //PokemonWhoLearnsMovements
+    private static void attendPokemonWhoLearnsMovements(ConnMysql conn){
+        Spark.get("/getPokemonsWhoLearnsMovements/:idMovement", (rq, rs) -> {
+            Gson gson = new GsonBuilder().create();
+            String idMovement = rq.params(":idMovement");
+            String result = gson.toJson(Movements.getPokemonsWhoLearnsMovements(Integer.parseInt(idMovement), conn));
+            return result;
+        });
+    }
+
+    public static void main(String[] args) throws Exception {
+        ConnMysql conn = new ConnMysql();
+        Server.config();
+        Server.redirect();
+        Server.attendTutorialRequest();
+        Server.attendTypesRequest(conn);
+        Server.attendGlossaryRequest(conn);
+        Server.attendPokemonSearcher(conn);
+        Server.attendPokemonItemSearcher(conn);
+        Server.attendPokemonMovementSearcher(conn);
+        Server.attendPokemonWhoLearnsMovements(conn);
+    }
 }

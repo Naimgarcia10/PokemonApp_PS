@@ -8,7 +8,7 @@ function agregar_imagenes(container, lista){
   */  
   for(let i=0;i<lista.length;i++){
     let picture_element = document.createElement("img");
-    picture_element.src = getPictureById(lista[i]);
+    picture_element.src = "../" + getPictureById(lista[i]);
     container.appendChild(picture_element);
   }  
 }
