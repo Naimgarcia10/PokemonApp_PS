@@ -29,41 +29,6 @@ header .navbar_principiantes ul li {
     font-size: 1.5rem;
 }
 
-/*
-###################################################
-#            Seccion: navbar_expertos             #
-###################################################
-*/
-
-
-/* la navbar de principiantes se activa con un javascript */
-header .navbar_expertos {
-    display: none;
-}
-
-header .navbar_expertos ul {
-    list-style: none;
-    padding: 2rem;
-}
-
-header .navbar_expertos a {
-    color: var(--AntiqueWhite);
-}
-
-header .navbar_expertos ul li {
-    border-style: initial;
-    display: inline;
-    padding: 1.2rem;
-    margin: 1.2rem;
-    background-color: var(--Crimson);
-    font-weight: bold;
-    font-size: 1.5rem;
-}
-
-
-
-
-
 footer div {
     display: flex;
     background-color: var(--Goldenrod);
