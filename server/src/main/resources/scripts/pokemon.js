@@ -109,10 +109,42 @@ function showStats() {
       statsDiv.appendChild(statRow);
     }
   }  
+
+  function showMoves() {
+    const pokemonMoves = JSON.parse(localStorage.getItem('pokemonMoves'));
+  
+    console.log('pokemonMoves:', pokemonMoves); // Verifica si los datos se obtienen correctamente
+  
+    const movesTableBody = document.getElementById("movesTableBody");
+  
+    pokemonMoves.forEach(move => {
+      const row = document.createElement("tr");
+  
+      const nameCell = document.createElement("td");
+      nameCell.textContent = move.name;
+      row.appendChild(nameCell);
+  
+      const typeCell = document.createElement("td");
+      typeCell.textContent = move.type;
+      row.appendChild(typeCell);
+  
+      const classCell = document.createElement("td");
+      classCell.textContent = move.category;
+      row.appendChild(classCell);
+  
+      movesTableBody.appendChild(row);
+    });
+  
+    console.log('movesTableBody:', movesTableBody); // Verifica si la tabla se construye correctamente
+  }
+  
   
   // Ejecutar la función cuando la página se cargue
   window.addEventListener('DOMContentLoaded', showStats);
   
   // Ejecutar la función cuando la página se cargue
   window.addEventListener('DOMContentLoaded', showPokemon);
+
+  // Ejecutar la función cuando la página se cargue
+  window.addEventListener('DOMContentLoaded', showMoves);
   

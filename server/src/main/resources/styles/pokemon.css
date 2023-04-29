@@ -5,11 +5,11 @@
 */
 #pokemon{
     background-color: var(--DarkOrange);
-    height: 20rem;
+    height: 21rem;
     width: 15rem;
     position: relative;
     top: 5rem;
-    margin-bottom: 10rem;
+    margin-bottom: 3rem;
     left: 5rem;
     justify-content: center;
 }
@@ -50,7 +50,7 @@
     height: 20rem;
     width: 20rem;
     position: relative;
-    bottom: 25rem;
+    bottom: 19rem;
     margin-bottom: 5rem;
     left: 30rem;
     justify-content: center;
@@ -94,3 +94,54 @@
     text-align: left;
   }
   
+
+  /*
+#############################################
+            Seccion: Movements              #
+#############################################
+*/
+
+#movements{
+    background-color: var(--DarkOrange);
+    height: 30rem;
+    width: 40rem;
+    position: relative;
+    bottom: 19rem;
+    left: 5rem;
+    max-height: 40rem; /* Establecer la altura máxima de la lista */
+    overflow-y: auto; /* Agregar una barra de desplazamiento vertical */
+}
+
+#movements_title{
+    text-align: center;
+}
+
+table {
+  background-color: var(--DarkOrange);
+  width: 30rem;
+  border-collapse: separate;
+  border-spacing: 0px 10px;
+  position: relative;
+  margin: 2rem auto;
+  max-height: 5rem;
+  overflow-y: auto;
+}
+
+th, td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  
+}
+
+td{
+  border: 1px solid black; /* Agregar una línea alrededor de las celdas */
+  background-color: white;
+}
+
+th {
+  background-color: var(--DarkOrange);
+  background-color: transparent;
+  text-align: center;
+  border: none;
+}

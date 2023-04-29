@@ -17,6 +17,7 @@ async function searchPokemon() {
       const pokemonAbility1 = data[0].ability1;
       const pokemonAbility2 = data[0].ability2;
       const pokemonAbility3 = data[0].ability3;
+
       /*estadisticas*/ 
       const pokemonHp = data[0].hp_base;
       const pokemonAttack = data[0].attack_base;
@@ -24,6 +25,8 @@ async function searchPokemon() {
       const pokemonSpatk = data[0].spatk_base;
       const pokemonSpdef = data[0].spdef_base;
       const pokemonSpeed = data[0].speed_base;
+
+      const pokemonMoves = data[0].pokemonMoves;
 
       /*Propiedades Pokemon */
       localStorage.setItem('pokemonName', pokemonName);
@@ -40,6 +43,8 @@ async function searchPokemon() {
       localStorage.setItem('pokemonSpatk', pokemonSpatk);
       localStorage.setItem('pokemonSpdef', pokemonSpdef);
       localStorage.setItem('pokemonSpeed', pokemonSpeed);
+
+      localStorage.setItem('pokemonMoves', JSON.stringify(pokemonMoves));
 
       // Redirigir a la página pokemon.html
       window.location.href = 'pokemon.html';
