@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokemon</title>
+
+    <link rel="stylesheet" type="text/css" href="../styles/pokemon.css">
+    <link rel="stylesheet" href="../styles/index.css">
+</head>
+<body>
+    <script type="module" src="../scripts/components/header_expertos.js"></script>
+    
+    <div id="pokemon">
+        <!--se carga desde pokemon.js-->
+    </div>
+
+    <div id="stats">
+        <h2 id="stats_title">Base Stats</h2>
+        <!--se carga desde pokemon.js-->
+    </div>
+
+    <div id="movements">
+        <h2 id="movements_title">Movements</h2>
+
+        <table>
+            <thead>
+            
+                <th>Nombre</th>
+                <th>Tipo</th>
+                <th>Categoría</th>
+            
+            </thead>
+            <tbody id="movesTableBody">
+            </tbody>
+        </table>
+    </div>
+
+    <script src="../scripts/pokemon.js"></script>
+    <script type="module" src="../scripts/components/footer.js"></script>
+</body>
+</html>
