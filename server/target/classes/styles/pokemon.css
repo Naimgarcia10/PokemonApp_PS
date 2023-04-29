@@ -12,6 +12,8 @@
     margin-bottom: 3rem;
     left: 5rem;
     justify-content: center;
+    box-shadow: 0 0 15px rgba(0,0,0,1); 
+    border-radius: 1rem;
 }
 
 #pokemon_name{
@@ -47,13 +49,15 @@
 
 #stats{
     background-color: var(--DarkOrange);
-    height: 20rem;
+    height: 21rem;
     width: 20rem;
     position: relative;
     bottom: 19rem;
     margin-bottom: 5rem;
     left: 30rem;
     justify-content: center;
+    box-shadow: 0 0 15px rgba(0,0,0,1);
+    border-radius: 1rem;
 }
 
 #stats_title{
@@ -100,42 +104,41 @@
             Seccion: Movements              #
 #############################################
 */
-
-#movements{
-    background-color: var(--DarkOrange);
-    height: 30rem;
-    width: 40rem;
-    position: relative;
-    bottom: 19rem;
-    left: 5rem;
-    max-height: 40rem; /* Establecer la altura máxima de la lista */
-    overflow-y: auto; /* Agregar una barra de desplazamiento vertical */
+#movements {
+  background-color: var(--DarkOrange);
+  height: 40rem;
+  width: 40rem;
+  position: relative;
+  bottom: 19rem;
+  left: 5rem;
+  box-shadow: 0 0 15px rgba(0,0,0,1);
+  border-radius: 1rem;
+  padding: 2rem; /* Añade un padding en todos los lados del div */
+  overflow-y: auto;
 }
 
-#movements_title{
-    text-align: center;
+#movements_title {
+  text-align: center;
+  margin-top: 1rem; /* Añade un margen superior al título */
 }
 
 table {
   background-color: var(--DarkOrange);
-  width: 30rem;
+  width: 100%;
   border-collapse: separate;
   border-spacing: 0px 10px;
-  position: relative;
-  margin: 2rem auto;
-  max-height: 5rem;
-  overflow-y: auto;
+  margin: 0 0 2rem 0; /* Añade un margen inferior a la tabla */
 }
+
 
 th, td {
   padding: 8px;
   text-align: left;
   border-bottom: 1px solid #ddd;
-  
 }
 
-td{
-  border: 1px solid black; /* Agregar una línea alrededor de las celdas */
+td {
+  border: 1px solid black;
   background-color: white;
 }
 

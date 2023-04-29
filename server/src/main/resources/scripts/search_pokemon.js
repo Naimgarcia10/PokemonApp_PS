@@ -5,6 +5,8 @@ async function searchPokemon() {
   const valorInputCodificado = encodeURIComponent(searchTerm);
   const url = `http://localhost:8080/getPokemon/${valorInputCodificado}`;
 
+  
+
   try {
     const response = await fetch(url);
     const data = await response.json();
@@ -56,8 +58,6 @@ async function searchPokemon() {
     console.error('Error fetching data:', error);
   }
 }
-
-
 
 
 
