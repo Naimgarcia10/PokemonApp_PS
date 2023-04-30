@@ -60,27 +60,36 @@ public class Server {
     private static void attendPokemonSearcher(ConnMysql conn){
         Spark.get("/getPokemon/:pokemonName", (rq, res) -> {
             String pokemonName = rq.params(":pokemonName");
-            String query = "SELECT * FROM pokemon WHERE name = \"" + pokemonName + "\"";
+            String query = "SELECT idPokemon, pokemon.name, a1.name as ability1, " +
+            "a2.name as ability2, a3.name as ability3, t1.picture as type1, " +
+            "t2.picture as type2, hpBase, attackBase, defenseBase, spatkBase, " +
+            "spdefBase, speedBase, image FROM pokemon JOIN abilities a1 on " +
+            "a1.idAbility = idAbility1 LEFT JOIN abilities a2 on " +
+            "a2.idAbility = idAbility2 LEFT JOIN abilities a3 on " +
+            "a3.idAbility = idAbility3 JOIN types t1 on t1.idType = " +
+            "pokemon.idType1 LEFT JOIN types t2 on t2.idType = pokemon.idType2 " +
+            "where pokemon.name = \"" + pokemonName + "\";";            
             ResultSet rs = conn.queryMysql(query);
             rs.next();
             Gson gson = new GsonBuilder().create();
-            ArrayList<Pokemon> array = new ArrayList<>();
-            Pokemon pokemon = new Pokemon(rs.getInt("idPokemon")
-                                        , rs.getString("name")
-                                        , rs.getInt("idAbility1")
-                                        , rs.getInt("idAbility2")
-                                        , rs.getInt("idAbility3")
-                                        , rs.getInt("idType1")
-                                        , rs.getInt("idType2")
-                                        , rs.getString("hpBase")
-                                        , rs.getString("attackBase")
-                                        , rs.getString("defenseBase")
-                                        , rs.getString("spatkBase")
-                                        , rs.getString("spdefBase")
-                                        , rs.getString("speedBase")
-                                        , rs.getString("image")
-                                        , conn
-                                        );
+            ArrayList<Pokemon> array = new ArrayList<>();        
+            Pokemon pokemon = new Pokemon(rs.getInt("idPokemon"), 
+                                        rs.getString("name"), 
+                                        rs.getString("ability1"), 
+                                        rs.getString("ability2"), 
+                                        rs.getString("ability3"), 
+                                        rs.getString("type1"), 
+                                        rs.getString("type2"), 
+                                        rs.getInt("hpBase"), 
+                                        rs.getInt("attackBase"), 
+                                        rs.getInt("defenseBase"), 
+                                        rs.getInt("spatkBase"), 
+                                        rs.getInt("spdefBase"), 
+                                        rs.getInt("speedBase"), 
+                                        rs.getString("image"));
+            pokemon.buildPokemonMoves(conn);
+            pokemon.buildStrategies(conn);
+            pokemon.buildWeaknesses(conn);          
             array.add(pokemon);
             return gson.toJson(array);
         });
