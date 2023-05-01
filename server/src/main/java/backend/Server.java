@@ -71,7 +71,7 @@ public class Server {
             "where pokemon.name = \"" + pokemonName + "\";";            
             ResultSet rs = conn.queryMysql(query);
             rs.next();
-            Gson gson = new GsonBuilder().create();
+            Gson gson = new GsonBuilder().serializeNulls().create();
             ArrayList<Pokemon> array = new ArrayList<>();        
             Pokemon pokemon = new Pokemon(rs.getInt("idPokemon"), 
                                         rs.getString("name"), 
