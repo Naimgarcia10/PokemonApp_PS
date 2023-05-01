@@ -5,6 +5,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 
 public class Server {
 
@@ -60,27 +61,36 @@ public class Server {
     private static void attendPokemonSearcher(ConnMysql conn){
         Spark.get("/getPokemon/:pokemonName", (rq, res) -> {
             String pokemonName = rq.params(":pokemonName");
-            String query = "SELECT * FROM pokemon WHERE name = \"" + pokemonName + "\"";
+            String query = "SELECT idPokemon, pokemon.name, a1.name as ability1, " +
+            "a2.name as ability2, a3.name as ability3, t1.picture as type1, " +
+            "t2.picture as type2, hpBase, attackBase, defenseBase, spatkBase, " +
+            "spdefBase, speedBase, image FROM pokemon JOIN abilities a1 on " +
+            "a1.idAbility = idAbility1 LEFT JOIN abilities a2 on " +
+            "a2.idAbility = idAbility2 LEFT JOIN abilities a3 on " +
+            "a3.idAbility = idAbility3 JOIN types t1 on t1.idType = " +
+            "pokemon.idType1 LEFT JOIN types t2 on t2.idType = pokemon.idType2 " +
+            "where pokemon.name = \"" + pokemonName + "\";";            
             ResultSet rs = conn.queryMysql(query);
             rs.next();
-            Gson gson = new GsonBuilder().create();
-            ArrayList<Pokemon> array = new ArrayList<>();
-            Pokemon pokemon = new Pokemon(rs.getInt("idPokemon")
-                                        , rs.getString("name")
-                                        , rs.getInt("idAbility1")
-                                        , rs.getInt("idAbility2")
-                                        , rs.getInt("idAbility3")
-                                        , rs.getInt("idType1")
-                                        , rs.getInt("idType2")
-                                        , rs.getString("hpBase")
-                                        , rs.getString("attackBase")
-                                        , rs.getString("defenseBase")
-                                        , rs.getString("spatkBase")
-                                        , rs.getString("spdefBase")
-                                        , rs.getString("speedBase")
-                                        , rs.getString("image")
-                                        , conn
-                                        );
+            Gson gson = new GsonBuilder().serializeNulls().create();
+            ArrayList<Pokemon> array = new ArrayList<>();        
+            Pokemon pokemon = new Pokemon(rs.getInt("idPokemon"), 
+                                        rs.getString("name"), 
+                                        rs.getString("ability1"), 
+                                        rs.getString("ability2"), 
+                                        rs.getString("ability3"), 
+                                        rs.getString("type1"), 
+                                        rs.getString("type2"), 
+                                        rs.getInt("hpBase"), 
+                                        rs.getInt("attackBase"), 
+                                        rs.getInt("defenseBase"), 
+                                        rs.getInt("spatkBase"), 
+                                        rs.getInt("spdefBase"), 
+                                        rs.getInt("speedBase"), 
+                                        rs.getString("image"));
+            pokemon.buildPokemonMoves(conn);
+            pokemon.buildStrategies(conn);
+            pokemon.buildWeaknesses(conn);          
             array.add(pokemon);
             return gson.toJson(array);
         });
@@ -142,6 +152,55 @@ public class Server {
         });
     }
 
+    //GetAbility
+    private static void attendPokemonAbilitySearcher(ConnMysql conn){
+        Spark.get("/getAbilities", (req, res) -> {
+            Gson gson = new GsonBuilder().create();          
+            String query = "SELECT name, description FROM abilities";
+            ResultSet rs = conn.queryMysql(query);  
+            ArrayList<Abilities> listaHabilidades = new ArrayList<>();
+            while(rs.next()){
+                Abilities ability = new Abilities(rs.getString("name"), rs.getString("description"));
+                listaHabilidades.add(ability);
+            }
+            String result = gson.toJson(listaHabilidades);
+            return result;
+        });
+    }
+
+    //PokemonWhoLearnsAbilities
+    private static void attendPokemonWhoLearnsAbilities(ConnMysql conn){
+        Spark.get("/getPokemonsWhoLearnsAbilities/:idAbility", (req, res) -> {
+            Gson gson = new GsonBuilder().create();
+            int idAbility = Integer.parseInt(req.params(":idAbility"));
+            String query = "SELECT pokemon.name, pokemon.image, pokemon.idAbility1, pokemon.idAbility2, pokemon.idAbility3 " +
+            "FROM pokemon JOIN abilities on abilities.idAbility = pokemon.idAbility1 " +
+            String.format("WHERE idAbility = %d OR idAbility2 = %d OR idAbility3 = %d;", idAbility, idAbility, idAbility);
+            ResultSet rs = conn.queryMysql(query);
+            ArrayList<JsonObject> array = new ArrayList<>();
+            while(rs.next()){
+                JsonObject jsonobject = new JsonObject();
+                jsonobject.addProperty("name", rs.getString("name"));
+                jsonobject.addProperty("image", rs.getString("image"));
+                int ability1 = rs.getInt("idAbility1");
+                int ability2 = rs.getInt("idAbility2");
+                int ability3 = rs.getInt("idAbility3");
+                String abilityType = "";
+                if(ability1 == idAbility){
+                    abilityType = "First Ability";
+                } else if(ability2 == idAbility){
+                    abilityType = "Second Ability";
+                } else if(ability3 == idAbility){
+                    abilityType = "Hidden Ability";
+                }
+                jsonobject.addProperty("abilityType", abilityType);
+                array.add(jsonobject);
+            }
+            String result = gson.toJson(array);
+            return result;
+        });
+    }
+
     public static void main(String[] args) throws Exception {
         ConnMysql conn = new ConnMysql();
         Server.config();
@@ -153,5 +212,7 @@ public class Server {
         Server.attendPokemonItemSearcher(conn);
         Server.attendPokemonMovementSearcher(conn);
         Server.attendPokemonWhoLearnsMovements(conn);
+        Server.attendPokemonAbilitySearcher(conn);
+        Server.attendPokemonWhoLearnsAbilities(conn);
     }
 }

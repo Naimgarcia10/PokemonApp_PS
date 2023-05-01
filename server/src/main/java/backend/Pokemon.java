@@ -12,28 +12,28 @@ public class Pokemon {
     private String ability3;
     private String type1;
     private String type2;
-    private String hp_base;
-    private String attack_base;
-    private String defense_base;
-    private String spatk_base;
-    private String spdef_base;
-    private String speed_base;
+    private int hp_base;
+    private int attack_base;
+    private int defense_base;
+    private int spatk_base;
+    private int spdef_base;
+    private int speed_base;
     private String image;
     private List<PokemonMove> pokemonMoves;
-    //private PokemonStrategies pokemonStrategies;
-    private PokemonWeaknesses pokemonWeaknesses;
+    private List<Strategy> pokemonStrategies;
+    private DoubleTypeDamageRelations pokemonWeaknesses;
     
-    public Pokemon(int idPokemon, String name, int idAbility1, int idAbility2, int idAbility3, int idType1,
-            int idType2, String hp_base, String attack_base, String defense_base, String spatk_base, String spdef_base,
-            String speed_base, String image, ConnMysql conn) throws Exception{
+    public Pokemon(int idPokemon, String name, String ability1, String ability2, String ability3, String type1,
+            String type2, int hp_base, int attack_base, int defense_base, int spatk_base, int spdef_base,
+            int speed_base, String image) throws Exception{
 
         this.idPokemon = idPokemon;
         this.name = name;
-        this.ability1 = buildAbility(idAbility1, conn);
-        this.ability2 = buildAbility(idAbility2, conn);
-        this.ability3 = buildAbility(idAbility3, conn);
-        this.type1 = buildType(idType1, conn);
-        this.type2 = buildType(idType2, conn);
+        this.ability1 = ability1;
+        this.ability2 = ability2;
+        this.ability3 = ability3;
+        this.type1 = type1;
+        this.type2 = type2;
         this.hp_base = hp_base;
         this.attack_base = attack_base;
         this.defense_base = defense_base;
@@ -41,31 +41,14 @@ public class Pokemon {
         this.spdef_base = spdef_base;
         this.speed_base = speed_base;
         this.image = image;
-        this.pokemonMoves = buildPokemonMoves(idPokemon, conn);
-        //this.pokemonStrategies = new;
-        //this.pokemonWeaknesses = buildPokemonWeaknesses();
-
+        this.pokemonMoves = null;
+        this.pokemonStrategies = null;
+        this.pokemonWeaknesses = null;
     }
 
-    public static String buildType(int idType, ConnMysql conn) throws Exception{
-        if(idType==0){return "";}
-        String query = "SELECT picture FROM types WHERE idType = " + idType + ";";
-        ResultSet rs = conn.queryMysql(query);
-        rs.next();
-        return rs.getString("picture");
-    }
+    public void buildPokemonMoves(ConnMysql conn) throws Exception{
 
-    private static String buildAbility(int idAbility, ConnMysql conn) throws Exception {
-        if (idAbility == 0){return "";}
-        String query = "SELECT name FROM abilities WHERE idAbility = " + idAbility + ";";
-        ResultSet rs = conn.queryMysql(query);
-        rs.next();
-        return rs.getString("name");
-    }
-
-    private static List<PokemonMove> buildPokemonMoves(int idPokemon, ConnMysql conn) throws Exception{
-
-        String query = "SELECT movements.name AS movement_name, types.name AS type_name, movement_class.name AS class_name " +
+        String query = "SELECT movements.name AS movement_name, types.picture AS type_picture, movement_class.icon AS class_icon " +
         "FROM movements " +  
         "INNER JOIN pokemon_learns_movement ON movements.idMovement = pokemon_learns_movement.idMovement " +
         "INNER JOIN types ON movements.idType = types.idType " +
@@ -76,25 +59,48 @@ public class Pokemon {
 
         while(rs.next()){
             String name = rs.getString("movement_name");
-            String typeName = rs.getString("type_name");
-            String className = rs.getString("class_name");
-            PokemonMove pokemonMove = new PokemonMove(name, typeName, className);
+            String typePicture = rs.getString("type_picture");
+            String classIcon = rs.getString("class_icon");
+            PokemonMove pokemonMove = new PokemonMove(name, typePicture, classIcon);
             pokemonMoves.add(pokemonMove);
         }
-        return pokemonMoves;
+        this.pokemonMoves = pokemonMoves;
     }
 
-    /*private PokemonStrategies buildPokemonStrategies(){
-        return new PokemonStrategies(this.idPokemon);
-    }*/
+    public void buildStrategies(ConnMysql conn) throws Exception{        
 
-    /*private PokemonWeaknesses buildPokemonWeaknesses(){
+        String query = String.format("SELECT strategies.name, strategies.description, abilities.name as ability, " +
+                                    "m1.name as move1name, t1.picture as move1type, m1.pp as move1pp, " +
+                                    "m2.name as move2name, t2.picture as move2type, m2.pp as move2pp, " +
+                                    "m3.name as move3name, t3.picture as move3type, m3.pp as move3pp, " +
+                                    "m4.name as move4name, t4.picture as move4type, m4.pp as move4pp, " +
+                                    "objects.name as itemName, objects.icon as itemPicture, " +
+                                    "natures.name as nature, " +
+                                    "evsHp, evsAttack, evsDefense, evsSpatk, evsSpdef, evsSpeed " +
+                                    "FROM strategies " +
+                                    "LEFT JOIN abilities on abilities.idAbility = strategies.idAbility " +
+                                    "LEFT JOIN movements m1 on m1.idMovement = strategies.idMovement1 LEFT JOIN types t1 on t1.idType = m1.idType " +
+                                    "LEFT JOIN movements m2 on m2.idMovement = strategies.idMovement2 LEFT JOIN types t2 on t2.idType = m2.idType " +
+                                    "LEFT JOIN movements m3 on m3.idMovement = strategies.idMovement3 LEFT JOIN types t3 on t3.idType = m3.idType " +
+                                    "LEFT JOIN movements m4 on m4.idMovement = strategies.idMovement4 LEFT JOIN types t4 on t4.idType = m4.idType " +
+                                    "LEFT JOIN objects on objects.idObject = strategies.idItem " +
+                                    "LEFT JOIN natures on natures.idNature = strategies.idNature " +
+                                    "where idPokemon = %d;", idPokemon);        
+        ResultSet rs = conn.queryMysql(query);
+        List<Strategy> strategies = new ArrayList<Strategy>();
+        while (rs.next()) {
+            Strategy strategy = new Strategy(rs.getString("name"), rs.getString("description"), rs.getString("ability"), rs.getString("move1name"), rs.getString("move1type"),
+            rs.getInt("move1pp"), rs.getString("move2name"), rs.getString("move2type"), rs.getInt("move2pp"), rs.getString("move3name"), rs.getString("move3type"), rs.getInt("move3pp"),
+            rs.getString("move4name"), rs.getString("move4type"), rs.getInt("move4pp"), rs.getString("itemName"), rs.getString("itemPicture"), rs.getString("nature"),
+            rs.getInt("evsHp"), rs.getInt("evsAttack"), rs.getInt("evsDefense"), rs.getInt("evsSpatk"), rs.getInt("evsSpdef"), rs.getInt("evsSpeed"));
+            strategies.add(strategy);
+        }
+        this.pokemonStrategies = strategies;
+    }
 
-        return new PokemonWeaknesses(this.idPokemon);
-    }*/
-
-
-
+    public void buildWeaknesses(ConnMysql conn) throws Exception{
+        pokemonWeaknesses = DamageRelations.getDoubleWeaknesses(type1, type2, conn);  
+    }
     public int getIdPokemon() {
         return idPokemon;
     }
@@ -123,35 +129,35 @@ public class Pokemon {
         return type2;
     }
 
-    public String getHp_base() {
+    public int getHp_base() {
         return hp_base;
     }
 
-    public String getAttack_base() {
+    public int getAttack_base() {
         return attack_base;
     }
 
-    public String getDefense_base() {
+    public int getDefense_base() {
         return defense_base;
     }
 
-    public String getSpatk_base() {
+    public int getSpatk_base() {
         return spatk_base;
     }
 
-    public String getSpdef_base() {
+    public int getSpdef_base() {
         return spdef_base;
     }
 
-    public String getSpeed_base() {
+    public int getSpeed_base() {
         return speed_base;
     }
 
-    /*public PokemonStrategies getPokemonStrategies() {
+    public List<Strategy> getPokemonStrategies() {
         return pokemonStrategies;
-    }*/
+    }
 
-    public PokemonWeaknesses getPokemonWeaknesses() {
+    public DoubleTypeDamageRelations getPokemonWeaknesses() {
         return pokemonWeaknesses;
     }
 
@@ -162,6 +168,5 @@ public class Pokemon {
     public List<PokemonMove> getPokemonMoves() {
         return pokemonMoves;
     }
-    
-    
+        
 }
