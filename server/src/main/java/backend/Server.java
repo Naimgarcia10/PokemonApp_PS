@@ -151,6 +151,22 @@ public class Server {
         });
     }
 
+    //GetAbility
+    private static void attendPokemonAbilitySearcher(ConnMysql conn){
+        Spark.get("/getAbilities", (req, res) -> {
+            Gson gson = new GsonBuilder().create();          
+            String query = "SELECT name, description FROM abilities";
+            ResultSet rs = conn.queryMysql(query);  
+            ArrayList<Abilities> listaHabilidades = new ArrayList<>();
+            while(rs.next()){
+                Abilities ability = new Abilities(rs.getString("name"), rs.getString("description"));
+                listaHabilidades.add(ability);
+            }
+            String result = gson.toJson(listaHabilidades);
+            return result;
+        });
+    }
+
     public static void main(String[] args) throws Exception {
         ConnMysql conn = new ConnMysql();
         Server.config();
@@ -162,5 +178,6 @@ public class Server {
         Server.attendPokemonItemSearcher(conn);
         Server.attendPokemonMovementSearcher(conn);
         Server.attendPokemonWhoLearnsMovements(conn);
+        Server.attendPokemonAbilitySearcher(conn);
     }
 }
