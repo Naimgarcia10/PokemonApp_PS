@@ -142,5 +142,17 @@
       "Word",
       "Description"
     ]
+  },
+  "buscador_pokemon" : {
+    "content_en": [
+    "POKEMON FINDER",
+    "Search your pokemon",
+    "Search"
+    ],
+    "content_es": [
+    "BUSCADOR DE POKEMON",
+    "Busca tu pokemon",
+    "Buscar"
+    ]
   }
 }

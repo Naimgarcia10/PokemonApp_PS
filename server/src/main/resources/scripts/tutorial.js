@@ -5,7 +5,11 @@ document.addEventListener("DOMContentLoaded", () => {
     let imagen = document.getElementById("imagen-tutorial");
     let texto = document.getElementById("texto-tutorial");
     let idioma_usuario = localStorage.getItem("userLanguage");
-    if(idioma_usuario == null) idioma_usuario = "en";
+    if(idioma_usuario == null) idioma_usuario = "en";    
+    const titulo = document.querySelector(".titulo");
+    titulo.textContent = "Pokemon Tutorial";
+    if (idioma_usuario == "es") titulo.textContent = "Tutorial Pokemon";
+    
 
     fetch('http://localhost:8080/tutorial/' + 0)
         .then(response => {
