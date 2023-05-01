@@ -8,7 +8,7 @@
     height: 25rem;
     width: 15rem;
     position: relative;
-    top: 5rem;
+    top: 3rem;
     margin-bottom: 3rem;
     left: 5rem;
     justify-content: center;
@@ -52,7 +52,7 @@
     height: 21rem;
     width: 20rem;
     position: relative;
-    bottom: 23rem;
+    bottom: 25rem;
     margin-bottom: 5rem;
     left: 30rem;
     justify-content: center;
@@ -167,10 +167,10 @@ th {
 
 #weaknesses {
   background-color: var(--DarkOrange);
-  height: 28rem;
+  height: 29rem;
   width: 30rem;
   position: relative;
-  bottom: 89rem;
+  bottom: 91rem;
   left: 60rem;
   box-shadow: 0 0 15px rgba(0,0,0,1);
   border-radius: 1rem;

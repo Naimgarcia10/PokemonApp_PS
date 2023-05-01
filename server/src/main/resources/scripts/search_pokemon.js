@@ -62,16 +62,18 @@ async function searchPokemon() {
       /*Estrategias*/
       localStorage.setItem('pokemonStrategies', JSON.stringify(pokemonStrategies));
 
-      
+
 
       // Redirigir a la página pokemon.html
       window.location.href = 'pokemon.html';
 
     } else {
       console.error('No se encontró el Pokémon');
+      alert("No se encontró el Pokémon. Asegúrese de escribir bien el nombre.");
     }
   } catch (error) {
     console.error('Error fetching data:', error);
+    alert("No se encontró el Pokémon. Asegúrese de escribir bien el nombre.");
   }
 }
 
