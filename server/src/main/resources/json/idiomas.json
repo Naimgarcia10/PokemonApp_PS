@@ -1,179 +1,146 @@
 {
-    "footer": 
-      {
-        "es":["Contáctanos", "Sugerencias", "Políticas de Cookies", "Políticas de Privacidad"],
-        "en":["Contact", "Suggestions", "Cookies Policy", "Privacy Policy"]
-    },
-    "home": 
-      {
-        "title_es": "Elegir Nivel",
-        "title_en": "Choose Level",
-        "buttons_es": ["Principiante", "Experto"],
-        "buttons_en": ["Beginner", "Expert"]
-    },
-    "beginner_funcionalities": 
-      {
-        "es": ["TUTORIAL", "TIPOS", "GLOSARIO", "CUESTIONARIO"],
-        "en": ["TUTORIAL", "TYPES", "GLOSSARY", "QUIZ"]
-    },
-    "expert_funcionalities": 
-      {
-        "es": ["BUSCAR POKEMON", "BUSCAR OBJETOS", "BUSCAR MOVIMIENTOS", "BUSCAR HABILIDADES", "EVALUAR EQUIPO"],
-        "en": ["SEARCH POKEMON", "SEARCH OBJECTS", "SEARCH MOVEMENTS", "SEARCH ABILITIES", "EVALUATE TEAM"]
-    },
-    "tutorial":
-    {
-        "title_es": "Tutorial Pokemon",
-        "title_en": "Pokemon Tutorial",
-        "images_content": [
-          {
-            "name": "image1",
-            "content_es": "Bienvenido al tutorial competitivo.",
-            "content_en": "Welcome to the competitive tutorial."
-          },
-          {
-            "name": "image2",
-            "content_es": [
-              "El concepto principal del competitivo son los combates, que se disputan entre dos equipos, cada uno por lo menos con un Pokémon y máximo seis, el objetivo es debilitar a todos los miembros del otro equipo rival.",
-              "Para obtener la victoria, hay que planear una estrategia; la estrategia más competente será la que nos de la victoria."
-            ],
-            "content_en": [
-              "The main concept of the competitive one is the combats, which are disputed between two teams, each one with at least one Pokémon and a maximum of six, the objective is to weaken all the members of the other rival team.",
-              "To get the victory, you have to plan a strategy; the most competent strategy will be the one that gives us victory."
-            ]
-          },
-          {
-            "name": "image3",
-            "content_es": [
-              "Los combates son por turnos, dispondremos de 60 segundos para realizar nuestro turno.",
-              "Si elegimos atacar deberemos seleccionar la opción de luchar para que nuestro Pokémon activo ataque.",
-              "También se podrá cambiar de Pokémon lo cual nos permitirá ponernos en ventajas tácticas para enfrentarnos al Pokémon rival.",
-              "Siempre y cuando queramos rendirnos pulsaremos la opción de huir."
-            ],
-            "content_en": [
-              "The combats are in turns, we will have 60 seconds to take our turn.",
-              "If we choose to attack we must select the option to fight for our active Pokemon to attack.",
-              "You can also change Pokémon which will allow us to get tactical advantages to face the rival Pokemon.",
-              "As long as we want to surrender, we will press the option to flee"
-            ]
-          },
-          {
-            "name": "image4",
-            "content_es": [
-              "Si elegimos la opción de luchar nos saldrá una nueva ventana con los movimientos que podemos utilizar, siendo el máximo de 4.",
-              "Siempre deberemos elegir que ataques son los más efectivos contra el Pokémon rival, nos podemos ayudar del mensaje que aparece debajo del nombre del ataque que nos indica si dicho movimiento es eficaz o no.",
-              "Además, a la derecha del nombre sale un número que indica cuantas veces puedes usar dicho movimiento en un solo combate."
-            ],
-            "content_en": [
-            "If we choose the option to fight, a new window will appear with the movements that we can use, with a maximum of 4.",
-            "We must always choose which attacks are the most effective against the rival Pokémon, we can use the message that appears under the name of the attack that tells us if said movement is effective or not.",
-            "In addition, to the right of the name there is a number that indicates how many times you can use said movement in a single combat." 
-            ]
-          },
-          {
-            "name": "image5",
-            "content_es": [
-            "Si elegimos la opción de Pokémon podremos cambiar de Pokémon para obtener una ventaja táctica frente al Pokémon del rival.",
-            "Nos saldrá una nueva ventana donde se nos mostrará los Pokémon que tenemos en nuestro equipo.",
-            "Podremos movernos en esta nueva ventana donde se nos mostrara la información de los Pokémon como el tipo, la habilidad, el objeto que lleva o sus movimientos para elegir de forma más acertada que Pokémon sacar.",
-            "Si tu Pokémon es debilitado también aparecerá esta ventana donde tendrás que elegir que Pokémon sacar."
-
-            ],
-            "content_en": [
-            "If we choose the Pokémon option we can change Pokemon to obtain a tactical advantage over the opponent's Pokemon.",
-            "A new window will appear where we will be shown the Pokemon that we have in our team.",
-            "We will be able to move in this new window where we will be shown the information of the Pokemon such as the type, the ability, the object it carries or its movements to choose more accurately which Pokemon to take out.",
-            "If your Pokemon is weakened, this window will also appear where you will have to choose which Pokemon to take out."
-            ]
-          },
-          {
-            "name": "image6",
-            "content_es": [
-            "Este es Pikachu, el Pokémon más famoso, es de tipo eléctrico y aquí podemos ver sus estadísticas base.",
-            "Los HP (Health Points), es la vida del Pokémon, la cual se representa con dicho valor numérico.  Estos puntos se ven reducidos generalmente mediante los ataques del Pokémon rival u otros efectos de campo o estados.",
-            "En los combates los HP se verán debajo del nombre del Pokémon, donde se verá (HP Restantes/HP Total). Una vez que los PS del Pokémon lleguen a cero, el Pokémon será debilitado y quedará fuera de combate.",
-            "El ataque, en las estadísticas de un Pokémon, representa la fuerza natural del Pokémon al realizar un movimiento físico (se consideran físicos aquellos movimientos donde el Pokémon cause un daño al hacer contacto con otro Pokémon o en el que requiera usar fuerza física). El daño que realiza se mide con el ataque de nuestro Pokémon y la defensa de nuestro rival.",
-            "La defensa, en las estadísticas de un Pokémon, representa la resistencia natural de un Pokémon ante los movimientos físicos.",
-            "El ataque especial, en las estadísticas de un Pokémon, representa la fuerza con la que un Pokémon realiza un movimiento especial. (se considera movimiento especial, aquellos movimientos en los que se realiza un ataque a distancia, o un ataque en el que se libera energía del Pokémon). El daño que realiza se mide con el ataque especial de nuestro Pokémon y la defensa especial de nuestro rival.",
-            "La defensa especial, en las estadísticas de un Pokémon, representa la resistencia a los movimientos especiales.",
-            "La velocidad es la propiedad del Pokémon de atacar, antes o después, que el oponente.",
-            "Esta regla tiene excepciones, ya que existen movimientos con prioridad tanto positiva como negativa, que permiten al usuario atacar antes o después, respectivamente, independientemente de la velocidad del que lo usa. Sin embargo, si dos Pokémon usan un movimiento con la misma prioridad atacará antes el Pokémon de mayor velocidad."
-
-            ],
-            "content_en": [
-            "This is Pikachu, the most famous Pokémon, it is electric type and here we can see its base statistics.",
-            "The HP (Health Points), is the life of the Pokémon, which is represented with said numerical value. These points are usually reduced by the opposing Pokémon's attacks or other field or status effects.",
-            "In battles the HP will be seen under the Pokémon's name, where it will be (HP Remaining/HP Total). Once the Pokémon's HP reaches zero, the Pokémon will be knocked out of combat.",  
-            "The attack, in the statistics of a Pokémon, represents the natural strength of the Pokémon when performing a physical movement (those movements where the Pokémon causes damage when making contact with another Pokémon or in which it requires the use of physical force are considered physical). The damage it does is measured by our Pokémon's attack and our opponent's defense.",
-            "Defense, in a Pokémon's statistics, represents a Pokémon's natural resistance to physical moves.",
-            "The special attack, in a Pokémon's statistics, represents the force with which a Pokémon performs a special move. (A special movement is considered to be those movements in which a ranged attack is made, or an attack in which the Pokémon's energy is released). The damage it does is measured with the special attack of our Pokémon and the special defense of our opponent.",
-            "The special defense, in the statistics of a Pokémon, represents the resistance to special movements.",
-            "Speed is the property of the Pokémon to attack, before or after, than the opponent.",
-            "This rule has exceptions, since there are moves with both positive and negative priority, which allow the user to attack earlier or later, respectively, regardless of the speed of the user. However, if two Pokémon use a move with the same priority, the faster Pokémon will attack first."  
-            ]
-          },
-          {
-            "name": "image7",
-            "content_es": "Las estadísticas base cambian entre los diferentes Pokémon. Por poner un ejemplo: todos los Pikachu tienen las mismas estadísticas base, que son distintas a las de Raichu su evolución o a las de otras especies como Charmander o Squirtle.",
-            "content_en": "Base stats change between different Pokémon. To give an example: all Pikachu have the same base statistics, which are different from those of Raichu, his evolution or those of other species such as Charmander or Squirtle."
-          },
-          {
-            "name": "image8",
-            "content_es": [
-            "Cada una de las estadísticas, a excepción de los PS, pueden aumentar o disminuir de nivel durante los combates, mediante el uso de movimientos, habilidades u objetos.",
-            "Una estadística puede aumentar o disminuir en 6 niveles."  
-            ],
-            "content_en": [
-            "Each of the stats, with the exception of HP, can be increased or decreased in level during combat, through the use of moves, abilities, or items.",
-            "A stat can be increased or decreased by 6 levels."  
-            ]
-          },
-          {
-            "name": "image9",
-            "content_es": "Las naturalezas invierten el crecimiento de una estadística en otra. Por ejemplo, un Pikachu con naturaleza activa reducirá su defensa en un 10%, pero aumentará su velocidad en un 10% proporción.",
-            "content_en": "Natures reverse the growth of one stat into another. For example, a Pikachu with an active nature will reduce its defense by 10%, but it will increase its speed by a 10% ratio."
-          },
-          {
-            "name": "image10",
-            "content_es": "Los Pokémon tienen entre una y tres habilidades disponibles. Una habilidad puede cambiar por completo al Pokémon. Por ejemplo, un Azumarrill con la habilidad fuerza bruta tendrá el doble de ataque que otro de la misma especie, pero con diferente habilidad, pero si en lugar de fuerza bruta lo equipamos con herbívoro, será inmune a los ataques tipo planta.",
-            "content_en": "Pokemon have between one and three abilities available. An ability can completely change the Pokémon. For example, an Azumarrill with the brute force ability will have double the attack than another of the same species, but with a different ability, but if we equip it with herbivore instead of brute force, it will be immune to plant-type attacks."
-          },
-          {
-            "name": "image11",
-            "content_es": "STAB significa Same Type Attack Bonus. Básicamente, los Pokémon aumentan su daño en un 50% si comparten tipo con el ataque que realiza. El ataque llamarada tiene una potencia de 120, pero si este ataque lo realiza un Pokémon de tipo fuego aumenta hasta 180.",
-            "content_en": "STAB stands for Same Type Attack Bonus. Basically, Pokémon increase their damage by 50% if they share a type with the attack it makes. The flare attack has a power of 120, but if this attack is performed by a fire-type Pokémon, it increases to 180."
-          },
-          {
-            "name": "image12",
-            "content_es": "Son objetos que, equipados en el Pokémon, hacen que alguna de sus características, como su velocidad, su defensa o su tipo, se vean mejoradas.",
-            "content_en": "They are objects that, when equipped on the Pokémon, make some of its characteristics, such as its speed, its defense or its type, improve."
-          },
-          {
-            "name": "image13",
-            "content_es": [
-            "Un estado o problema de estado (Status condition en inglés) es, generalmente, un problema en el cual el Pokémon no puede rendir correctamente. Eso puede ser debido al impedimento de atacar o a la pérdida de puntos de salud.",
-            "Paralizado es un estado que causa una probabilidad de no atacar en un 25%, aparte de reducir la velocidad del Pokémon afectado en un 50%. Los movimientos que pueden causar parálisis al oponente suelen ser de tipo eléctrico.",
-            "Envenenado es un problema de estado en el que el Pokémon perderá HP en cada turno. Los movimientos que pueden congelar son generalmente de tipo veneno.",
-            "Gravemente envenenado es un problema de estado en el que el Pokémon perderá PS. Sin embargo, a diferencia del envenenamiento normal, en el caso del envenenamiento grave el Pokémon afectado perderá 1/16 de sus HP en el primer turno, en el segundo turno perderá 2/16 de HP, en el tercero 3/16, etc. Si el Pokémon afectado es cambiado y luego vuelve al combate, la cuenta volverá empezar, perdiendo 1/16 en el primer turno.",
-            "Congelado es un problema de estado durante el cual el Pokémon no podrá usar movimientos hasta que se descongele. Los movimientos que pueden congelar son generalmente de tipo hielo.",
-            "Dormido es un problema durante el cual el Pokémon no podrá usar movimientos hasta que se despierte. El tiempo de sueño se determina en el momento que el Pokémon en cuestión se duerme, a partir de entonces se podrá despertar entre 1 y 3 turnos.",
-            "Quemado es un problema de estado en el que el Pokémon irá perdiendo el 6,25% de sus PS máximos cada turno. Además, reduce el ataque del Pokémon a la mitad. Los movimientos que pueden quemar son generalmente de tipo fuego."
-            ],
-            "content_en": [
-            "A status or status problem (Status condition in English) is, generally, a problem in which the Pokémon cannot perform correctly. That may be due to being unable to attack or losing health points.",
-            "Paralyzed is a state that causes a 25% chance to not attack, apart from reducing the speed of the affected Pokémon by 50%. The moves that can cause paralysis to the opponent are usually of electric type.",
-            "Poisoned is a status ailment where the Pokemon will lose HP every turn. The moves that can freeze are generally poison-type.",
-            "Severely Poisoned is a status condition where the Pokémon will lose HP. However, unlike normal poisoning, in the case of severe poisoning the affected Pokémon will lose 1/16 of its HP on the first turn, on the second turn it will lose 2/16 HP, on the third turn 3/16, etc. If the affected Pokémon is switched out and then returns to battle, the count will start over, losing 1/16 on the first turn.",
-            "Frozen is a status ailment where the Pokémon will not be able to use moves until it is thawed. The moves that can freeze are generally Ice-type.",
-            "Asleep is a problem during which the Pokémon will not be able to use moves until it wakes up. The sleep time is determined at the moment the Pokémon in question falls asleep, from then on it can be awakened between 1 and 3 turns.",
-            "Burnout is a status condition where the Pokémon will gradually lose 6.25% of its max HP each turn. In addition, it reduces the Pokémon's attack by half. The moves that can burn are generally fire-types."
-            ]
-          }
-        ]
-    },
-    "types": 
-    {
-      "title_es": "TABLA DE TIPOS",
-      "title_en": "TYPE CHART"      
-    }
+  "footer": {
+    "es": [
+      "CONTÁCTANOS",
+      "SUGERENCIAS",
+      "POLÍTICA DE COOKIES",
+      "POLÍTICA DE PRIVACIDAD"
+    ],
+    "en": [
+      "CONTACT",
+      "SUGGESTIONS",
+      "COOKIE POLICY",
+      "PRIVACY POLICY"
+    ]
+  },
+  "home": {
+    "title_es": "Elegir Nivel",
+    "title_en": "Choose Level",
+    "buttons_es": [
+      "Principiante",
+      "Experto"
+    ],
+    "buttons_en": [
+      "Beginner",
+      "Expert"
+    ]
+  },
+  "beginner_funcionalities": {
+    "es": [
+      "TUTORIAL",
+      "TIPOS",
+      "GLOSARIO",
+      "CUESTIONARIO"
+    ],
+    "en": [
+      "TUTORIAL",
+      "TYPES",
+      "GLOSSARY",
+      "QUIZ"
+    ]
+  },
+  "expert_funcionalities": {
+    "es": [
+      "BUSCAR POKEMON",
+      "BUSCAR OBJETOS",
+      "BUSCAR MOVIMIENTOS",
+      "BUSCAR HABILIDADES",
+      "EVALUAR EQUIPO"
+    ],
+    "en": [
+      "SEARCH POKEMON",
+      "SEARCH OBJECTS",
+      "SEARCH MOVEMENTS",
+      "SEARCH ABILITIES",
+      "EVALUATE TEAM"
+    ]
+  },
+  "types": {
+    "title_es": "TABLA DE TIPOS",
+    "title_en": "TYPE CHART",
+    "offensive_content_es": [
+      "OFENSIVO",
+      "EFECTIVO CONTRA",
+      "NO EFECTIVO CONTRA",
+      "NO AFECTA A"
+    ],
+    "offensive_content_en": [
+      "OFFENSIVE",
+      "EFFECTIVE AGAINST",
+      "NOT EFFECTIVE AGAINST",
+      "ZERO DAMAGE TO"
+    ],
+    "defensive_content_es": [
+      "DEFENSIVO",
+      "RESISTENTETE A",
+      "DÉBIL A",
+      "INMUNE CONTRA"
+    ],
+    "defensive_content_en": [
+      "DEFENSIVE",
+      "RESISTANT TO",
+      "WEAK TO",
+      "IMMUNE AGAINST"
+    ],
+    "table_content_es": [
+      "TIPOS DE POKÉMON",
+      "SELECCIONAR TIPO",
+      "ELEGIR",
+      "NORMAL",
+      "FUEGO",
+      "AGUA",
+      "PLANTA",
+      "ELÉCTRICO",
+      "HIELO",
+      "LUCHA",
+      "VENENO",
+      "TIERRA",
+      "VOLADOR",
+      "PSÍQUICO",
+      "BICHO",
+      "ROCA",
+      "FANTASMA",
+      "DRAGÓN",
+      "SINIESTRO",
+      "ACERO",
+      "HADA"
+    ],
+    "table_content_en": [
+      "POKEMON TYPES",
+      "SELECT TYPE",
+      "CHOOSE",
+      "NORMAL",
+      "FIRE",
+      "WATER",
+      "GRASS",
+      "ELECTRIC",
+      "ICE",
+      "FIGHTING",
+      "POISON",
+      "GROUND",
+      "FLYING",
+      "PSYCHIC",
+      "BUG",
+      "ROCK",
+      "GHOST",
+      "DRAGON",
+      "DARK",
+      "STEEL",
+      "FAIRY"
+    ]
+  },
+  "glossary": {
+    "content_es": [
+      "GLOSARIO",
+      "Buscar",
+      "Palabra",
+      "Descripción"
+    ],
+    "content_en": [
+      "GLOSSARY",
+      "Search",
+      "Word",
+      "Description"
+    ]
+  }
 }

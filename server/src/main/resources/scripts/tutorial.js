@@ -4,6 +4,8 @@ document.addEventListener("DOMContentLoaded", () => {
     //selecciona los elementos a cambiar
     let imagen = document.getElementById("imagen-tutorial");
     let texto = document.getElementById("texto-tutorial");
+    let idioma_usuario = localStorage.getItem("userLanguage");
+    if(idioma_usuario == null) idioma_usuario = "en";
 
     fetch('http://localhost:8080/tutorial/' + 0)
         .then(response => {
@@ -16,7 +18,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
             //cargo los nuevos contenidos
             imagen.src = data.ruta_imagen;
-            texto.textContent = data.texto;
+            const tutorial_content = "texto_" + idioma_usuario;
+            texto.textContent = data[tutorial_content];
 
         }).catch(error => {
 
@@ -72,6 +75,8 @@ function http_tutorial(event) {
     //selecciona los elementos a cambiar
     let imagen = document.getElementById("imagen-tutorial");
     let texto = document.getElementById("texto-tutorial");
+    let idioma_usuario = localStorage.getItem("userLanguage");
+    if(idioma_usuario == null) idioma_usuario = "en";
 
     //realizo la petición http, si el tutorial tiene 3 paginas, ira de 0 a 2
     fetch('http://localhost:8080/tutorial/' + contador_paginas)
@@ -92,8 +97,11 @@ function http_tutorial(event) {
             imagen.addEventListener('load', () => {
                 imagen.classList.add('imagen');
             });
-            
-            texto.textContent = data.texto;
+
+            const tutorial_content = "texto_" + idioma_usuario;
+            texto.textContent = data[tutorial_content];
+
+            /* texto.textContent = data.texto; */
 
         }).catch(error => {
 

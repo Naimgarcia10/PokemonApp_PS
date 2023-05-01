@@ -11,32 +11,32 @@
 	<div class="tabla-tipos">
 		<h1 class="main_title">TYPE CHART</h1>
 		<div class="container">
-			<h1>Pokemon Types</h1>
-			<label for="type-select">SELECT TYPE:</label>
+			<h1 id="h1_poke_types">Pokemon Types</h1>
+			<label for="type-select" id="selector_label">SELECT TYPE:</label>
 			<select id="type-select">
-				<option selected disabled hidden>CHOOSE</option>
+				<option selected disabled hidden id="choose_opt">CHOOSE</option>
 			</select>
 		</div>
 	
 		<div class="weekness_offensive">
-			<h2><u>OFFENSIVE</u></h2>
+			<h2><u id="offensive_u">OFFENSIVE</u></h2>
 			<div class="cuadrado_naranja">
-				<h3 class="rectangulo_efectividad efectivo">Effective against</h3>				
+				<h3 class="rectangulo_efectividad efectivo" id="efectivo_h3">Effective against</h3>				
 				<div class="contenedor_tipos" id="eficazcontra"></div>
-				<h3 class="rectangulo_efectividad no_efectivo">Not effective against</h3>
+				<h3 class="rectangulo_efectividad no_efectivo" id="no_efectivo_h3">Not effective against</h3>
 				<div class="contenedor_tipos" id="pocoeficazcontra"></div>
-				<h3 class="rectangulo_efectividad nulo">Zero damage</h3>
+				<h3 class="rectangulo_efectividad nulo" id="nulo_h3">Zero damage</h3>
 				<div class="contenedor_tipos" id="nulocontra"></div>
 			</div>	
 		</div>
 		<div class="weekness_resistance">	
-			<h2><u>DEFENSIVE</u></h2>
+			<h2><u id="defensive_u">DEFENSIVE</u></h2>
 			<div class="cuadrado_naranja">
-				<h3 class="rectangulo_efectividad efectivo">Resistant to</h3>
+				<h3 class="rectangulo_efectividad efectivo" id="efectivo_def_h3">Resistant to</h3>
 				<div class="contenedor_tipos" id="resistente_a"></div>	
-				<h3 class="rectangulo_efectividad no_efectivo">Weak to</h3>
+				<h3 class="rectangulo_efectividad no_efectivo" id="no_efectivo_def_h3">Weak to</h3>
 				<div class="contenedor_tipos" id="debil_a"></div>						
-				<h3 class="rectangulo_efectividad nulo">Immune against</h3>
+				<h3 class="rectangulo_efectividad nulo" id="nulo_def_h3">Immune against</h3>
 				<div class="contenedor_tipos" id="inmune_a"></div>
 			</div>
 
@@ -49,5 +49,6 @@
 	
 	<script type="module" src="../scripts/components/footer.js"></script>
 	<script src="../scripts/types.js"></script>
+	<script src="../scripts/idiomas/types.js"></script>
 </body>
 </html>
