@@ -5,6 +5,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 
 public class Server {
 
@@ -167,6 +168,39 @@ public class Server {
         });
     }
 
+    //PokemonWhoLearnsAbilities
+    private static void attendPokemonWhoLearnsAbilities(ConnMysql conn){
+        Spark.get("/getPokemonsWhoLearnsAbilities/:idAbility", (req, res) -> {
+            Gson gson = new GsonBuilder().create();
+            int idAbility = Integer.parseInt(req.params(":idAbility"));
+            String query = "SELECT pokemon.name, pokemon.image, pokemon.idAbility1, pokemon.idAbility2, pokemon.idAbility3 " +
+            "FROM pokemon JOIN abilities on abilities.idAbility = pokemon.idAbility1 " +
+            String.format("WHERE idAbility = %d OR idAbility2 = %d OR idAbility3 = %d;", idAbility, idAbility, idAbility);
+            ResultSet rs = conn.queryMysql(query);
+            ArrayList<JsonObject> array = new ArrayList<>();
+            while(rs.next()){
+                JsonObject jsonobject = new JsonObject();
+                jsonobject.addProperty("name", rs.getString("name"));
+                jsonobject.addProperty("image", rs.getString("image"));
+                int ability1 = rs.getInt("idAbility1");
+                int ability2 = rs.getInt("idAbility2");
+                int ability3 = rs.getInt("idAbility3");
+                String abilityType = "";
+                if(ability1 == idAbility){
+                    abilityType = "First Ability";
+                } else if(ability2 == idAbility){
+                    abilityType = "Second Ability";
+                } else if(ability3 == idAbility){
+                    abilityType = "Hidden Ability";
+                }
+                jsonobject.addProperty("abilityType", abilityType);
+                array.add(jsonobject);
+            }
+            String result = gson.toJson(array);
+            return result;
+        });
+    }
+
     public static void main(String[] args) throws Exception {
         ConnMysql conn = new ConnMysql();
         Server.config();
@@ -179,5 +213,6 @@ public class Server {
         Server.attendPokemonMovementSearcher(conn);
         Server.attendPokemonWhoLearnsMovements(conn);
         Server.attendPokemonAbilitySearcher(conn);
+        Server.attendPokemonWhoLearnsAbilities(conn);
     }
 }
