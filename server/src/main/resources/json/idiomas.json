@@ -154,5 +154,23 @@
     "Busca tu pokemon",
     "Buscar"
     ]
+  },
+
+  "buscador_objetos" : {
+    "content_en": [
+    "OBJECT FINDER",
+    "Search",
+    "Word",
+    "Icon",
+    "Description"
+    ],
+    "content_es": [
+    "BUSCADOR DE OBJETOS",
+    "Buscar",
+    "Palabra",
+    "Icono",
+    "Descripción"
+    ]
   }
+
 }
