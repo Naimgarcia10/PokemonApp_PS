@@ -156,11 +156,11 @@ public class Server {
     private static void attendPokemonAbilitySearcher(ConnMysql conn){
         Spark.get("/getAbilities", (req, res) -> {
             Gson gson = new GsonBuilder().create();          
-            String query = "SELECT name, description FROM abilities";
+            String query = "SELECT idAbility, name, description FROM abilities";
             ResultSet rs = conn.queryMysql(query);  
             ArrayList<Abilities> listaHabilidades = new ArrayList<>();
             while(rs.next()){
-                Abilities ability = new Abilities(rs.getString("name"), rs.getString("description"));
+                Abilities ability = new Abilities(rs.getInt("idAbility"), rs.getString("name"), rs.getString("description"));
                 listaHabilidades.add(ability);
             }
             String result = gson.toJson(listaHabilidades);
