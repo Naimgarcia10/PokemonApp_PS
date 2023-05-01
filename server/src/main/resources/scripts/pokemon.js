@@ -220,6 +220,62 @@ function showWeaknesses() {
   addWeaknesses('x0', pokemonWeaknesses.x0);
 }
 
+function showStrategies() {
+  const pokemonStrategies = JSON.parse(localStorage.getItem('pokemonStrategies'));
+  const strategiesDiv = document.getElementById('strategies');
+
+  pokemonStrategies.forEach((strategy, index) => {
+    const strategyDiv = document.createElement('div');
+    strategyDiv.classList.add('strategy');
+
+    const strategyTitle = document.createElement('h3');
+    strategyTitle.classList.add('strategy-title');
+    strategyTitle.innerText = `${index + 1}. ${strategy.name}`;
+    strategyDiv.appendChild(strategyTitle);
+
+    const upperSection = document.createElement('div');
+    upperSection.classList.add('upper-section');
+
+    const movesDiv = document.createElement('div');
+    movesDiv.classList.add('moves');
+
+    for (let i = 1; i <= 4; i++) {
+      const move = document.createElement('div');
+      move.classList.add('move');
+      move.innerHTML = `<h4>${strategy[`move${i}name`]}</h4>
+                        <div class="move-details">
+                          <img src="${strategy[`move${i}type`]}" alt="${strategy[`move${i}name`]} type">
+                          <p>PP ${strategy[`move${i}pp`]}/${strategy[`move${i}pp`]}</p>
+                        </div>`;
+      movesDiv.appendChild(move);
+    }
+
+    const detailsDiv = document.createElement('div');
+detailsDiv.classList.add('details');
+detailsDiv.innerHTML = `<div class="item-container">
+                           <h4>Item: ${strategy.itemName}</h4>
+                           <img src="${strategy.itemPicture}" alt="${strategy.itemName}">
+                         </div>
+                         <h4>Ability: ${strategy.ability}</h4>
+                         <h4>Nature: ${strategy.nature}</h4>
+                         <h4>EVs: HP ${strategy.evsHp}/ Atk ${strategy.evsAttack}/ Def ${strategy.evsDefense}/ SpA ${strategy.evsSpatk}/ SpD ${strategy.evsSpdef}/ Spe ${strategy.evsSpeed}</h4>`;
+
+    upperSection.appendChild(movesDiv);
+    upperSection.appendChild(detailsDiv);
+    strategyDiv.appendChild(upperSection);
+
+    const descriptionDiv = document.createElement('div');
+    descriptionDiv.classList.add('description');
+    descriptionDiv.innerHTML = `<p>${strategy.description}</p>`;
+
+    strategyDiv.appendChild(descriptionDiv);
+
+    strategiesDiv.appendChild(strategyDiv);
+  });
+}
+
+
+
 
 
 
@@ -230,4 +286,5 @@ function showWeaknesses() {
   window.addEventListener('DOMContentLoaded', showPokemon);
   window.addEventListener('DOMContentLoaded', showMoves);
   window.addEventListener('DOMContentLoaded', showWeaknesses);
+  window.addEventListener('DOMContentLoaded', showStrategies);
   
