@@ -35,10 +35,10 @@ function showPokemon() {
   typeElement1.classList.add('pokemon_type_img');
   container.appendChild(typeElement1);
 
-  console.log('pokemonType2:', pokemonType2);
+  
 
-  const typeElement2 = document.createElement('img');
-  if (pokemonType2 !== undefined && pokemonType2 !== null) {
+  if (pokemonType2 !== "undefined" && pokemonType2 !== null) {
+    const typeElement2 = document.createElement('img');
     typeElement2.setAttribute('src', pokemonType2);
     typeElement2.setAttribute('alt', pokemonType2);
     typeElement2.setAttribute('id', 'pokemon_type2');
@@ -46,13 +46,29 @@ function showPokemon() {
     container.appendChild(typeElement2);
   }
 
-  const abilitiesElement = document.createElement('h2');
-  abilitiesElement.innerHTML = `${pokemonAbility1}${pokemonAbility2 ? '<br>' + pokemonAbility2 : ''}${pokemonAbility3 ? '<br>' + pokemonAbility3 : ''}`;
-  abilitiesElement.setAttribute('id', 'pokemon_abilities');
-  pokemonDiv.appendChild(abilitiesElement);
+  console.log('pokemonAbility2:', pokemonAbility2);
+  console.log('pokemonAbility3:', pokemonAbility3);
+
+  if (pokemonAbility1) {
+    const abilitiesElement = document.createElement('h2');
+    let abilitiesText = pokemonAbility1;
+  
+    if (pokemonAbility2 !== "undefined" && pokemonAbility2 !== null) {
+      abilitiesText += '<br>' + pokemonAbility2;
+    }
+  
+    if (pokemonAbility3 !== "undefined" && pokemonAbility3 !== null) {
+      abilitiesText += '<br>' + pokemonAbility3;
+    }
+  
+    abilitiesElement.innerHTML = abilitiesText;
+    abilitiesElement.setAttribute('id', 'pokemon_abilities');
+    pokemonDiv.appendChild(abilitiesElement);
+  }
+  
+  
+  
 }
-
-
   
   /*
 ###############################################
@@ -112,6 +128,12 @@ function showStats() {
     }
   }  
 
+  /*
+###############################################
+#       Seccion: Visualizar Movimientos       #
+###############################################
+*/
+
   function showMoves() {
     const pokemonMoves = JSON.parse(localStorage.getItem('pokemonMoves'));
   
@@ -142,15 +164,70 @@ function showStats() {
     });
 
   }
+
+    /*
+###############################################
+#      Seccion: Visualizar Debilidades        #
+###############################################
+*/
   
-  
+function showWeaknesses() {
+  const pokemonWeaknesses = JSON.parse(localStorage.getItem('pokemonWeaknesses'));
+  const weaknessesDiv = document.getElementById('weaknesses');
+
+
+  // Crea un elemento para cada debilidad
+  const createImageElement = (src) => {
+    const img = document.createElement('img');
+    img.src = src;
+    img.alt = 'Tipo de Pokémon';
+    img.classList.add('pokemon-type-img');
+    return img;
+  };
+
+  // Agrega las debilidades al div correspondiente
+  const addWeaknesses = (multiplier, weaknesses) => {
+    const multiplierTitles = {
+      'x4': 'Very weak against',
+      'x2': 'Weak against',
+      'x1medio': 'Resistant to',
+      'x1cuarto': 'Very resistant to',
+      'x0': 'Immune against'
+    };
+
+    const header = document.createElement('h3');
+    const headerSpan = document.createElement('span');
+    headerSpan.innerText = `${multiplierTitles[multiplier]}`;
+    headerSpan.id = `weakness-title-${multiplier}`;
+    header.appendChild(headerSpan);
+    weaknessesDiv.appendChild(header);
+
+    if (weaknesses.length > 0) {
+      for (const weakness of weaknesses) {
+        weaknessesDiv.appendChild(createImageElement(weakness));
+      }
+    } else {
+      const noWeaknesses = document.createElement('h3');
+      noWeaknesses.innerText = 'Nothing';
+      weaknessesDiv.appendChild(noWeaknesses);
+    }
+  };
+
+  addWeaknesses('x4', pokemonWeaknesses.x4);
+  addWeaknesses('x2', pokemonWeaknesses.x2);
+  addWeaknesses('x1medio', pokemonWeaknesses.x1medio);
+  addWeaknesses('x1cuarto', pokemonWeaknesses.x1cuarto);
+  addWeaknesses('x0', pokemonWeaknesses.x0);
+}
+
+
+
+
+
   
   // Ejecutar la función cuando la página se cargue
   window.addEventListener('DOMContentLoaded', showStats);
-  
-  // Ejecutar la función cuando la página se cargue
   window.addEventListener('DOMContentLoaded', showPokemon);
-
-  // Ejecutar la función cuando la página se cargue
   window.addEventListener('DOMContentLoaded', showMoves);
+  window.addEventListener('DOMContentLoaded', showWeaknesses);
   

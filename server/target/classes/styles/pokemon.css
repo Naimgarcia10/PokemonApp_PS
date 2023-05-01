@@ -5,7 +5,7 @@
 */
 #pokemon{
     background-color: var(--DarkOrange);
-    height: 21rem;
+    height: 25rem;
     width: 15rem;
     position: relative;
     top: 5rem;
@@ -21,10 +21,10 @@
 }
 
 #pokemon_image{
-    height: 8rem;
+    height: 12rem;
     position: relative;
     margin: 0 auto;
-    left: 4rem;
+    left: 2rem;
 }
 .pokemon_type_container{
   display: flex;
@@ -52,12 +52,13 @@
     height: 21rem;
     width: 20rem;
     position: relative;
-    bottom: 19rem;
+    bottom: 23rem;
     margin-bottom: 5rem;
     left: 30rem;
     justify-content: center;
     box-shadow: 0 0 15px rgba(0,0,0,1);
     border-radius: 1rem;
+    align-items: center;
 }
 
 #stats_title{
@@ -67,6 +68,8 @@
     display: flex;
     align-items: center;
     margin-bottom: 8px;
+    position: relative;
+    top: 2rem;
   }
   
   .stat-label {
@@ -109,7 +112,7 @@
   height: 40rem;
   width: 40rem;
   position: relative;
-  bottom: 19rem;
+  bottom: 17rem;
   left: 5rem;
   box-shadow: 0 0 15px rgba(0,0,0,1);
   border-radius: 1rem;
@@ -154,3 +157,68 @@ th {
 #class_img{
   height: 1.5rem;
 }
+
+
+ /*
+#############################################
+            Seccion: Debilidades            #
+#############################################
+*/
+
+#weaknesses {
+  background-color: var(--DarkOrange);
+  height: 28rem;
+  width: 30rem;
+  position: relative;
+  bottom: 89rem;
+  left: 60rem;
+  box-shadow: 0 0 15px rgba(0,0,0,1);
+  border-radius: 1rem;
+  padding: 1rem; /* Añade un padding en todos los lados del div */
+}
+
+#weaknesses_title {
+  text-align: center;
+  
+}
+
+.pokemon-type-img{
+  padding: 0.2rem;
+  margin-bottom: 1rem;
+}
+
+#weakness-title-x4 {
+  background-color: var(--Red);
+  padding:0.1rem;
+  border-radius: 0.4rem;
+  color: white;
+}
+
+#weakness-title-x2 {
+  background-color: var(--OrangeRed);
+  padding: 0.1rem;
+  border-radius: 0.4rem;
+  color: white;
+}
+
+#weakness-title-x1medio {
+  background-color: var(--BrightGreen);
+  padding:0.1rem;
+  border-radius: 0.4rem;
+  color: white;
+}
+
+#weakness-title-x1cuarto {
+  background-color: var(--Green);
+  padding: 0.1rem;
+  border-radius: 0.4rem;
+  color: white;
+}
+
+#weakness-title-x0 {
+  background-color: #000000;
+  padding: 0.1rem;
+  border-radius: 0.4rem;
+  color: white;
+}
+
