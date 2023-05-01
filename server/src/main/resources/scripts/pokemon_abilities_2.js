@@ -17,14 +17,18 @@ function getParameterByName(name, url) {
 }
 
 async function fetchAbilityDetails(abilityName) {
-  const response = await fetch("../json/abilities.json");
-  const abilities = await response.json();
-  return abilities.find((ability) => ability.name === abilityName);
+  const idAbility = localStorage.getItem("idAbility");
+  const response = await fetch(`http://localhost:8080/getPokemonsWhoLearnsAbilities/${idAbility}`);
+  if (!response.ok) {
+    throw new Error("Error al cargar los datos de la API");
+  }
+  const abilityDetails = await response.json();
+  return abilityDetails;
 }
 
 function displayPokemonAbilitiesTable(abilityDetails) {
   const tableBody = document.getElementById("pokemon-abilities-table-body");
-  abilityDetails.pokemon.forEach((pokemon) => {
+  abilityDetails.forEach((pokemon) => {
     const row = tableBody.insertRow();
 
     // Nombre del Pokémon
@@ -45,6 +49,6 @@ function displayPokemonAbilitiesTable(abilityDetails) {
 
     // Método de aprendizaje
     const cell3 = row.insertCell();
-    cell3.textContent = pokemon.learn_method;
+    cell3.textContent = pokemon.abilityType;
   });
 }
