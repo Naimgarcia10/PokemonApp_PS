@@ -48,10 +48,12 @@ buscador.addEventListener('input', function() {
             }
         }
     }
+    // ... (parte superior del archivo sin cambios)
+
     document.addEventListener("DOMContentLoaded", fetchAbilities);
 
     function fetchAbilities() {
-      fetch("../json/abilities.json")
+      fetch("http://localhost:8080/getAbilities")
         .then((response) => {
           if (!response.ok) {
             throw new Error("Error al cargar el archivo JSON");
@@ -78,18 +80,20 @@ buscador.addEventListener('input', function() {
     
         // Descripción de la habilidad
         const cell2 = row.insertCell();
-        cell2.textContent = ability.type;
-    
-        // Categoría de la habilidad
-        const cell3 = row.insertCell();
-        cell3.textContent = ability.generation;
+        cell2.textContent = ability.description;
     
         // Enlace a abilities2.html
-        const cell4 = row.insertCell();
+        const cell3 = row.insertCell();
         const link = document.createElement("a");
         link.textContent = "Click here";
         link.href = `pokemon_abilities_2.html?ability=${encodeURIComponent(ability.name)}`;
-        cell4.appendChild(link);
+        
+        // Almacenar idAbility en el enlace
+        link.addEventListener("click", function (event) {
+          localStorage.setItem("idAbility", ability.idAbility);
+        });
+    
+        cell3.appendChild(link);
       }
     }
     
