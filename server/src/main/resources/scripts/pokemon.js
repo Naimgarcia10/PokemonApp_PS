@@ -4,53 +4,55 @@
 ###############################################
 */
 function showPokemon() {
-    const pokemonName = localStorage.getItem('pokemonName');
-    const pokemonImage = localStorage.getItem('pokemonImage');
-    const pokemonType1 = localStorage.getItem('pokemonType1');
-    const pokemonType2 = localStorage.getItem('pokemonType2');
-    const pokemonAbility1 = localStorage.getItem('pokemonAbility1');
-    const pokemonAbility2 = localStorage.getItem('pokemonAbility2');
-    const pokemonAbility3 = localStorage.getItem('pokemonAbility3');
-  
-    const pokemonDiv = document.getElementById('pokemon');
-  
-    const nameElement = document.createElement('h1');
-    nameElement.textContent = pokemonName;
-    nameElement.setAttribute('id', 'pokemon_name');
-    pokemonDiv.appendChild(nameElement);
-  
-    const imageElement = document.createElement('img');
-    imageElement.setAttribute('src', pokemonImage);
-    imageElement.setAttribute('id', 'pokemon_image');
-    pokemonDiv.appendChild(imageElement);
-  
-    const container = document.createElement('div');
-    container.classList.add('pokemon_type_container');
-    pokemonDiv.appendChild(container);
+  const pokemonName = localStorage.getItem('pokemonName');
+  const pokemonImage = localStorage.getItem('pokemonImage');
+  const pokemonType1 = localStorage.getItem('pokemonType1');
+  const pokemonType2 = localStorage.getItem('pokemonType2');
+  const pokemonAbility1 = localStorage.getItem('pokemonAbility1');
+  const pokemonAbility2 = localStorage.getItem('pokemonAbility2');
+  const pokemonAbility3 = localStorage.getItem('pokemonAbility3');
 
-    const typeElement1 = document.createElement('img');
-    typeElement1.setAttribute('src', pokemonType1);
-    typeElement1.setAttribute('alt', pokemonType1);
-    typeElement1.setAttribute('id', 'pokemon_type1');
-    typeElement1.classList.add('pokemon_type_img');
-    container.appendChild(typeElement1);
+  const pokemonDiv = document.getElementById('pokemon');
 
-    if (pokemonType2) {
-      const typeElement2 = document.createElement('img');
-      typeElement2.setAttribute('src', pokemonType2);
-      typeElement2.setAttribute('alt', pokemonType2);
-      typeElement2.setAttribute('id', 'pokemon_type2');
-      typeElement2.classList.add('pokemon_type_img');
-      container.appendChild(typeElement2);
-    }
+  const nameElement = document.createElement('h1');
+  nameElement.textContent = pokemonName;
+  nameElement.setAttribute('id', 'pokemon_name');
+  pokemonDiv.appendChild(nameElement);
 
+  const imageElement = document.createElement('img');
+  imageElement.setAttribute('src', pokemonImage);
+  imageElement.setAttribute('id', 'pokemon_image');
+  pokemonDiv.appendChild(imageElement);
 
-  
-    const abilitiesElement = document.createElement('h2');
+  const container = document.createElement('div');
+  container.classList.add('pokemon_type_container');
+  pokemonDiv.appendChild(container);
+
+  const typeElement1 = document.createElement('img');
+  typeElement1.setAttribute('src', pokemonType1);
+  typeElement1.setAttribute('alt', pokemonType1);
+  typeElement1.setAttribute('id', 'pokemon_type1');
+  typeElement1.classList.add('pokemon_type_img');
+  container.appendChild(typeElement1);
+
+  console.log('pokemonType2:', pokemonType2);
+
+  const typeElement2 = document.createElement('img');
+  if (pokemonType2 !== undefined && pokemonType2 !== null) {
+    typeElement2.setAttribute('src', pokemonType2);
+    typeElement2.setAttribute('alt', pokemonType2);
+    typeElement2.setAttribute('id', 'pokemon_type2');
+    typeElement2.classList.add('pokemon_type_img');
+    container.appendChild(typeElement2);
+  }
+
+  const abilitiesElement = document.createElement('h2');
   abilitiesElement.innerHTML = `${pokemonAbility1}${pokemonAbility2 ? '<br>' + pokemonAbility2 : ''}${pokemonAbility3 ? '<br>' + pokemonAbility3 : ''}`;
   abilitiesElement.setAttribute('id', 'pokemon_abilities');
   pokemonDiv.appendChild(abilitiesElement);
-  }
+}
+
+
   
   /*
 ###############################################
@@ -113,8 +115,6 @@ function showStats() {
   function showMoves() {
     const pokemonMoves = JSON.parse(localStorage.getItem('pokemonMoves'));
   
-    console.log('pokemonMoves:', pokemonMoves); // Verifica si los datos se obtienen correctamente
-  
     const movesTableBody = document.getElementById("movesTableBody");
   
     pokemonMoves.forEach(move => {
@@ -125,18 +125,24 @@ function showStats() {
       row.appendChild(nameCell);
   
       const typeCell = document.createElement("td");
-      typeCell.textContent = move.type;
+      const typeImg = document.createElement("img");
+      typeImg.setAttribute('id', 'type_img');
+      typeImg.src = move.type;
+      typeCell.appendChild(typeImg);
       row.appendChild(typeCell);
   
       const classCell = document.createElement("td");
-      classCell.textContent = move.category;
+      const classImg = document.createElement("img");
+      classImg.setAttribute('id', 'class_img');
+      classImg.src = move.category;
+      classCell.appendChild(classImg);
       row.appendChild(classCell);
   
       movesTableBody.appendChild(row);
     });
-  
-    console.log('movesTableBody:', movesTableBody); // Verifica si la tabla se construye correctamente
+
   }
+  
   
   
   // Ejecutar la función cuando la página se cargue

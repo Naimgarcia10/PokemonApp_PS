@@ -140,6 +140,8 @@ th, td {
 td {
   border: 1px solid black;
   background-color: white;
+  text-align: center;
+  justify-content: center;
 }
 
 th {
@@ -147,4 +149,8 @@ th {
   background-color: transparent;
   text-align: center;
   border: none;
+}
+
+#class_img{
+  height: 1.5rem;
 }
