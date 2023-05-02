@@ -82,7 +82,7 @@ public class DamageRelations {
                         listaDamageRelations.add(damagerelations);                
                 }
                 // Construir el objeto JSON utilizando Gson
-                Gson gson = new GsonBuilder().create();
+                Gson gson = new GsonBuilder().serializeNulls().create();
                 String json = gson.toJson(listaDamageRelations);
                 return json;
         }
