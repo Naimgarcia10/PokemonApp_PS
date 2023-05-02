@@ -187,7 +187,7 @@ function showWeaknesses() {
 
   // Agrega las debilidades al div correspondiente
   const addWeaknesses = (multiplier, weaknesses) => {
-    const multiplierTitles = {
+    const multiplierTitles_en = {
       'x4': 'Very weak against',
       'x2': 'Weak against',
       'x1medio': 'Resistant to',
@@ -195,9 +195,10 @@ function showWeaknesses() {
       'x0': 'Immune against'
     };
 
+
     const header = document.createElement('h3');
     const headerSpan = document.createElement('span');
-    headerSpan.innerText = `${multiplierTitles[multiplier]}`;
+    headerSpan.innerText = `${multiplierTitles_en[multiplier]}`;
     headerSpan.id = `weakness-title-${multiplier}`;
     header.appendChild(headerSpan);
     weaknessesDiv.appendChild(header);
@@ -219,6 +220,12 @@ function showWeaknesses() {
   addWeaknesses('x1cuarto', pokemonWeaknesses.x1cuarto);
   addWeaknesses('x0', pokemonWeaknesses.x0);
 }
+
+    /*
+###############################################
+#      Seccion: Visualizar Estrategias        #
+###############################################
+*/
 
 function showStrategies() {
   const pokemonStrategies = JSON.parse(localStorage.getItem('pokemonStrategies'));
@@ -256,7 +263,7 @@ detailsDiv.innerHTML = `<div class="item-container">
                            <h4>Item: ${strategy.itemName}</h4>
                            <img src="${strategy.itemPicture}" alt="${strategy.itemName}">
                          </div>
-                         <h4>Ability: ${strategy.ability}</h4>
+                         <h4 id="ability">Ability: ${strategy.ability}</h4>
                          <h4>Nature: ${strategy.nature}</h4>
                          <h4>EVs: HP ${strategy.evsHp}/ Atk ${strategy.evsAttack}/ Def ${strategy.evsDefense}/ SpA ${strategy.evsSpatk}/ SpD ${strategy.evsSpdef}/ Spe ${strategy.evsSpeed}</h4>`;
 
@@ -273,13 +280,6 @@ detailsDiv.innerHTML = `<div class="item-container">
     strategiesDiv.appendChild(strategyDiv);
   });
 }
-
-
-
-
-
-
-
   
   // Ejecutar la función cuando la página se cargue
   window.addEventListener('DOMContentLoaded', showStats);
