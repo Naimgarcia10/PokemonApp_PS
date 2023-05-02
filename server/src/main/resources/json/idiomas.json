@@ -76,7 +76,7 @@
     ],
     "defensive_content_es": [
       "DEFENSIVO",
-      "RESISTENTETE A",
+      "RESISTENTE A",
       "DÉBIL A",
       "INMUNE CONTRA"
     ],
@@ -246,6 +246,18 @@
     "Pokémon",
     "Imagen",
     "Método de Aprendizaje"
+    ]
+  },
+  "quiz": {
+    "content_en": [
+      "POKEMON QUIZ",
+      "Test your knowledge",
+      "START"
+    ],
+    "content_es": [
+      "CUESTIONARIO POKEMON",
+      "Pon a prueba tus conocimientos",
+      "EMPEZAR"
     ]
   }
 
