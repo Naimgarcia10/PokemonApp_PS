@@ -37,7 +37,7 @@ function showPokemon() {
 
   
 
-  if (pokemonType2 !== "undefined" && pokemonType2 !== null) {
+  if (pokemonType2 !== "undefined" && pokemonType2 !== 'null') {
     const typeElement2 = document.createElement('img');
     typeElement2.setAttribute('src', pokemonType2);
     typeElement2.setAttribute('alt', pokemonType2);
@@ -53,11 +53,11 @@ function showPokemon() {
     const abilitiesElement = document.createElement('h2');
     let abilitiesText = pokemonAbility1;
   
-    if (pokemonAbility2 !== "undefined" && pokemonAbility2 !== null) {
+    if (pokemonAbility2 !== "undefined" && pokemonAbility2 !== 'null') {
       abilitiesText += '<br>' + pokemonAbility2;
     }
   
-    if (pokemonAbility3 !== "undefined" && pokemonAbility3 !== null) {
+    if (pokemonAbility3 !== "undefined" && pokemonAbility3 !== 'null') {
       abilitiesText += '<br>' + pokemonAbility3;
     }
   
