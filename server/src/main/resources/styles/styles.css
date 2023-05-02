@@ -29,6 +29,14 @@ header .navbar_principiantes ul li {
     font-size: 1.5rem;
 }
 
+header .flag:hover{
+    cursor: pointer;
+}
+
+header #spanish{
+    height: 4.5rem;
+}
+
 /*Cambios de sebas*/
 
 /* la navbar de principiantes se activa con un javascript */
