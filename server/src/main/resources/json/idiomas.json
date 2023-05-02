@@ -76,7 +76,7 @@
     ],
     "defensive_content_es": [
       "DEFENSIVO",
-      "RESISTENTETE A",
+      "RESISTENTE A",
       "DÉBIL A",
       "INMUNE CONTRA"
     ],
@@ -151,12 +151,30 @@
     "content_en": [
     "POKEMON FINDER",
     "Search your pokemon",
-    "Search"
+    "Search",
+    "Base Stats",
+    "Type Weaknesses",
+    "Movements",
+    "Strategies"
     ],
     "content_es": [
     "BUSCADOR DE POKEMON",
     "Busca tu pokemon",
-    "Buscar"
+    "Buscar",
+    "Estadísticas Base",
+    "Tipo de Debilidades",
+    "Movimientos",
+    "Estrategias"
+    ],
+    "movements_en":[
+      "Name",
+      "Type",
+      "Category"
+    ],
+    "movements_es":[
+      "Nombre",
+      "Tipo",
+      "Categoría"
     ]
   },
 
@@ -228,6 +246,18 @@
     "Pokémon",
     "Imagen",
     "Método de Aprendizaje"
+    ]
+  },
+  "quiz": {
+    "content_en": [
+      "POKEMON QUIZ",
+      "Test your knowledge",
+      "START"
+    ],
+    "content_es": [
+      "CUESTIONARIO POKEMON",
+      "Pon a prueba tus conocimientos",
+      "EMPEZAR"
     ]
   }
 
