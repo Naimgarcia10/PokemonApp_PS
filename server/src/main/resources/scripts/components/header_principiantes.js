@@ -22,5 +22,8 @@ document.addEventListener("HeaderCargado", function () {
 
             const quizz_a = document.querySelector("#quizz_a");
             quizz_a.innerHTML = idiomas["beginner_funcionalities"][`${idioma_usuario}`][3];
+
+            const languagepicker = document.querySelector("#languagepicker");
+            languagepicker.innerHTML = idiomas["beginner_funcionalities"][`${idioma_usuario}`][4] + ":";
         })
 })

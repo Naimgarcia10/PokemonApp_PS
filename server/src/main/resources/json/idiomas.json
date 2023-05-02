@@ -30,13 +30,15 @@
       "TUTORIAL",
       "TIPOS",
       "GLOSARIO",
-      "CUESTIONARIO"
+      "CUESTIONARIO",
+      "Elige tu idioma"
     ],
     "en": [
       "TUTORIAL",
       "TYPES",
       "GLOSSARY",
-      "QUIZ"
+      "QUIZ",
+      "Select your language"
     ]
   },
   "expert_funcionalities": {
@@ -45,14 +47,16 @@
       "BUSCAR OBJETOS",
       "BUSCAR MOVIMIENTOS",
       "BUSCAR HABILIDADES",
-      "EVALUAR EQUIPO"
+      "EVALUAR EQUIPO",
+      "Elige tu idioma"
     ],
     "en": [
       "SEARCH POKEMON",
       "SEARCH OBJECTS",
       "SEARCH MOVEMENTS",
       "SEARCH ABILITIES",
-      "EVALUATE TEAM"
+      "EVALUATE TEAM",
+      "Select your language"
     ]
   },
   "types": {
@@ -170,6 +174,60 @@
     "Palabra",
     "Icono",
     "Descripción"
+    ]
+  }, 
+  "buscador_movimientos" :
+  {
+    "content_en": [
+    "SEARCH MOVEMENTS",
+    "Search",
+    "Movement Name",
+    "Type",
+    "Category",
+    "Power",
+    "Precision",
+    "Priority",
+    "Who Learns It",
+    "Pokemon",
+    "Image",
+    "Learning Method"
+    ],
+    "content_es": [
+    "BUSCAR MOVIMIENTOS",
+    "Buscar",
+    "Nombre del movimiento",
+    "Tipo",
+    "Categoría",
+    "Poder",
+    "Precisión",
+    "Prioridad",
+    "Quién lo aprende",
+    "Pokémon",
+    "Imagen",
+    "Método de Aprendizaje"
+    ]
+  },
+  "buscador_habilidades" : 
+  {
+    "content_en": [
+    "SEARCH ABILITIES",
+    "Search",
+    "Ability",
+    "Description",
+    "Who Has It",
+    "Pokemon",
+    "Image",
+    "Learning Method"
+    ],
+    "content_es": [
+    "BUSCAR HABILIDADES",
+    "Buscar",
+    "Habilidad",
+    "Descripción",
+    "Quién La Tiene",
+    "Pokémon",
+    "Imagen",
+    "Método de Aprendizaje"
     ]
   }
 
