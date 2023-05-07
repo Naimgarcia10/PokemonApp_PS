@@ -3,6 +3,7 @@
 #        Seccion: Función de busqueda        #
 ##############################################
 */
+import {DB_HOST, DB_PORT} from "./config.js"
 // Obtener el campo de entrada y la lista
 var buscador = document.getElementById('buscador');
 var lista = document.querySelector('.lista table');
@@ -53,7 +54,7 @@ buscador.addEventListener('input', function() {
     document.addEventListener("DOMContentLoaded", fetchAbilities);
 
     function fetchAbilities() {
-      fetch("http://localhost:8080/getAbilities")
+      fetch(`http://${DB_HOST}:${DB_PORT}/getAbilities`)
         .then((response) => {
           if (!response.ok) {
             throw new Error("Error al cargar el archivo JSON");

@@ -1,3 +1,5 @@
+import {DB_HOST, DB_PORT} from "./config.js"
+
 let idioma_usuario = localStorage.getItem("userLanguage");
 if (idioma_usuario == null) idioma_usuario = "en";
 /*

@@ -1,9 +1,12 @@
+import {DB_HOST, DB_PORT} from "./config.js"
+
 const input = document.getElementById('buscador');
+const lupa = document.getElementById('lupa');
 
 async function searchPokemon() {
   const searchTerm = input.value;
   const valorInputCodificado = encodeURIComponent(searchTerm);
-  const url = `http://localhost:8080/getPokemon/${valorInputCodificado}`;
+  const url = `http://${DB_HOST}:${DB_PORT}/getPokemon/${valorInputCodificado}`;
 
   
 
@@ -77,7 +80,13 @@ async function searchPokemon() {
   }
 }
 
-
+lupa.addEventListener("click", function(){
+  if (buscador.value.trim() === "") {
+    alert("No se ha introducido ningún Pokémon.");
+  } else{
+    searchPokemon();
+  }  
+});
 
 input.addEventListener("keyup", function(event) {
   if (event.keyCode === 13) {

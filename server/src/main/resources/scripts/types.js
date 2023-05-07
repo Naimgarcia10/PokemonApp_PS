@@ -1,3 +1,4 @@
+import {DB_HOST, DB_PORT} from "./config.js"
 
 const typeSelect = document.getElementById('type-select');
 var tipos = [];
@@ -13,7 +14,7 @@ function agregar_imagenes(container, lista){
   }  
 }
 
-fetch("http://localhost:8080/getTypes")
+fetch(`http://${DB_HOST}:${DB_PORT}/getTypes`)
 	.then(response => response.json())
 	.then(data => {
 		tipos = data;

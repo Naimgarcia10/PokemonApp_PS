@@ -1,4 +1,4 @@
-
+import {DB_HOST, DB_PORT} from "./config.js"
 
 document.addEventListener("DOMContentLoaded", () => {
     //selecciona los elementos a cambiar
@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (idioma_usuario == "es") titulo.textContent = "Tutorial Pokemon";
     
 
-    fetch('http://localhost:8080/tutorial/' + 0)
+    fetch(`http://${DB_HOST}:${DB_PORT}/tutorial/` + 0)
         .then(response => {
             if (response.ok) {
                 ultima_pagina_ok = contador_paginas;    //almaceno el valor las ultimas respuestas que fueron exitosa
@@ -83,7 +83,7 @@ function http_tutorial(event) {
     if(idioma_usuario == null) idioma_usuario = "en";
 
     //realizo la petición http, si el tutorial tiene 3 paginas, ira de 0 a 2
-    fetch('http://localhost:8080/tutorial/' + contador_paginas)
+    fetch(`http://${DB_HOST}:${DB_PORT}/tutorial/` + contador_paginas)
         .then(response => {
             if (response.ok) {
                 ultima_pagina_ok = contador_paginas;    //almaceno el valor las ultimas respuestas que fueron exitosa

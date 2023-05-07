@@ -1,3 +1,5 @@
+import {DB_HOST, DB_PORT} from "./config.js"
+
 document.addEventListener("DOMContentLoaded", async () => {
   const abilityName = getParameterByName("ability");
   if (abilityName) {
@@ -18,7 +20,7 @@ function getParameterByName(name, url) {
 
 async function fetchAbilityDetails(abilityName) {
   const idAbility = localStorage.getItem("idAbility");
-  const response = await fetch(`http://localhost:8080/getPokemonsWhoLearnsAbilities/${idAbility}`);
+  const response = await fetch(`http://${DB_HOST}:${DB_PORT}/getPokemonsWhoLearnsAbilities/${idAbility}`);
   if (!response.ok) {
     throw new Error("Error al cargar los datos de la API");
   }
