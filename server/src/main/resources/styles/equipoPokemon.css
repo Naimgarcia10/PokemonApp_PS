@@ -54,8 +54,8 @@
     border-radius: 10px;
     text-align: center;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    position: relative; /* Nueva propiedad */
   }
-  
   
   .close-btn {
     background-color: gray;
@@ -64,6 +64,24 @@
     padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
+    position: absolute; /* Nueva propiedad */
+    bottom: 20px; /* Nueva propiedad */
+    right: 20px; /* Nueva propiedad */
+    z-index: 2; /* Nueva propiedad */
   }
+  
+  .save-btn {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    z-index: 2;
+    background-color: gray;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+    
   
   
