@@ -1,0 +1,69 @@
+.container {
+    position: relative;
+    height: 100vh;
+    background-image: url("https://cdn.pixabay.com/photo/2018/02/08/22/27/abstract-3142529_960_720.jpg");
+    background-size: cover;
+    background-position: center;
+  }
+  
+  .card {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200px;
+    height: 200px;
+    border-radius: 10px;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  }
+  
+  .icon {
+    font-size: 50px;
+    color: gray;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    display: none;
+  }
+  
+  .popup {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px; /* Tamaño fijo */
+    height: 400px; /* Tamaño fijo */
+    max-width: 80%; /* Ancho máximo */
+    max-height: 80%; /* Altura máxima */
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  }
+  
+  
+  .close-btn {
+    background-color: gray;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  
