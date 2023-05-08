@@ -1,0 +1,181 @@
+#login-container{
+    background-color: #fcb54b;
+    width: 30rem;
+    margin: 3rem auto;
+    height: 25rem;
+}
+
+#title{
+    text-align: center;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+}
+
+.email{
+    margin: 0 auto;
+}
+
+#email-input{
+    height: 3rem;
+    width: 13rem;
+    text-indent: 50px;
+    color: black;
+    font-size: 1.5rem;
+}
+
+#email-input::placeholder{
+    text-align:start;
+    color: black;
+}
+
+#email-img{
+    height: 1.5rem;
+    position: relative;
+    bottom: 2.5rem;
+    left: 0.5rem;
+}
+
+.password{
+    margin: 0 auto;
+}
+
+#password-input{
+    height: 3rem;
+    width: 13rem;
+    text-indent: 50px;
+    color: black;
+    font-size: 1.5rem;
+}
+
+#password-input::placeholder{
+    text-align:start;
+    color: black;
+}
+
+#password-img{
+    height: 2rem;
+    position: relative;
+    bottom: 2.5rem;
+    left: 0.8rem;
+}
+
+#registered{
+    text-align: center;
+    margin-top: 1rem;
+    color: var(--Teal);
+}
+
+/* From uiverse.io by @Ali-Tahmazi99 */
+button {
+    display: inline-block;
+    width: 150px;
+    height: 50px;
+    border-radius: 10px;
+    border: 1px solid #03045e;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.5s ease-in;
+    z-index: 1;
+    margin: 0 auto;
+   }
+   
+   button::before,
+   button::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 0;
+    height: 100%;
+    transform: skew(15deg);
+    transition: all 0.5s;
+    overflow: hidden;
+    z-index: -1;
+   }
+   
+   button::before {
+    left: -10px;
+    background:var(--Red);
+   }
+   
+   button::after {
+    right: -10px;
+    background: rgb(238, 236, 236);
+   }
+   
+   button:hover::before,
+   button:hover::after {
+    width: 58%;
+   }
+   
+   button:hover span {
+    color: #000000;
+    font-size: 1.3rem;
+    font-weight: 500;
+    transition: 0.3s;
+   }
+   
+   button span {
+    color: #03045e;
+    font-size: 18px;
+    transition: all 0.3s ease-in;
+   }
+
+/*
+###############################################
+#            Seccion: Email input             #
+###############################################
+*/
+
+.form {
+    --width-of-input: 200px;
+    --border-height: 1px;
+    --border-before-color: rgba(0, 0, 0, 0.39);
+    --border-after-color: #5891ff;
+    --input-hovered-color: #4985e01f;
+    position: relative;
+    width: var(--width-of-input);
+   }
+   /* styling of Input */
+   .input {
+    color: #fff;
+    font-size: 0.9rem;
+    background-color: transparent;
+    width: 100%;
+    box-sizing: border-box;
+    padding-inline: 0.5em;
+    padding-block: 0.7em;
+    border: none;
+    border-bottom: var(--border-height) solid var(--border-before-color);
+   }
+   /* styling of animated border */
+   .input-border {
+    position: absolute;
+    background: var(--border-after-color);
+    width: 0%;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    transition: 0.3s;
+   }
+   /* Hover on Input */
+   input:hover {
+    background: var(--input-hovered-color);
+   }
+   
+   input:focus {
+    outline: none;
+   }
+   /* here is code of animated border */
+   input:focus ~ .input-border {
+    width: 100%;
+   }
+   /* === if you want to do animated border on typing === */
+   /* remove input:focus code and uncomment below code */
+   /* input:valid ~ .input-border{
+     width: 100%;
+   } */

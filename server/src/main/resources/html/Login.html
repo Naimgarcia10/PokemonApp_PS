@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="../styles/index.css">
+    <link rel="stylesheet" type="text/css" href="../styles/login.css">
+</head>
+<body>
+    <script type="module" src="../scripts/components/header_expertos.js"></script>
+
+    <div id="login-container">
+        <h1 id="title">Login</h1>
+        <form action="login" method="post">
+
+            <div class="email">
+                <div class="form">
+                    <input class="input" id="email-input"  placeholder="Email" required="" type="email">
+                    <span class="input-border"></span>
+                </div>
+                <img id="email-img" src="../images/forms/mailIcon.png" alt="email-photo">
+            </div>
+
+            <div class="password">
+                <div class="form">
+                    <input class="input" id="password-input" placeholder="Password" required="" type="password">
+                    <span class="input-border"></span>
+                </div>
+
+                <img id="password-img" src="../images/forms/passwordIcon.png" alt="password-photo">
+            </div>
+            
+            
+            
+            <a id="registered" href="register.html"> <h4>¿No estás registrado todavía? Regístrate ahora</h4></a>
+            
+            <button id="confirm">
+                <span> Confirmar
+                </span>
+              </button>
+        </form>
+    </div> 
+
+    <script type="module" src="../scripts/components/footer.js"></script>
+</body>
+</html>
