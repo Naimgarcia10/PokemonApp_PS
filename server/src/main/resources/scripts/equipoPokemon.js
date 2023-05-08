@@ -12,6 +12,6 @@ closeBtn.addEventListener('click', function() {
 });
 
 saveBtn.addEventListener('click', function() {
-  overlay.style.display = 'none';
+  saveBtn.classList.toggle('green-background');
 });
 

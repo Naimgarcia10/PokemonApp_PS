@@ -45,8 +45,8 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 600px; /* Tamaño fijo */
-    height: 400px; /* Tamaño fijo */
+    width: 900px; /* Tamaño fijo */
+    height: 600px; /* Tamaño fijo */
     max-width: 80%; /* Ancho máximo */
     max-height: 80%; /* Altura máxima */
     background-color: white;
@@ -58,7 +58,7 @@
   }
   
   .close-btn {
-    background-color: gray;
+    background-color: rgb(203, 65, 65);
     color: white;
     border: none;
     padding: 10px 20px;
@@ -69,7 +69,7 @@
     right: 20px; /* Nueva propiedad */
     z-index: 2; /* Nueva propiedad */
   }
-  
+
   .save-btn {
     position: absolute;
     bottom: 20px;
@@ -82,6 +82,11 @@
     border-radius: 5px;
     cursor: pointer;
   }
+
+  .green-background {
+    background-color: rgb(99, 176, 66);
+  }
+  
     
   
   
