@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 
 <head>
+  <meta charset="UTF-8">
   <title>Glossary</title>
   <link rel="stylesheet" href="../styles/index.css">
-  <link rel="stylesheet" type="text/css" href="../styles/search_moves.css">
+  <link rel="stylesheet" type="text/css" href="../styles/search_abilities.css">
   
 </head>
 <body>
@@ -43,16 +44,16 @@
     <div class="glossary">
       <div>
         <input type="text" id="buscador" placeholder="Search...">
+        <img id="lupa" src="../icons/lupa.png" alt="lupa">
       </div>
     
       <div class="lista">
         <table id="pokemon-abilities-table">
           <thead>
             <tr>
-              <th>Habilidad</th>
-              <th>Tipo</th>
-              <th>Categoría</th>
-              <th>Método de aprendizaje</th>
+              <th id="name">Habilidad</th>
+              <th id="description">Descripción</th>
+              <th id="whohasit">Quien la tiene</th>
             </tr>
           </thead>
           <tbody id="pokemon-abilities-table-body">
@@ -63,8 +64,9 @@
     </div>
     
   </main>
-  <script src="../scripts/abilities.js"></script>
+  <script type="module" src="../scripts/abilities.js"></script>
   <script type="module" src="../scripts/components/footer.js"></script>
+  <script src="../scripts/idiomas/search_abilities.js"></script>
 
 
 

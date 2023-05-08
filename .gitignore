@@ -1,2 +1,8 @@
 .env
+<<<<<<< HEAD
 server/target/
+=======
+server/target/
+server/target/backend/
+.vscode/
+>>>>>>> develop

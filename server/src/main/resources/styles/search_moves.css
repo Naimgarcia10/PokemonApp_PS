@@ -73,6 +73,14 @@
   width: 70%;
   margin: 3rem auto;
   }
+
+  #lupa{
+    height: 1rem;
+    position: relative;
+    bottom: 0.2rem;
+    left: 9rem;
+    cursor: pointer;
+  }
   
   table {
   border-collapse: separate;

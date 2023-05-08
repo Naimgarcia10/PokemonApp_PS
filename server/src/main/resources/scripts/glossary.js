@@ -4,8 +4,10 @@
 #####################################################################
 */
 
+import {DB_HOST, DB_PORT} from "./config.js"
+
 document.addEventListener("DOMContentLoaded", function() {
-  fetch("http://localhost:8080/getTerms")
+  fetch(`http://${DB_HOST}:${DB_PORT}/getTerms`)
     .then(response => {
       if (!response.ok) {
         throw new Error("HTTP error " + response.status);

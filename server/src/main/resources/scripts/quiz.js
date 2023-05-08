@@ -7,14 +7,19 @@ const imagePath = "../images/";
 const questionPath = "/questions/";
 const blanco = "#FAEBD7";
 const gris = "#778899";
+let idioma_usuario = localStorage.getItem("userLanguage");
+if (idioma_usuario == null) idioma_usuario = "en";
+let incorrectAnswers = "incorrectAnswers_" + idioma_usuario;
+let correctAnswer = "correctAnswer_" + idioma_usuario;
 
 fetch('../json/questions.json')
 	.then(response => response.json())
 	.then(data => {
-		preguntas = data;  
+		preguntas = data;
+        console.log(preguntas);
         for(let i=0;i<preguntas.length;i++){
-            preguntas[i].answers = preguntas[i].incorrectAnswers;
-            preguntas[i].answers.push(preguntas[i].correctAnswer);
+            preguntas[i].answers = preguntas[i][incorrectAnswers];
+            preguntas[i].answers.push(preguntas[i][correctAnswer]);
             randomizar_array(preguntas[i].answers);
         }
 	})
@@ -37,7 +42,7 @@ function empezar_quiz(){
 function finalizar_quiz(){
     let puntos = 0;
     for(let i=0;i<preguntas.length;i++){
-        let opcion_correcta = preguntas[i].correctAnswer;
+        let opcion_correcta = preguntas[i][correctAnswer];
         let opcion_usuario = respuestas_usuario[i];
         puntos += (opcion_correcta === opcion_usuario);           
     }
@@ -82,7 +87,8 @@ function mostrar_elementos(){
 
 function cargar_pregunta(){
     let enunciado = document.querySelector(".cuadrado_quiz .enunciado");
-    enunciado.textContent = preguntas[indice]["question"];
+    const question = "question_" + idioma_usuario;
+    enunciado.textContent = preguntas[indice][question];
     let imagen = document.querySelector(".cuadrado_quiz .imagen");       
     if(preguntas[indice]["image"] != null){
         imagen.src = imagePath + questionPath + preguntas[indice]["image"];
@@ -177,6 +183,7 @@ function mostrar_nota(puntos){
     let imagen = document.querySelector(".cuadrado_quiz .imagen");
     let description1 = cuadrado_quiz.querySelector("#quiz_description");
     description1.textContent = "TOTAL SCORE:";
+    if (idioma_usuario == "es") description1.textContent = "PUNTUACIÓN TOTAL:";
     let subdescription = cuadrado_quiz.querySelector("#quiz_subdescription");
     subdescription.textContent = puntos + "/" + preguntas.length;    
     let description2 = cuadrado_quiz.querySelector("#quiz_description2");
@@ -187,10 +194,12 @@ function mostrar_nota(puntos){
         cuadrado_quiz.classList.add("aprobado");
         imagen.src = imagePath + "aprobado.png";
         description2.textContent = "You're a real Pokémon Master!";
+        if (idioma_usuario == "es") description2.textContent = "¡Eres un verdadero Maestro Pokémon!";
     } else{
         cuadrado_quiz.classList.add("suspendido");        
         imagen.src = imagePath + "suspenso.png";
         description2.textContent = "Keep practicing!";
+        if (idioma_usuario == "es") description2.textContent = "¡Sigue practicando!";
     }
     cuadrado_quiz.style.gridTemplateRows = "5rem 25rem 5rem";
 

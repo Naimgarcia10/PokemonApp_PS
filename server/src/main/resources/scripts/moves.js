@@ -3,6 +3,7 @@
 #        Seccion: Función de busqueda        #
 ##############################################
 */
+import {DB_HOST, DB_PORT} from "./config.js"
 // Obtener el campo de entrada y la lista
 var buscador = document.getElementById('buscador');
 var lista = document.querySelector('.lista table');
@@ -50,43 +51,54 @@ buscador.addEventListener('input', function() {
     }
 
     function fetchPokemonMoves() {
-        fetch("http://localhost:8080/getMovements")
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error("Error al cargar el archivo JSON");
-            }
-            return response.json();
-          })
-          .then((data) => {
-            populateTable(data);
-          })
-          .catch((error) => {
-            console.error("Error al cargar los datos de movimientos de Pokémon:", error);
-          });
-      }
-      
-      function populateTable(pokemonMoves) {
-        const tableBody = document.getElementById("tabla-cuerpo");
-      
-        for (const move of pokemonMoves) {
-          const row = document.createElement("tr");
-      
-          for (const key in move) {
-            if (key !== "pokemon") {
-              const cell = document.createElement("td");
-              cell.textContent = move[key];
-              row.appendChild(cell);
-            }
+      fetch(`http://${DB_HOST}:${DB_PORT}/getMovements`)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Error al cargar el archivo JSON");
           }
-      
-          // Agregar la última columna con el botón "Click here"
-          const lastCell = document.createElement("td");
-          const link = document.createElement("a");
-          
-          
-      
-          tableBody.appendChild(row);
+          return response.json();
+        })
+        .then((data) => {
+          populateTable(data);
+        })
+        .catch((error) => {
+          console.error("Error al cargar los datos de movimientos de Pokémon:", error);
+        });
+    }
+  
+  function populateTable(pokemonMoves) {
+    const tableBody = document.getElementById("tabla-cuerpo");
+  
+    for (const move of pokemonMoves) {
+      const row = document.createElement("tr");
+  
+      for (const key in move) {
+        if (key !== "idMovement") {
+          const cell = document.createElement("td");
+          cell.textContent = move[key];
+          row.appendChild(cell);
         }
       }
+  
+      // Crear la columna "Click Here"
+      const clickHereCell = document.createElement("td");
+      const clickHereLink = document.createElement("a");
+      clickHereLink.textContent = "Click Here";
+      clickHereLink.href = `pokemon_moves_2.html?move=${encodeURIComponent(move.name)}`;
+  
+      // Agregar controlador de eventos "click" para almacenar el identificador del movimiento
+      clickHereLink.addEventListener("click", function (event) {
+        console.log("Saving move ID to local storage:", move.idMovement); // Agregamos esto para depurar
+        localStorage.setItem("idMovement", move.idMovement);
+      });
+  
+      clickHereCell.appendChild(clickHereLink);
+      row.appendChild(clickHereCell);
+  
+      tableBody.appendChild(row);
+    }
+  }
+  
+  document.addEventListener("DOMContentLoaded", fetchPokemonMoves);
+  
       
-      document.addEventListener("DOMContentLoaded", fetchPokemonMoves);

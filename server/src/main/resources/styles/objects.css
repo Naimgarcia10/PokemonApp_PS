@@ -58,6 +58,13 @@ margin: 0 auto;
 height: 35rem;
 }
 
+#lupa{
+  height: 1rem;
+  position: relative;
+  bottom: 0.2rem;
+  left: 9rem;
+  cursor: pointer;
+}
 .lista {
 background-color: var(--DarkOrange);
 font-family: "K2D", sans-serif;
@@ -67,6 +74,7 @@ margin: 3rem auto;
 max-height: 25rem; /* Establecer la altura máxima de la lista */
 overflow-y: auto; /* Agregar una barra de desplazamiento vertical */
 }
+
 
 table {
 border-collapse: separate;
@@ -124,6 +132,8 @@ margin-top: 1rem;
   top: 3rem;
 }
 
+
+/*
 #icon{
   position: relative;
   right: 12.5rem;
@@ -133,3 +143,4 @@ margin-top: 1rem;
   position: relative;
   right: 12.5rem;
 }
+*/

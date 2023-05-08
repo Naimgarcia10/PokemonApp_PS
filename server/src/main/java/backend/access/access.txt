@@ -1,0 +1,3 @@
+jdbc:mysql://pokemonapp.sytes.net:3306/pokemondb
+root
+AprobaremosPS2023

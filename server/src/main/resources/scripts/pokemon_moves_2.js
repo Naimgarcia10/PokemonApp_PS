@@ -1,8 +1,9 @@
-document.addEventListener("DOMContentLoaded", async () => {
+import {DB_HOST, DB_PORT} from "./config.js"
+
+document.addEventListener("DOMContentLoaded", () => {
   const moveName = getParameterByName("move");
   if (moveName) {
-    const moveDetails = await fetchMoveDetails(moveName);
-    displayPokemonMovesTable(moveDetails);
+    fetchMoveDetails(moveName, displayPokemonMovesTable);
   }
 });
 
@@ -16,21 +17,33 @@ function getParameterByName(name, url) {
   return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
-async function fetchMoveDetails(moveName) {
-  const response = await fetch("../json/pokemon_moves.json");
-  const moves = await response.json();
-  return moves.find((move) => move.name === moveName);
+function fetchMoveDetails(moveName, callback) {
+  const id = localStorage.getItem("idMovement");
+  fetch(`http://${DB_HOST}:${DB_PORT}/getPokemonsWhoLearnsMovements/${id}`)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Error al cargar los datos de la API");
+      }
+      return response.json();
+    })
+    .then((moveDetails) => {
+      callback(moveDetails);
+    })
+    .catch((error) => {
+      console.error("Error al cargar los datos de movimientos de Pokémon:", error);
+    });
 }
 
 function displayPokemonMovesTable(moveDetails) {
+  console.log(moveDetails); // Agregar esta línea para ver los datos cargados
+
   const tableBody = document.getElementById("pokemon-moves-table-body");
-  moveDetails.pokemon.forEach((pokemon) => {
+  moveDetails.forEach((pokemon) => {
     const row = tableBody.insertRow();
 
     // Nombre del Pokémon
     const cell1 = row.insertCell();
     cell1.textContent = pokemon.name;
-
 
     // Imagen del Pokémon
     const cell2 = row.insertCell();
@@ -51,8 +64,5 @@ function displayPokemonMovesTable(moveDetails) {
     } else {
       cell3.textContent = pokemon.learn_method;
     }
-
-    
   });
 }
-
