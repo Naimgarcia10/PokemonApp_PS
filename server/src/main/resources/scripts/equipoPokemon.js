@@ -3,6 +3,13 @@ const overlay = document.querySelector('.overlay');
 const closeBtn = document.querySelector('.close-btn');
 const saveBtn = document.querySelector('.save-btn');
 
+const searchBox = document.getElementById('input-text');
+const searchButton = document.getElementById('search-button');
+
+const pokemonList = ["Bulbasaur", "Charmander", "Squirtle", "Pikachu", "Eevee", "Snorlax", "Mew", "Mewtwo"];
+const input = document.getElementById("input-text");
+const pokemonUl = document.getElementById("pokemon-list");
+
 card.addEventListener('click', function () {
     overlay.style.display = 'block';
 });
@@ -16,9 +23,6 @@ saveBtn.addEventListener('click', function () {
 });
 
 
-const pokemonList = ["Bulbasaur", "Charmander", "Squirtle", "Pikachu", "Eevee", "Snorlax", "Mew", "Mewtwo"];
-const input = document.getElementById("input-text");
-const pokemonUl = document.getElementById("pokemon-list");
 
 input.addEventListener("input", filtradoPokemon);
 //input.addEventListener("click", filtradoPokemon);
@@ -26,8 +30,12 @@ input.addEventListener("input", filtradoPokemon);
 function filtradoPokemon() {
     const searchQuery = this.value.toLowerCase();
     const filteredPokemon = pokemonList.filter(pokemon => pokemon.toLowerCase().startsWith(searchQuery));
+    
     pokemonUl.innerHTML = ""; // Limpiar la lista antes de agregar elementos filtrados
     filteredPokemon.forEach(pokemon => {
+        if (searchQuery === "") {
+            return pokemon.toLowerCase().includes(searchQuery);
+        }
         const li = document.createElement("li");
         li.innerText = pokemon;
         li.addEventListener("click", () => {
@@ -41,11 +49,9 @@ function filtradoPokemon() {
 
 }
 
-const searchBox = document.getElementById('input-text');
-const searchButton = document.getElementById('search-button');
+
 searchButton.onclick = () => {
     console.log("a buscar pokemon");
-    
     //Borrar contenido del input
     searchBox.value = "";
     //Borrar contenido de la lista
