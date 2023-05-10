@@ -20,11 +20,56 @@
             </div>
             <div class="overlay">
                 <div class="popup">
-                    <input type="text" id="input-text"  placeholder="Buscar Pokemon...">
-                    <img src="/server/src/main/resources/icons/lupa.png" alt="Buscar" id="search-button">
+                    <input type="text" id="input-text" placeholder="Buscar Pokemon...">
+                    <img src="../icons/lupa.png" alt="Buscar" id="search-button">
+                    <ul id="pokemon-list"></ul>
+                    <div class="contenedor">
+                        <div class="tarjetaPokemon">
+                            <p>Nombre del pokemon</p>
+                            <img src="../images/sprites/1.png" alt="">
+                            <div class="contenedor_imagenes">
+                                <img src="../images/types/bug_type.png" alt="">
+                                <img src="../images/types/dragon_type.png" alt="">
+                            </div>
+                        </div>
+                        <div class="contenedor_habilidad_stats">
+                            <div class="tarjetaPokemonHabilidad">
+                                <h4>Elige habilidad</h4>
+                                <div class="habilidad">
+                                    <p>habilidad1</p>
+                                </div>
+                                <div class="habilidad">
+                                    <p>habilidad2</p>
+                                </div>
+                                <div class="habilidad">
+                                    <p>habilidad3</p>
+                                </div>
+                            </div>
+                            <div class="tarjetaPokemonMovimiento">
+                                <h4>Elige movimiento:</h4>
+                                <select class="movimientos" id="movimiento1">
+                                    <option value="">selecciona movimiento1</option>
+                                </select>
+                                <select class="movimientos" id="movimiento2">
+                                    <option value="">selecciona movimiento2</option>
+                                </select>
+                                <select class="movimientos" id="movimiento3">
+                                    <option value="">selecciona movimiento3</option>
+                                </select>
+                                <select class="movimientos" id="movimiento4">
+                                    <option value="">selecciona movimiento4</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div id="stats" class="stats">
+                            <h2 id="stats_title">Base Stats</h2>
+                            <!--se carga desde pokemon.js-->
+                        </div>
+
+                    </div>
                     <button class="close-btn">No Guardar</button>
                     <button class="save-btn">Guardar</button>
-                    <ul id="pokemon-list"></ul>
+
                 </div>
             </div>
         </div>
