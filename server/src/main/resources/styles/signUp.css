@@ -1,0 +1,108 @@
+h1{
+    text-align: center;
+    margin-bottom: 1rem;
+}
+.input_group {
+    margin-bottom: 0.3rem;
+    display: flex;
+    flex-direction: column;
+}
+form{
+    width: 20rem;
+    padding: 1rem;
+    margin: 0 auto;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #ffcc94;
+}
+
+#register-button-div{
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+#register-button{
+    padding: 0.5rem;
+    margin: 1.2rem;
+    border-radius: 4px;
+    border: none;
+    background-color: var(--Goldenrod);
+    font-weight: bold;
+}
+
+#input-container{
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.input_group_right{
+    width: 80%;
+    float: right;
+    --width-of-input: 200px;
+    --border-height: 1px;
+    --border-before-color: rgba(221, 221, 221, 0.39);
+    --border-after-color: #5891ff;
+    --input-hovered-color: #4985e01f;
+    position: relative;
+    width: var(--width-of-input);
+    margin-bottom: 0.5rem;
+}
+
+.input {
+    color: #fff;
+    font-size: 0.9rem;
+    background-color: transparent;
+    height: 35px;
+    width: 100%;
+    box-sizing: border-box;
+    padding-inline: 0.5em;
+    padding-block: 0.7em;
+    border: none;
+    border-bottom: var(--border-height) solid var(--border-before-color);
+   }
+   /* styling of animated border */
+   .input-border {
+    position: absolute;
+    background: var(--border-after-color);
+    width: 0%;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    transition: 0.3s;
+   }
+   /* Hover on Input */
+   input:hover {
+    background: var(--input-hovered-color);
+   }
+   
+   input:focus {
+    outline: none;
+   }
+   /* here is code of animated border */
+   input:focus ~ .input-border {
+    width: 100%;
+   }
+
+.icons{
+    width: 35px;
+    height:35px;
+    margin-left: 0.3rem;
+    margin-bottom: 0.5rem;
+}
+
+#mailIcon{
+    width: 40px;
+    margin-left: 0.1rem;
+}
+
+#div-a{
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}
+#isRegistered{
+    color: var(--Teal);
+    text-decoration: underline;
+}
