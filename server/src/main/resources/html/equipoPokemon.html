@@ -25,23 +25,23 @@
                     <ul id="pokemon-list"></ul>
                     <div class="contenedor">
                         <div class="tarjetaPokemon">
-                            <p>Nombre del pokemon</p>
-                            <img src="../images/sprites/1.png" alt="">
+                            <p class="nombrePokemon">Nombre del pokemon</p>
+                            <img class="imagenPokemon" src="../images/sprites/1.png" alt="">
                             <div class="contenedor_imagenes">
-                                <img src="../images/types/bug_type.png" alt="">
-                                <img src="../images/types/dragon_type.png" alt="">
+                                <img class="tipoPokemon1" src="../images/types/bug_type.png" alt="">
+                                <img class="tipoPokemon2" src="../images/types/dragon_type.png" alt="">
                             </div>
                         </div>
                         <div class="contenedor_habilidad_stats">
                             <div class="tarjetaPokemonHabilidad">
                                 <h4>Elige habilidad</h4>
-                                <div class="habilidad">
+                                <div class="habilidad" id="habilidad1">
                                     <p>habilidad1</p>
                                 </div>
-                                <div class="habilidad">
+                                <div class="habilidad" id="habilidad2">
                                     <p>habilidad2</p>
                                 </div>
-                                <div class="habilidad">
+                                <div class="habilidad" id="habilidad3">
                                     <p>habilidad3</p>
                                 </div>
                             </div>
@@ -64,6 +64,14 @@
                         <div id="stats" class="stats">
                             <h2 id="stats_title">Base Stats</h2>
                             <!--se carga desde pokemon.js-->
+                            <div>
+                                <p>IVs disponibles:</p>
+                                <input type="text" id="cuadroTexto" readonly style="caret-color: white;">
+                                <div class="titulo_evs_ivs">
+                                    <p>IVs</p>
+                                    <p>EVs</p>
+                                </div>
+                            </div>
                         </div>
 
                     </div>
