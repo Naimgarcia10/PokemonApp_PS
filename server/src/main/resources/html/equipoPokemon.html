@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EquipoPokemon</title>
     <link rel="stylesheet" href="../styles/index.css">
+    <link rel="stylesheet" type="text/css" href="../styles/search_pokemon.css">
     <link rel="stylesheet" href="../styles/equipoPokemon.css">
 </head>
 
@@ -15,18 +16,19 @@
     <main>
         <div class="container">
             <div class="card">
-              <div class="icon">+</div>
+                <div class="icon">+</div>
             </div>
             <div class="overlay">
-              <div class="popup">
-                <h1>¡Hola mundo!</h1>
-                <p>Este es un ejemplo de ventana emergente.</p>
-                <button class="close-btn">Cerrar</button>
-                <button class="save-btn">Guardar</button>
-              </div>
+                <div class="popup">
+                    <input type="text" id="input-text"  placeholder="Buscar Pokemon...">
+                    <img src="/server/src/main/resources/icons/lupa.png" alt="Buscar" id="search-button">
+                    <button class="close-btn">No Guardar</button>
+                    <button class="save-btn">Guardar</button>
+                    <ul id="pokemon-list"></ul>
+                </div>
             </div>
-          </div>
-                    
+        </div>
+
     </main>
     <script type="module" src="../scripts/components/footer.js"></script>
     <script type="module" src="../scripts/equipoPokemon.js"></script>
