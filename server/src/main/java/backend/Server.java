@@ -168,6 +168,20 @@ public class Server {
         });
     }
 
+    private static void getPokemonsName(ConnMysql conn){
+        Spark.get("/getPokemonsName", (req, res) -> {
+            Gson gson = new GsonBuilder().create();          
+            String query = "SELECT name FROM pokemon";
+            ResultSet rs = conn.queryMysql(query);
+            ArrayList<String> listaPokemons = new ArrayList<>();
+            while(rs.next()){
+                listaPokemons.add(rs.getString("name"));
+            }
+            String result = gson.toJson(listaPokemons);
+            return result;
+        });
+    }
+
     //PokemonWhoLearnsAbilities
     private static void attendPokemonWhoLearnsAbilities(ConnMysql conn){
         Spark.get("/getPokemonsWhoLearnsAbilities/:idAbility", (req, res) -> {
@@ -214,5 +228,6 @@ public class Server {
         Server.attendPokemonWhoLearnsMovements(conn);
         Server.attendPokemonAbilitySearcher(conn);
         Server.attendPokemonWhoLearnsAbilities(conn);
+        Server.getPokemonsName(conn);
     }
 }
