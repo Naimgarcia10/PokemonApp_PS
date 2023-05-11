@@ -11,6 +11,88 @@ import com.google.gson.JsonObject;
 
 public class Server {
 
+    private static void returnCards() {
+        Spark.get("/getCards", (rq, rs) -> {
+            Connection conn = connection();
+            String sql = "SELECT * FROM custom_pokemons";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            ResultSet result = stmt.executeQuery();
+            ArrayList<JsonObject> cards = new ArrayList<>();
+            while (result.next()) {
+                JsonObject card = new JsonObject();
+                String[] namesData = returnData(result.getString("idPokemon"), result.getString("idAbility")
+                                            , result.getString("idMovement1"),result.getString("idMovement2")
+                                            , result.getString("idMovement3"), result.getString("idMovement4"));
+
+                card.addProperty("name", namesData[0]);
+                card.addProperty("image", namesData[1]);
+                card.addProperty("ability", namesData[2]);
+                card.addProperty("movement1", namesData[3]);
+                card.addProperty("movement2", namesData[4]);
+                card.addProperty("movement3", namesData[5]);
+                card.addProperty("movement4", namesData[6]);
+                cards.add(card);
+            }
+            return cards;
+        });
+    }
+    
+    private static String[] returnData(String idPokemon, String idAbility, String idMovement1
+                                    ,String idMovement2, String idMovement3, String idMovement4){
+
+        String[] data = new String[7];
+        try {
+            Connection conn = connection();
+            String sql = "SELECT image, name FROM pokemon WHERE idPokemon = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, idPokemon);
+            ResultSet rs = stmt.executeQuery();
+            rs.next();
+            data[0] = rs.getString("name");
+            data[1] = rs.getString("image");
+
+            sql = "SELECT name FROM abilities WHERE idAbility = ?";
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, idAbility);
+            rs = stmt.executeQuery();
+            rs.next();
+            data[2] = rs.getString("name");
+
+            sql = "SELECT name FROM movements WHERE idMovement = ?";
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, idMovement1);
+            rs = stmt.executeQuery();
+            rs.next();
+            data[3] = rs.getString("name");
+
+            sql = "SELECT name FROM movements WHERE idMovement = ?";
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, idMovement2);
+            rs = stmt.executeQuery();
+            rs.next();
+            data[4] = rs.getString("name");
+
+            sql = "SELECT name FROM movements WHERE idMovement = ?";
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, idMovement3);
+            rs = stmt.executeQuery();
+            rs.next();
+            data[5] = rs.getString("name");
+
+            sql = "SELECT name FROM movements WHERE idMovement = ?";
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, idMovement4);
+            rs = stmt.executeQuery();
+            rs.next();
+            data[6] = rs.getString("name");
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        System.out.println(data);
+        return data;
+    }
+
     private static String[] returnIds (String name, String ability, String movement1, String movement2, String movement3, String movement4){
         String[] ids = new String[6];
         try {
@@ -343,5 +425,6 @@ public class Server {
         Server.attendPokemonWhoLearnsAbilities(conn);
         Server.getPokemonsName(conn);
         Server.postPokemon();
+        Server.returnCards();
     }
 }

@@ -25,6 +25,7 @@ let pokemonSpeed = 0;
 
 const url_PokemonsName = `http://${DB_HOST}:${DB_PORT}/getPokemonsName`;
 const url_PostPokemon = `http://${DB_HOST}:${DB_PORT}/postPokemonCard`;
+const url_GetPokemon = `http://${DB_HOST}:${DB_PORT}/getCards`;
 
 cargaLista();
 
@@ -84,14 +85,15 @@ saveBtn.addEventListener('click', function () {
         ivs: []
     };
     evs.forEach(ev => {
-        data.evs.push(ev.value? ev.value : 0);
+        data.evs.push(ev.value ? ev.value : 0);
     });
 
     ivs.forEach(iv => {
-        data.ivs.push(iv.value? iv.value : 0);
+        data.ivs.push(iv.value ? iv.value : 0);
     });
     post_pokemonCard(data);
     overlay.style.display = 'none';
+    
 });
 
 input.addEventListener("input", filtradoPokemon);
@@ -320,6 +322,7 @@ function listener_for_ivs() {
     });
 }
 
+window.addEventListener('DOMContentLoaded', loadCards);
 window.addEventListener('DOMContentLoaded', showStats);
 window.addEventListener('DOMContentLoaded', updateIvs);
 window.addEventListener('DOMContentLoaded', listener_for_evs);
@@ -379,7 +382,28 @@ function post_pokemonCard(data) {
         },
         body: JSON.stringify(data)
     })
-    .then(response => response.json())
-    .then(data => console.log(data))
-    .catch(error => console.error(error));
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(error => console.error(error));
+}
+
+function loadCards() {
+
+    fetch(url_GetPokemon)
+        .then(response => response.json())
+        .then(data => {
+            const contenedor = document.querySelector('.container');
+            data.forEach(element => {
+                const card = document.createElement('div');
+                card.innerHTML = `  <div class="imagen_nombre">
+                                    <h3>${element.name}</h3>
+                                    <img src="${element.image}" alt="">
+                                    </div>`;
+
+                card.classList.add('cardPokemon');
+                contenedor.appendChild(card);
+
+            });
+        })
+        .catch(error => console.error(error));
 }

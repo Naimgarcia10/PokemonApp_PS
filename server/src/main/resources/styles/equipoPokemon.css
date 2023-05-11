@@ -3,6 +3,7 @@
   user-select: none;
 }
 .container {
+  display: flex;
   position: relative;
   height: 100vh;
   background-image: url("https://cdn.pixabay.com/photo/2018/02/08/22/27/abstract-3142529_960_720.jpg");
@@ -12,11 +13,11 @@
 
 .card {
   position: absolute;
-  top: 50%;
-  left: 50%;
+  bottom: 14%;
+  left: 8%;
   transform: translate(-50%, -50%);
-  width: 200px;
-  height: 200px;
+  width: 150px;
+  height: 140px;
   border-radius: 10px;
   background-color: white;
   display: flex;
@@ -164,7 +165,8 @@
 
 .tarjetaPokemonHabilidad,
 .tarjetaPokemonMovimiento,
-.stats {
+.stats,
+.cardPokemon {
   margin-top: 2rem;
   margin-bottom: 2rem;
   margin-left: 1rem;
@@ -263,4 +265,19 @@
 }
 .titulo_evs_ivs p{
   margin-right: 3rem;
+}
+
+.cardPokemon img{
+  width: 80%;
+}
+.cardPokemon .imagen_nombre{
+  display: block;
+}
+.cardPokemon{
+  display: flex;
+  height: 170px;
+  width: 150px;
+  position: relative;
+  z-index: -1;
+  
 }
