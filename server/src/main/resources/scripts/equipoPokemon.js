@@ -78,8 +78,8 @@ closeBtn.addEventListener('click', function () {
 
 saveBtn.addEventListener('click', function () {
 
-    const evs = document.querySelectorAll(".evs");
-    const ivs = document.querySelectorAll(".ivs");
+    const evs = document.querySelectorAll(".ivs");
+    const ivs = document.querySelectorAll(".evs");
     let data = {
         name: document.querySelector('.nombrePokemon') ? document.querySelector('.nombrePokemon').textContent : "",
         ability: document.querySelector('.selected') ? document.querySelector('.selected').textContent : "",
