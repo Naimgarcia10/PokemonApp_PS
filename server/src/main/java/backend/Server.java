@@ -76,7 +76,6 @@ public class Server {
         return DriverManager.getConnection(url, user, password);
     }
 
-    /* Metodo post pokemon ee db */
     private static void postPokemon() {
         Spark.post("/postPokemonCard", (rq, res) -> {
 
@@ -123,18 +122,18 @@ public class Server {
                 stmt.setString(16, ivs.get(4).getAsString());
                 stmt.executeUpdate();
             }
-
-            return "Data received";
+            String sql2 = "SELECT MAX(idCustomPokemon) FROM custom_pokemons";
+            PreparedStatement stmt2 = conn.prepareStatement(sql2);
+            ResultSet rs = stmt2.executeQuery();
+            return rs.next() ? rs.getString(1) : "0";
         });
     }
 
-    // Configuración del servidor, puerto y carpeta de archivos estáticos
     private static void config() {
         Spark.staticFiles.location("");
         Spark.port(8080);
     }
 
-    // Redireccionamiento a la página de inicio
     private static void redirect() {
         Spark.get("/", (req, res) -> {
             res.redirect("/html/home.html");
@@ -142,7 +141,6 @@ public class Server {
         });
     }
 
-    // Tutorial
     private static void attendTutorialRequest() {
         Spark.get("/tutorial/:index", (rq, rs) -> {
             String param = rq.params(":index");
@@ -151,14 +149,12 @@ public class Server {
         });
     }
 
-    // Types
     private static void attendTypesRequest(ConnMysql conn) {
         Spark.get("/getTypes", (req, res) -> {
             return new DamageRelations().build_damage_SQL(conn);
         });
     }
 
-    // Glossary
     private static void attendGlossaryRequest(ConnMysql conn) {
         Spark.get("/getTerms", (req, res) -> {
             String query = "SELECT name, description FROM terms";
@@ -176,7 +172,6 @@ public class Server {
         });
     }
 
-    // Buscador Pokemon
     private static void attendPokemonSearcher(ConnMysql conn) {
         Spark.get("/getPokemon/:pokemonName", (rq, res) -> {
             String pokemonName = rq.params(":pokemonName");
@@ -215,7 +210,6 @@ public class Server {
         });
     }
 
-    // Buscador Objetos
     private static void attendPokemonItemSearcher(ConnMysql conn) {
         Spark.get("/getItems", (req, res) -> {
 
@@ -234,7 +228,6 @@ public class Server {
         });
     }
 
-    // Buscador de movimiento pokemon
     private static void attendPokemonMovementSearcher(ConnMysql conn) {
         Spark.get("/getMovements", (req, res) -> {
             String query = "SELECT idMovement, movements.name, types.name AS type, movement_class.name AS category, pp, power, accuracy, priority "
@@ -262,7 +255,6 @@ public class Server {
         });
     }
 
-    // PokemonWhoLearnsMovements
     private static void attendPokemonWhoLearnsMovements(ConnMysql conn) {
         Spark.get("/getPokemonsWhoLearnsMovements/:idMovement", (rq, rs) -> {
             Gson gson = new GsonBuilder().create();
@@ -272,7 +264,6 @@ public class Server {
         });
     }
 
-    // GetAbility
     private static void attendPokemonAbilitySearcher(ConnMysql conn) {
         Spark.get("/getAbilities", (req, res) -> {
             Gson gson = new GsonBuilder().create();
@@ -303,7 +294,6 @@ public class Server {
         });
     }
 
-    // PokemonWhoLearnsAbilities
     private static void attendPokemonWhoLearnsAbilities(ConnMysql conn) {
         Spark.get("/getPokemonsWhoLearnsAbilities/:idAbility", (req, res) -> {
             Gson gson = new GsonBuilder().create();

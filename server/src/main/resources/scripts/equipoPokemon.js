@@ -7,6 +7,7 @@ const saveBtn = document.querySelector('.save-btn');
 const searchBox = document.getElementById('input-text');
 const searchButton = document.getElementById('search-button');
 
+
 const pokemonList = [];
 let movimientos = [];
 let habilidadSeleccionada = '';
@@ -72,7 +73,6 @@ saveBtn.addEventListener('click', function () {
 
     const evs = document.querySelectorAll(".evs");
     const ivs = document.querySelectorAll(".ivs");
-    console.log(document.querySelector('#movimiento1').value);
     let data = {
         name: document.querySelector('.nombrePokemon') ? document.querySelector('.nombrePokemon').textContent : "",
         ability: document.querySelector('.selected') ? document.querySelector('.selected').textContent : "",
