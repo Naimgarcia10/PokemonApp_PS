@@ -69,6 +69,27 @@ closeBtn.addEventListener('click', function () {
 });
 
 saveBtn.addEventListener('click', function () {
+
+    const evs = document.querySelectorAll(".evs");
+    const ivs = document.querySelectorAll(".ivs");
+    console.log(document.querySelector('#movimiento1').value);
+    let data = {
+        name: document.querySelector('.nombrePokemon') ? document.querySelector('.nombrePokemon').textContent : null,
+        ability: document.querySelector('.selected') ? document.querySelector('.selected').textContent : null,
+        movement1: document.querySelector('#movimiento1') ? document.querySelector('#movimiento1').value : null,
+        movement2: document.querySelector('#movimiento2') ? document.querySelector('#movimiento2').value : null,
+        movement3: document.querySelector('#movimiento3') ? document.querySelector('#movimiento3').value : null,
+        movement4: document.querySelector('#movimiento4') ? document.querySelector('#movimiento4').value : null,
+        evs: [],
+        ivs: []
+    };
+    evs.forEach(ev => {
+        data.evs.push(ev.value);
+    });
+
+    ivs.forEach(iv => {
+        data.ivs.push(iv.value);
+    });
     overlay.style.display = 'none';
 });
 
