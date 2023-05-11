@@ -15,6 +15,12 @@ let ivs_globales = 508;
 const input = document.getElementById("input-text");
 const pokemonUl = document.getElementById("pokemon-list");
 
+let pokemonHpBase = 0;
+let pokemonAttackBase = 0;
+let pokemonDefenseBase = 0;
+let pokemonSpatkBase = 0;
+let pokemonSpdefBase = 0;
+let pokemonSpeedBase = 0;
 
 let pokemonHp = 0;
 let pokemonAttack = 0;
@@ -170,6 +176,14 @@ searchButton.onclick = async () => {
     pokemonSpatk = data[0].spatk_base;
     pokemonSpdef = data[0].spdef_base;
     pokemonSpeed = data[0].speed_base;
+
+    pokemonHpBase = pokemonHp;
+    pokemonAttackBase = pokemonAttack;
+    pokemonDefenseBase = pokemonDefense;
+    pokemonSpatkBase = pokemonSpatk;
+    pokemonSpdefBase = pokemonSpdef;
+    pokemonSpeedBase = pokemonSpeed;
+
     updateStats();
 
 }
@@ -267,7 +281,7 @@ function listener_for_evs() {
                     console.log('error');
                     input.style.borderColor = 'red';
                 } else {
-                    modificate_stats_evs(previousValue, input.value, index);
+                    modificate_stats_evs(input.value, index);
                     updateStats();
                     input.style.borderColor = 'green';
                     console.log('ok');
@@ -322,11 +336,13 @@ function listener_for_ivs() {
     });
 }
 
-window.addEventListener('DOMContentLoaded', loadCards);
-window.addEventListener('DOMContentLoaded', showStats);
-window.addEventListener('DOMContentLoaded', updateIvs);
-window.addEventListener('DOMContentLoaded', listener_for_evs);
-window.addEventListener('DOMContentLoaded', listener_for_ivs);
+window.addEventListener('DOMContentLoaded', ()=>{
+    loadCards();
+    showStats();
+    updateIvs();
+    listener_for_evs();
+    listener_for_ivs();
+});
 
 function modificate_stats(previousValue, input, index) {
     switch (index) {
@@ -334,41 +350,41 @@ function modificate_stats(previousValue, input, index) {
             pokemonHp = pokemonHp + (input - previousValue) / 4;
             break;
         case 1:
-            pokemonAttack = pokemonAttack + (previousValue - input) / 4;
+            pokemonAttack = pokemonAttack + (input - previousValue) / 4;
             break;
         case 2:
-            pokemonDefense = pokemonDefense + (previousValue - input) / 4;
+            pokemonDefense = pokemonDefense + (input - previousValue) / 4;
             break;
         case 3:
-            pokemonSpatk = pokemonSpatk + (previousValue - input) / 4;
+            pokemonSpatk = pokemonSpatk + (input - previousValue) / 4;
             break;
         case 4:
-            pokemonSpdef = pokemonSpdef + (previousValue - input) / 4;
+            pokemonSpdef = pokemonSpdef + (input - previousValue) / 4;
             break;
         case 5:
-            pokemonSpeed = pokemonSpeed + (previousValue - input) / 4;
+            pokemonSpeed = pokemonSpeed + (input - previousValue) / 4;
             break;
     }
 }
-function modificate_stats_evs(previousValue, input, index) {
+function modificate_stats_evs(input, index) {
     switch (index) {
         case 0:
-            pokemonHp = pokemonHp + (input - previousValue);
+            pokemonHp = (pokemonHpBase + Number(input));
             break;
         case 1:
-            pokemonAttack = pokemonAttack + (previousValue - input);
+            pokemonAttack = (pokemonAttackBase + Number(input));
             break;
         case 2:
-            pokemonDefense = pokemonDefense + (previousValue - input);
+            pokemonDefense = (pokemonDefenseBase + Number(input));
             break;
         case 3:
-            pokemonSpatk = pokemonSpatk + (previousValue - input);
+            pokemonSpatk = (pokemonSpatkBase + Number(input));
             break;
         case 4:
-            pokemonSpdef = pokemonSpdef + (previousValue - input);
+            pokemonSpdef = (pokemonSpdefBase + Number(input));
             break;
         case 5:
-            pokemonSpeed = pokemonSpeed + (previousValue - input);
+            pokemonSpeed = (pokemonSpeedBase + Number(input));
             break;
     }
 }
