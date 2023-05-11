@@ -23,7 +23,7 @@ let pokemonSpdef = 0;
 let pokemonSpeed = 0;
 
 const url_PokemonsName = `http://${DB_HOST}:${DB_PORT}/getPokemonsName`;
-
+const url_PostPokemon = `http://${DB_HOST}:${DB_PORT}/postPokemonCard`;
 
 cargaLista();
 
@@ -74,22 +74,23 @@ saveBtn.addEventListener('click', function () {
     const ivs = document.querySelectorAll(".ivs");
     console.log(document.querySelector('#movimiento1').value);
     let data = {
-        name: document.querySelector('.nombrePokemon') ? document.querySelector('.nombrePokemon').textContent : null,
-        ability: document.querySelector('.selected') ? document.querySelector('.selected').textContent : null,
-        movement1: document.querySelector('#movimiento1') ? document.querySelector('#movimiento1').value : null,
-        movement2: document.querySelector('#movimiento2') ? document.querySelector('#movimiento2').value : null,
-        movement3: document.querySelector('#movimiento3') ? document.querySelector('#movimiento3').value : null,
-        movement4: document.querySelector('#movimiento4') ? document.querySelector('#movimiento4').value : null,
+        name: document.querySelector('.nombrePokemon') ? document.querySelector('.nombrePokemon').textContent : "",
+        ability: document.querySelector('.selected') ? document.querySelector('.selected').textContent : "",
+        movement1: document.querySelector('#movimiento1') ? document.querySelector('#movimiento1').value : "",
+        movement2: document.querySelector('#movimiento2') ? document.querySelector('#movimiento2').value : "",
+        movement3: document.querySelector('#movimiento3') ? document.querySelector('#movimiento3').value : "",
+        movement4: document.querySelector('#movimiento4') ? document.querySelector('#movimiento4').value : "",
         evs: [],
         ivs: []
     };
     evs.forEach(ev => {
-        data.evs.push(ev.value);
+        data.evs.push(ev.value? ev.value : 0);
     });
 
     ivs.forEach(iv => {
-        data.ivs.push(iv.value);
+        data.ivs.push(iv.value? iv.value : 0);
     });
+    post_pokemonCard(data);
     overlay.style.display = 'none';
 });
 
@@ -367,4 +368,18 @@ function modificate_stats_evs(previousValue, input, index) {
             pokemonSpeed = pokemonSpeed + (previousValue - input);
             break;
     }
+}
+
+
+function post_pokemonCard(data) {
+    fetch(url_PostPokemon, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.error(error));
 }
