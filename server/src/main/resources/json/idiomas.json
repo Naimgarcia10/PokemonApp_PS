@@ -30,15 +30,13 @@
       "TUTORIAL",
       "TIPOS",
       "GLOSARIO",
-      "CUESTIONARIO",
-      "Elige tu idioma"
+      "CUESTIONARIO"
     ],
     "en": [
       "TUTORIAL",
       "TYPES",
       "GLOSSARY",
-      "QUIZ",
-      "Select your language"
+      "QUIZ"
     ]
   },
   "expert_funcionalities": {
@@ -47,16 +45,14 @@
       "BUSCAR OBJETOS",
       "BUSCAR MOVIMIENTOS",
       "BUSCAR HABILIDADES",
-      "EVALUAR EQUIPO",
-      "Elige tu idioma"
+      "EVALUAR EQUIPO"
     ],
     "en": [
       "SEARCH POKEMON",
       "SEARCH OBJECTS",
       "SEARCH MOVEMENTS",
       "SEARCH ABILITIES",
-      "EVALUATE TEAM",
-      "Select your language"
+      "EVALUATE TEAM"
     ]
   },
   "types": {

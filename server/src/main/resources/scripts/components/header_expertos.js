@@ -25,8 +25,5 @@ document.addEventListener("HeaderCargado", function(){
 
     const evaluate_team_a = document.querySelector("#evaluate_team_a");
     evaluate_team_a.innerHTML = idiomas["expert_funcionalities"][`${idioma_usuario}`][4];
-
-    const languagepicker = document.querySelector("#languagepicker");
-    languagepicker.innerHTML = idiomas["expert_funcionalities"][`${idioma_usuario}`][5] + ":";
-    }) 
-})
+    });
+});

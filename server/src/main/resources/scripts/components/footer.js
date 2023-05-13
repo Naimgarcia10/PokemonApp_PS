@@ -1,6 +1,6 @@
 import { loadOver } from "./function.js"
 loadOver("footer.html", document.querySelector('script[src="../scripts/components/footer.js"]'));
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("HeaderCargado", function () {
     fetch("../../json/idiomas.json")
         .then(response => response.json())
         .then(idiomas => {

@@ -16,14 +16,4 @@ export const cargarSelectorIdiomas = () => {
 loadOver("header.html", document.querySelector('script[src="../scripts/components/header.js"]'));
 document.addEventListener("HeaderCargado", function () {
     cargarSelectorIdiomas();
-    fetch("../../json/idiomas.json")
-        .then(response => response.json())
-        .then(idiomas => {
-            let idioma_usuario = localStorage.getItem("userLanguage");
-            if (idioma_usuario == null) idioma_usuario = "en";
-
-            const languagepicker = document.querySelector("#languagepicker");
-            languagepicker.innerHTML = idiomas["beginner_funcionalities"][`${idioma_usuario}`][4] + ":";
-
-        })
 })
