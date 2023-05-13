@@ -7,14 +7,12 @@ document.addEventListener("DOMContentLoaded", function() {
   form.addEventListener("submit", function(event){
     event.preventDefault();    
     registrarUsuario();
+    form.reset();
   })
 
 });
 
 function registrarUsuario() {
-  const a = document.getElementById('username');
-  console.log(a);
-  console.log("a.value = " + a.value);
   // Parámetros a enviar
   var formData = {
     'username': document.getElementById('username').value,
@@ -22,8 +20,6 @@ function registrarUsuario() {
     'password': document.getElementById('password').value,
     'birthdate': document.getElementById('birthdate').value
   }
-
-  console.log(formData);
 
   // Realizar la solicitud POST al servidor
   fetch(`http://${DB_HOST}:${DB_PORT}/register`, {
@@ -33,7 +29,4 @@ function registrarUsuario() {
     },
       body: JSON.stringify(formData)
   })
-  .then(response = response.json())
-  .then(data = console.log(data))
-  .catch(error = console.error("Fetch error:", error));
 }
