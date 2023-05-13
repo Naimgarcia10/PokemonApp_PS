@@ -15,10 +15,11 @@ async function searchPokemon() {
     const data = await response.json();
     if (data.length > 0) {
       /*Propiedades Pokemon */
+      console.log(data[0]);
       const pokemonName = data[0].name;
       const pokemonImage = data[0].image;
-      const pokemonType1 = data[0].type1;
-      const pokemonType2 = data[0].type2;
+      const pokemonType1 = data[0].type1.picture;
+      const pokemonType2 = (data[0].type2 != null) ? data[0].type2.picture : null;
       const pokemonAbility1 = data[0].ability1;
       const pokemonAbility2 = data[0].ability2;
       const pokemonAbility3 = data[0].ability3;

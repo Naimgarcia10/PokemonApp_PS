@@ -29,8 +29,12 @@ public class DamageRelations {
                 noDamageFrom = new ArrayList<String>();
         }
 
-        public String build_damage_SQL(ConnMysql conn) throws Exception {
+        public String build_damage_SQL(ConnMysql conn, String typeName) throws Exception {
                 // Ejecutar la consulta
+                String extraWhere = "";
+                if(typeName != null){
+                        extraWhere = String.format("WHERE t1.name = '%s' ", typeName);
+                }
                 String query = "SELECT t1.name AS type_name, t1.picture AS type_picture, "
                         + "GROUP_CONCAT(DISTINCT t2.picture SEPARATOR ', ') AS double_damage_to, "
                         + "GROUP_CONCAT(DISTINCT t3.picture SEPARATOR ', ') AS double_damage_from, "
@@ -51,6 +55,7 @@ public class DamageRelations {
                         + "LEFT JOIN types t6 ON t6.idType = tz1.idTypeImmune "
                         + "LEFT JOIN type_zerodamage tz2 ON t1.idType = tz2.idTypeImmune "
                         + "LEFT JOIN types t7 ON t7.idType = tz2.idTypeZeroDamage "
+                        + extraWhere
                         + "GROUP BY t1.idType";
 
                 ResultSet rs = conn.queryMysql(query);                
@@ -112,8 +117,7 @@ public class DamageRelations {
                                 "LEFT JOIN type_zerodamage tz2 ON t1.idType = tz2.idTypeImmune " + 
                                 "LEFT JOIN types t7 ON t7.idType = tz2.idTypeZeroDamage " + 
                         String.format("WHERE t1.picture IN ('%s', '%s') ", type1, type2) + 
-                        "GROUP BY t1.idType;";
-                System.out.println(query);
+                        "GROUP BY t1.idType;";                
                 ResultSet rs = conn.queryMysql(query);                
                 List<DamageRelations> listaDamageRelations = new ArrayList<DamageRelations>();
                 while (rs.next()) {

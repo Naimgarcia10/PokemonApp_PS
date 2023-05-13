@@ -12,7 +12,7 @@ public class Server {
     //Configuración del servidor, puerto y carpeta de archivos estáticos
     private static void config(){
         Spark.staticFiles.location("");
-        Spark.port(8080);
+        Spark.port(4200);
     }
 
     //Redireccionamiento a la página de inicio
@@ -35,7 +35,15 @@ public class Server {
     //Types
     private static void attendTypesRequest(ConnMysql conn){
         Spark.get("/getTypes", (req, res) -> {
-            return new DamageRelations().build_damage_SQL(conn);
+            return new DamageRelations().build_damage_SQL(conn, null);
+        });
+    }
+
+    //Type
+    private static void attendTypeRequest(ConnMysql conn){                
+        Spark.get("/getType/:type", (req, res) -> {
+            String typeName = req.params(":type");
+            return new DamageRelations().build_damage_SQL(conn, typeName);
         });
     }
 
@@ -62,8 +70,8 @@ public class Server {
         Spark.get("/getPokemon/:pokemonName", (rq, res) -> {
             String pokemonName = rq.params(":pokemonName");
             String query = "SELECT idPokemon, pokemon.name, a1.name as ability1, " +
-            "a2.name as ability2, a3.name as ability3, t1.picture as type1, " +
-            "t2.picture as type2, hpBase, attackBase, defenseBase, spatkBase, " +
+            "a2.name as ability2, a3.name as ability3, t1.name as type1Name, t1.picture as type1Picture, " +
+            "t2.name as type2Name, t2.picture as type2Picture, hpBase, attackBase, defenseBase, spatkBase, " +
             "spdefBase, speedBase, image FROM pokemon JOIN abilities a1 on " +
             "a1.idAbility = idAbility1 LEFT JOIN abilities a2 on " +
             "a2.idAbility = idAbility2 LEFT JOIN abilities a3 on " +
@@ -79,15 +87,15 @@ public class Server {
                                         rs.getString("ability1"), 
                                         rs.getString("ability2"), 
                                         rs.getString("ability3"), 
-                                        rs.getString("type1"), 
-                                        rs.getString("type2"), 
+                                        new Type(rs.getString("type1Name"), rs.getString("type1Picture")),
+                                        rs.getString("type2Name") == null ? null : new Type(rs.getString("type2Name"), rs.getString("type2Picture")),
                                         rs.getInt("hpBase"), 
                                         rs.getInt("attackBase"), 
                                         rs.getInt("defenseBase"), 
                                         rs.getInt("spatkBase"), 
                                         rs.getInt("spdefBase"), 
                                         rs.getInt("speedBase"), 
-                                        rs.getString("image"));
+                                        rs.getString("image"));            
             pokemon.buildPokemonMoves(conn);
             pokemon.buildStrategies(conn);
             pokemon.buildWeaknesses(conn);          
@@ -207,6 +215,7 @@ public class Server {
         Server.redirect();
         Server.attendTutorialRequest();
         Server.attendTypesRequest(conn);
+        Server.attendTypeRequest(conn);
         Server.attendGlossaryRequest(conn);
         Server.attendPokemonSearcher(conn);
         Server.attendPokemonItemSearcher(conn);

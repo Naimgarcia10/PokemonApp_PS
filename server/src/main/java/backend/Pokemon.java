@@ -10,8 +10,8 @@ public class Pokemon {
     private String ability1;
     private String ability2;
     private String ability3;
-    private String type1;
-    private String type2;
+    private Type type1;
+    private Type type2;
     private int hp_base;
     private int attack_base;
     private int defense_base;
@@ -23,8 +23,8 @@ public class Pokemon {
     private List<Strategy> pokemonStrategies;
     private DoubleTypeDamageRelations pokemonWeaknesses;
     
-    public Pokemon(int idPokemon, String name, String ability1, String ability2, String ability3, String type1,
-            String type2, int hp_base, int attack_base, int defense_base, int spatk_base, int spdef_base,
+    public Pokemon(int idPokemon, String name, String ability1, String ability2, String ability3, Type type1,
+            Type type2, int hp_base, int attack_base, int defense_base, int spatk_base, int spdef_base,
             int speed_base, String image) throws Exception{
 
         this.idPokemon = idPokemon;
@@ -48,7 +48,7 @@ public class Pokemon {
 
     public void buildPokemonMoves(ConnMysql conn) throws Exception{
 
-        String query = "SELECT movements.name AS movement_name, types.picture AS type_picture, movement_class.icon AS class_icon " +
+        String query = "SELECT movements.name AS movement_name, types.name AS type_name, types.picture AS type_picture, movement_class.icon AS class_icon, movements.accuracy, movements.description, movements.power, movements.pp, movements.priority " +
         "FROM movements " +  
         "INNER JOIN pokemon_learns_movement ON movements.idMovement = pokemon_learns_movement.idMovement " +
         "INNER JOIN types ON movements.idType = types.idType " +
@@ -59,9 +59,14 @@ public class Pokemon {
 
         while(rs.next()){
             String name = rs.getString("movement_name");
-            String typePicture = rs.getString("type_picture");
+            Type type = new Type(rs.getString("type_name"), rs.getString("type_picture"));
             String classIcon = rs.getString("class_icon");
-            PokemonMove pokemonMove = new PokemonMove(name, typePicture, classIcon);
+            String description = rs.getString("description");
+            int power = rs.getInt("power");
+            int accuracy = rs.getInt("accuracy");
+            int pp = rs.getInt("pp");
+            int priority = rs.getInt("priority");
+            PokemonMove pokemonMove = new PokemonMove(name, description, type, classIcon, power, accuracy, pp, priority);
             pokemonMoves.add(pokemonMove);
         }
         this.pokemonMoves = pokemonMoves;
@@ -99,7 +104,9 @@ public class Pokemon {
     }
 
     public void buildWeaknesses(ConnMysql conn) throws Exception{
-        pokemonWeaknesses = DamageRelations.getDoubleWeaknesses(type1, type2, conn);  
+        String type1Picture = type1.getPicture();
+        String type2Picture = (type2 != null) ? type2.getPicture() : null;
+        pokemonWeaknesses = DamageRelations.getDoubleWeaknesses(type1Picture, type2Picture, conn);  
     }
     public int getIdPokemon() {
         return idPokemon;
@@ -121,11 +128,11 @@ public class Pokemon {
         return ability3;
     }
 
-    public String getType1() {
+    public Type getType1() {
         return type1;
     }
 
-    public String getType2() {
+    public Type getType2() {
         return type2;
     }
 

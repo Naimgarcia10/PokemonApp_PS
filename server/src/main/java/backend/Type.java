@@ -1,16 +1,21 @@
 package backend;
 
-public class Types {
+public class Type {
 
     private String id;
     private String name;
     private String damage_relations;
     private String picture;
 
-    public Types(String id, String name, String picture, ConnMysql conn) throws Exception{
+    public Type(String id, String name, String picture, ConnMysql conn) throws Exception{
         this.id = id;
         this.name = name;
-        this.damage_relations = new DamageRelations().build_damage_SQL(conn);
+        this.damage_relations = new DamageRelations().build_damage_SQL(conn, name);
+        this.picture = picture;
+    }
+
+    public Type(String name, String picture){
+        this.name = name;
         this.picture = picture;
     }
 

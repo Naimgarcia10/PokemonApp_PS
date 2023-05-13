@@ -155,7 +155,7 @@ function showMoves() {
     const typeCell = document.createElement("td");
     const typeImg = document.createElement("img");
     typeImg.setAttribute('id', 'type_img');
-    typeImg.src = move.type;
+    typeImg.src = move.type.picture;
     typeCell.appendChild(typeImg);
     row.appendChild(typeCell);
 
