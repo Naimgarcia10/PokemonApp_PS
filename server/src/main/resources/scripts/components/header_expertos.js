@@ -1,5 +1,4 @@
-import { loadOver } from "./function.js"
-import { cargarSelectorIdiomas } from "./header.js";
+import { loadOver, cargarSelectorIdiomas } from "./function.js"
 loadOver("header.html", document.querySelector('script[src="../scripts/components/header_expertos.js"]'))
 document.addEventListener("HeaderCargado", function(){
     // mostrar header expertos

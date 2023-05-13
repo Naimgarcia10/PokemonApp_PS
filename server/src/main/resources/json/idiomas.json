@@ -55,6 +55,10 @@
       "EVALUATE TEAM"
     ]
   },
+  "tutorial": {
+    "title_es": "Tutorial Pokemon",
+    "title_en": "Pokemon Tutorial"
+  },
   "types": {
     "title_es": "TABLA DE TIPOS",
     "title_en": "TYPE CHART",
