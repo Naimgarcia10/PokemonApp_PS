@@ -8,8 +8,6 @@ async function searchPokemon() {
   const valorInputCodificado = encodeURIComponent(searchTerm);
   const url = `http://${DB_HOST}:${DB_PORT}/getPokemon/${valorInputCodificado}`;
 
-  
-
   try {
     const response = await fetch(url);
     const data = await response.json();
