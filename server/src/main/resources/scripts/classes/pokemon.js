@@ -1,7 +1,7 @@
 import { Nature } from "./nature.js";
 
 export class Pokemon{
-    constructor(name, type1, type2, hpBase, attackBase, defenseBase, spatkBase, spdefBase, speedBase, image, movements){    
+    constructor(name, type1, type2, hpBase, attackBase, defenseBase, spatkBase, spdefBase, speedBase, image, cry, movements){    
 
         this.level = 100; // por el momento el nivel siempre será 100
         let evsHp = 0;
@@ -22,6 +22,7 @@ export class Pokemon{
         this.type1 = type1;
         this.type2 = type2;        
         this.image = image;
+        this.cry = cry;
         this.movements = movements;                
         this.hp = this.calculateHp(hpBase, ivsHp, evsHp, nature);
         this.attack = this.calculateAttack(attackBase, ivsAttack, evsAttack, nature);

@@ -19,13 +19,14 @@ public class Pokemon {
     private int spdef_base;
     private int speed_base;
     private String image;
+    private String cry;
     private List<PokemonMove> pokemonMoves;
     private List<Strategy> pokemonStrategies;
     private DoubleTypeDamageRelations pokemonWeaknesses;
     
     public Pokemon(int idPokemon, String name, String ability1, String ability2, String ability3, Type type1,
             Type type2, int hp_base, int attack_base, int defense_base, int spatk_base, int spdef_base,
-            int speed_base, String image) throws Exception{
+            int speed_base, String image, String cry) throws Exception{
 
         this.idPokemon = idPokemon;
         this.name = name;
@@ -41,6 +42,7 @@ public class Pokemon {
         this.spdef_base = spdef_base;
         this.speed_base = speed_base;
         this.image = image;
+        this.cry = cry;
         this.pokemonMoves = null;
         this.pokemonStrategies = null;
         this.pokemonWeaknesses = null;
@@ -170,6 +172,10 @@ public class Pokemon {
 
     public String getImage() {
         return image;
+    }
+
+    public String getCry() {
+        return cry;
     }
 
     public List<PokemonMove> getPokemonMoves() {

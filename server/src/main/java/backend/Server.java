@@ -72,7 +72,7 @@ public class Server {
             String query = "SELECT idPokemon, pokemon.name, a1.name as ability1, " +
             "a2.name as ability2, a3.name as ability3, t1.name as type1Name, t1.picture as type1Picture, " +
             "t2.name as type2Name, t2.picture as type2Picture, hpBase, attackBase, defenseBase, spatkBase, " +
-            "spdefBase, speedBase, image FROM pokemon JOIN abilities a1 on " +
+            "spdefBase, speedBase, image, cry FROM pokemon JOIN abilities a1 on " +
             "a1.idAbility = idAbility1 LEFT JOIN abilities a2 on " +
             "a2.idAbility = idAbility2 LEFT JOIN abilities a3 on " +
             "a3.idAbility = idAbility3 JOIN types t1 on t1.idType = " +
@@ -95,7 +95,8 @@ public class Server {
                                         rs.getInt("spatkBase"), 
                                         rs.getInt("spdefBase"), 
                                         rs.getInt("speedBase"), 
-                                        rs.getString("image"));            
+                                        rs.getString("image"),
+                                        rs.getString("cry"));            
             pokemon.buildPokemonMoves(conn);
             pokemon.buildStrategies(conn);
             pokemon.buildWeaknesses(conn);          
