@@ -29,11 +29,20 @@ let pokemonSpatk = 0;
 let pokemonSpdef = 0;
 let pokemonSpeed = 0;
 
+let pokemonCount = 0; // Inicializa el contador de Pokémon. Se usa para saber cuántos Pokémon hay en el equipo
+
 const url_PokemonsName = `http://${DB_HOST}:${DB_PORT}/getPokemonsName`;
 const url_PostPokemon = `http://${DB_HOST}:${DB_PORT}/postPokemonCard`;
 const url_GetPokemon = `http://${DB_HOST}:${DB_PORT}/getCards`;
 
 cargaLista();
+
+
+/*
+##############################################
+#           Seleccionar Habilidades          #
+##############################################
+*/
 
 const habilidades = document.querySelectorAll('.tarjetaPokemonHabilidad .habilidad');
 
@@ -45,6 +54,12 @@ habilidades.forEach(habilidad => {
         console.log(habilidadSeleccionada);
     });
 });
+
+/*
+##############################################
+#          Seleccionar  Movimientos          #
+##############################################
+*/
 
 function updateMovements() {
 
@@ -68,16 +83,23 @@ function updateMovements() {
 
 }
 
-card.addEventListener('click', function () {
-    overlay.style.display = 'block';
-});
-
+/*Boton no guardar*/
 closeBtn.addEventListener('click', function () {
     overlay.style.display = 'none';
 });
 
+
+/*Tarjeta Para añadir pokemon (tarjeta con el +) */
+card.addEventListener('click', function () {
+    overlay.style.display = 'block';
+});
+
+
+/*Boton guardar pokemon*/
 saveBtn.addEventListener('click', function () {
 
+    pokemonCount++;
+    updateAddButton();
     const evs = document.querySelectorAll(".ivs");
     const ivs = document.querySelectorAll(".evs");
     let data = {
@@ -90,6 +112,23 @@ saveBtn.addEventListener('click', function () {
         evs: [],
         ivs: []
     };
+
+    // Comprobaciones de campos vacíos
+    if (data.name === "" || data.name === "Nombre del pokemon") {
+        alert("Seleccione un Pokémon");
+        return;  // Detiene la ejecución de la función
+    }
+
+    if (data.ability === "") {
+        alert("Seleccione una habilidad");
+        return;  // Detiene la ejecución de la función
+    }
+
+    if (data.movement1 === "" && data.movement2 === "" && data.movement3 === "" && data.movement4 === "") {
+        alert("Seleccione al menos un movimiento");
+        return;  // Detiene la ejecución de la función
+    }
+
     evs.forEach(ev => {
         data.evs.push(ev.value ? ev.value : 0);
     });
@@ -97,10 +136,29 @@ saveBtn.addEventListener('click', function () {
     ivs.forEach(iv => {
         data.ivs.push(iv.value ? iv.value : 0);
     });
+
     post_pokemonCard(data);
     overlay.style.display = 'none';
-    
+
 });
+
+/*####################################################*/
+function updateAddButton() {
+    // Obtiene el botón de agregar Pokémon.
+
+    // Si ya hay 6 Pokémon, oculta el botón. De lo contrario, muéstralo.
+    if (pokemonList.length >= 6) {
+        console.log("Ya hay 6 Pokémon");
+        card.style.display = "none";
+    } else {
+        card.style.display = "block";
+    }
+}
+
+
+
+
+/*buscador de pokemon*/
 
 input.addEventListener("input", filtradoPokemon);
 
@@ -111,6 +169,7 @@ async function cargaLista() {
         pokemonList.push(pokemon);
     });
 }
+
 function filtradoPokemon() {
     const searchQuery = this.value.toLowerCase();
     const filteredPokemon = pokemonList.filter(pokemon => pokemon.toLowerCase().startsWith(searchQuery));
@@ -132,6 +191,15 @@ function filtradoPokemon() {
     });
 
 }
+
+/*
+###########################################################
+click en la lupa
+Seccion: refresca la informacion al seleccionar un pokemon
+###########################################################
+*/
+
+
 searchButton.onclick = async () => {
     const searchTerm = searchBox.value;
     searchBox.value = "";
