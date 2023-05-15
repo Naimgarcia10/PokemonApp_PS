@@ -1,11 +1,17 @@
-
+import {DB_HOST, DB_PORT} from "./config.js"
 
 document.addEventListener("DOMContentLoaded", () => {
     //selecciona los elementos a cambiar
     let imagen = document.getElementById("imagen-tutorial");
     let texto = document.getElementById("texto-tutorial");
+    let idioma_usuario = localStorage.getItem("userLanguage");
+    if(idioma_usuario == null) idioma_usuario = "en";    
+    const titulo = document.querySelector(".titulo");
+    titulo.textContent = "Pokemon Tutorial";
+    if (idioma_usuario == "es") titulo.textContent = "Tutorial Pokemon";
+    
 
-    fetch('http://localhost:8080/tutorial/' + 0)
+    fetch(`http://${DB_HOST}:${DB_PORT}/tutorial/` + 0)
         .then(response => {
             if (response.ok) {
                 ultima_pagina_ok = contador_paginas;    //almaceno el valor las ultimas respuestas que fueron exitosa
@@ -16,7 +22,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
             //cargo los nuevos contenidos
             imagen.src = data.ruta_imagen;
-            texto.textContent = data.texto;
+            const tutorial_content = "texto_" + idioma_usuario;
+            texto.textContent = data[tutorial_content];
 
         }).catch(error => {
 
@@ -72,9 +79,11 @@ function http_tutorial(event) {
     //selecciona los elementos a cambiar
     let imagen = document.getElementById("imagen-tutorial");
     let texto = document.getElementById("texto-tutorial");
+    let idioma_usuario = localStorage.getItem("userLanguage");
+    if(idioma_usuario == null) idioma_usuario = "en";
 
     //realizo la petición http, si el tutorial tiene 3 paginas, ira de 0 a 2
-    fetch('http://localhost:8080/tutorial/' + contador_paginas)
+    fetch(`http://${DB_HOST}:${DB_PORT}/tutorial/` + contador_paginas)
         .then(response => {
             if (response.ok) {
                 ultima_pagina_ok = contador_paginas;    //almaceno el valor las ultimas respuestas que fueron exitosa
@@ -92,8 +101,11 @@ function http_tutorial(event) {
             imagen.addEventListener('load', () => {
                 imagen.classList.add('imagen');
             });
-            
-            texto.textContent = data.texto;
+
+            const tutorial_content = "texto_" + idioma_usuario;
+            texto.textContent = data[tutorial_content];
+
+            /* texto.textContent = data.texto; */
 
         }).catch(error => {
 

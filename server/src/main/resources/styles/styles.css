@@ -29,6 +29,14 @@ header .navbar_principiantes ul li {
     font-size: 1.5rem;
 }
 
+header .flag:hover{
+    cursor: pointer;
+}
+
+header #spanish{
+    height: 4.5rem;
+}
+
 /*Cambios de sebas*/
 
 /* la navbar de principiantes se activa con un javascript */
@@ -38,7 +46,7 @@ header .navbar_expertos {
 
 header .navbar_expertos ul {
     list-style: none;
-    padding: 2rem;
+    padding: 1rem;
 }
 
 header .navbar_expertos a {
@@ -48,8 +56,8 @@ header .navbar_expertos a {
 header .navbar_expertos ul li {
     border-style: initial;
     display: inline;
-    padding: 1.2rem;
-    margin: 1.2rem;
+    padding: 1rem;
+    margin: 1rem;
     background-color: var(--Crimson);
     font-weight: bold;
     font-size: 1rem;

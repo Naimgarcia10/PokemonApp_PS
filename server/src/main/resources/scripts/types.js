@@ -1,3 +1,4 @@
+import {DB_HOST, DB_PORT} from "./config.js"
 
 const typeSelect = document.getElementById('type-select');
 var tipos = [];
@@ -6,33 +7,23 @@ function agregar_imagenes(container, lista){
   /*
   Recorro la lista que me dan, y por cada imagen que me den, creo un elemento
   */  
-  for(let i=0;i<lista.length;i++){
+  for(let i=0;i<lista?.length;i++){
     let picture_element = document.createElement("img");
-    picture_element.src = "../" + getPictureById(lista[i]);
+    picture_element.src = ".." + lista[i];
     container.appendChild(picture_element);
   }  
 }
 
-function getPictureById(id){
-  for(let i=0;i<tipos.length;i++){
-    if(tipos[i].id == id){
-      console.log(tipos[i].picture);
-      return tipos[i].picture;
-    }
-  }
-  return -1;
-}
-
-fetch("http://localhost:8080/getTypes")
+fetch(`http://${DB_HOST}:${DB_PORT}/getTypes`)
 	.then(response => response.json())
 	.then(data => {
 		tipos = data;
 		data.forEach(type => {
 			const option = document.createElement('option');
-			option.value = type.name;
-			option.text = type.name.toUpperCase();
+			option.value = type.type_name;
+			option.text = type.type_name.toUpperCase();
       const img = document.createElement("img");
-      img.src = type.picture;
+      img.src = type.type_picture;
       option.appendChild(img);
 			typeSelect.appendChild(option);
 		});
@@ -42,7 +33,7 @@ fetch("http://localhost:8080/getTypes")
 typeSelect.addEventListener('change', () => {    
   const selectedType = typeSelect.value;         
   const tipoEncontrado = tipos.find(function(tipo){
-    return tipo.name === selectedType;
+    return tipo.type_name === selectedType;
   });      
   let cuadrados_naranjas = document.querySelectorAll(".cuadrado_naranja");
   for(let i=0;i<cuadrados_naranjas.length;i++){    
@@ -52,12 +43,12 @@ typeSelect.addEventListener('change', () => {
     }
   }
   // ATACANDO
-  agregar_imagenes(document.querySelector("#eficazcontra"), tipoEncontrado.damage_relations.double_damage_to);    
-  agregar_imagenes(document.querySelector("#pocoeficazcontra"), tipoEncontrado.damage_relations.half_damage_to);
-  agregar_imagenes(document.querySelector("#nulocontra"), tipoEncontrado.damage_relations.no_damage_to);
+  agregar_imagenes(document.querySelector("#eficazcontra"), tipoEncontrado.doubleDamageTo);    
+  agregar_imagenes(document.querySelector("#pocoeficazcontra"), tipoEncontrado.halfDamageTo);
+  agregar_imagenes(document.querySelector("#nulocontra"), tipoEncontrado.noDamageTo);
 
   // DEFENDIENDO
-  agregar_imagenes(document.querySelector("#debil_a"), tipoEncontrado.damage_relations.double_damage_from);    
-  agregar_imagenes(document.querySelector("#resistente_a"), tipoEncontrado.damage_relations.half_damage_from);
-  agregar_imagenes(document.querySelector("#inmune_a"), tipoEncontrado.damage_relations.no_damage_from);
+  agregar_imagenes(document.querySelector("#debil_a"), tipoEncontrado.doubleDamageFrom);    
+  agregar_imagenes(document.querySelector("#resistente_a"), tipoEncontrado.halfDamageFrom);
+  agregar_imagenes(document.querySelector("#inmune_a"), tipoEncontrado.noDamageFrom);
 });

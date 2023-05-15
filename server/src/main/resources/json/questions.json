@@ -1,167 +1,278 @@
 [
     {
-        "question":"What is the maximum amount of Pokémon that we can have in our team?",
+        "question_en":"What is the maximum amount of Pokémon that we can have in our team?",
+        "question_es":"¿Cuál es la cantidad máxima de Pokemon que podemos tener en nuestro equipo?",
         "image":null,
-        "correctAnswer": "6",
-        "incorrectAnswers":["1", "2", "Infinite"]       
+        "correctAnswer_en": "6",
+        "correctAnswer_es": "6",
+        "incorrectAnswers_en":["1", "2", "Infinite"],
+       "incorrectAnswers_es":["1", "2", "Infinito"]
     },
     {
-        "question":"How much time do you have for attacking?",
+        "question_en":"How much time do you have for attacking?",
+        "question_es":"¿Cuánto tiempo tienes para atacar?",
         "image":null,        
-        "correctAnswer": "60 seconds",
-        "incorrectAnswers":[
+        "correctAnswer_en": "60 seconds",
+        "correctAnswer_es": "60 segundos",
+        "incorrectAnswers_en":[
                             "10 seconds",
                             "30 seconds",
                             "45 seconds"
+                            ],
+        "incorrectAnswers_es":[
+                            "10 segundos",
+                            "30 segundos",
+                            "45 segundos"
                             ]
     },
     {
-        "question":"Which button should we press for fighting?",
+        "question_en":"Which button should we press for fighting?",
+        "question_es":"¿Qué botón debemos presionar para luchar?",
         "image":"pokemon_buttons.png",        
-        "correctAnswer": "Battle",
-        "incorrectAnswers":[
-                            "Pokémon",
+        "correctAnswer_en": "Battle",
+        "correctAnswer_es": "Luchar",
+        "incorrectAnswers_en":[
+                            "Pokemon",
                             "Run"
+                            ],
+        "incorrectAnswers_es":[
+                            "Pokémon",
+                            "Huir"
                             ]
     },
     {
-        "question":"Which button should we press for surrendering?",
+        "question_en":"Which button should we press for surrendering?",
+        "question_es":"¿Qué botón debemos presionar para rendirnos?",
         "image":"pokemon_buttons.png",        
-        "correctAnswer": "Run",
-        "incorrectAnswers":[
+        "correctAnswer_en": "Run",
+        "correctAnswer_es": "Huir",
+        "incorrectAnswers_en":[
                             "Battle",
                             "Pokémon"                            
+                            ],
+        "incorrectAnswers_es":[
+                            "Luchar",
+                            "Pokémon"
                             ]
     },
     {
-        "question":"What's the maximum amount of movements that we can have in a Pokémon?",
+        "question_en":"What's the maximum amount of movements that we can have in a Pokémon?",
+        "question_es":"¿Cuál es la cantidad máxima de movimientos que podemos tener en un Pokémon?",
         "image":"movement.png",        
-        "correctAnswer": "4",
-        "incorrectAnswers":[
+        "correctAnswer_en": "4",
+        "correctAnswer_es": "4",
+        "incorrectAnswers_en":[
+                            "2",
+                            "12",
+                            "100"
+                            ],
+        "incorrectAnswers_es":[
                             "2",
                             "12",
                             "100"
                             ]
     },
     {
-        "question":"If I'm a water type, which type of attack would you use against me?",
+        "question_en":"If I'm a water type, which type of attack would you use against me?",
+        "question_es":"Si soy de tipo agua, ¿qué tipo de ataque usarías contra mí?",
         "image":null,        
-        "correctAnswer": "Grass",
-        "incorrectAnswers":[
+        "correctAnswer_en": "Grass",
+        "correctAnswer_es": "Planta",
+        "incorrectAnswers_en":[
                             "Fire",
                             "Water",
                             "Ground"
+                            ],
+        "incorrectAnswers_es":[
+                            "Fuego",
+                            "Agua",
+                            "Tierra"
                             ]
     },
     {
-        "question":"If I want to improve my defense against physical attacks, I will have to increase my...",
+        "question_en":"If I want to improve my defense against physical attacks, I will have to increase my...",
+        "question_es":"Si quiero mejorar mi defensa contra ataques físicos, tendré que aumentar mi...",
         "image":null,        
-        "correctAnswer": "Defense",
-        "incorrectAnswers":[
+        "correctAnswer_en": "Defense",
+        "correctAnswer_es": "Defensa",
+        "incorrectAnswers_en":[
                             "Special Defense"
+                            ],
+        "incorrectAnswers_es":[
+                            "Defensa Especial"
                             ]
     },
     {
-        "question":"What is the number that appears on the right of Pokémon movements?",
+        "question_en":"What is the number that appears on the right of Pokémon movements?",
+        "question_es":"¿Cuál es el número que aparece a la derecha de los movimientos de los Pokémon?",
         "image":"movement.png",        
-        "correctAnswer": "The amount of times that I can use that movement",
-        "incorrectAnswers":[
+        "correctAnswer_en": "The amount of times that I can use that movement",
+        "correctAnswer_es": "La cantidad de veces que puedo usar ese movimiento",
+        "incorrectAnswers_en":[
                             "The damage that movement does",
                             "The priority of the movement"
+                            ],
+        "incorrectAnswers_es":[
+                            "El daño que hace ese movimiento",
+                            "La prioridad del movimiento"
                             ]
     },
     {
-        "question":"Which button should I press for changing my Pokémon?",
+        "question_en":"Which button should I press for changing my Pokémon?",
+        "question_es":"¿Qué botón debo presionar para cambiar mi Pokémon?",
         "image":"pokemon_buttons.png",        
-        "correctAnswer": "Pokémon",
-        "incorrectAnswers":[
+        "correctAnswer_en": "Pokemon",
+        "correctAnswer_es": "Pokémon",
+        "incorrectAnswers_en":[
                             "Battle",
                             "Run"                            
+                            ],
+        "incorrectAnswers_es":[
+                            "Luchar",
+                            "Huir"
                             ]
     },
     {
-        "question":"What happens if your Pokémon gets weakened?",
+        "question_en":"What happens if your Pokémon gets weakened?",
+        "question_es":"¿Qué pasa si tu Pokémon se debilita?",
         "image":null,        
-        "correctAnswer": "You change your Pokémon if you have at least one alive",
-        "incorrectAnswers":[
+        "correctAnswer_en": "You change your Pokémon if you have at least one alive",
+        "correctAnswer_es": "Cambia tu Pokémon si tienes al menos uno vivo",
+        "incorrectAnswers_en":[
                             "You lose",                            
                             "You surrender"
+                            ],
+        "incorrectAnswers_es":[
+                            "Pierdes",
+                            "Te rindes"
                             ]
     },
     {
-        "question":"Are the base statistics between two different Pokémon the same?",
+        "question_en":"Are the base statistics between two different Pokemon the same?",
+        "question_es":"¿Son las estadísticas base entre dos Pokémon diferentes las mismas?",
         "image":null,        
-        "correctAnswer": "No",
-        "incorrectAnswers":[
+        "correctAnswer_en": "No",
+        "correctAnswer_es": "No",
+        "incorrectAnswers_en":[
                             "Yes"
+                            ],
+        "incorrectAnswers_es":[
+                            "Sí"
                             ]
     },
     {
-        "question":"What does HP mean?",
+        "question_en":"What does HP mean?",
+        "question_es":"¿Qué significa PS?",
         "image":null,        
-        "correctAnswer": "Health Points",
-        "incorrectAnswers":[
+        "correctAnswer_en": "Health Points",
+        "correctAnswer_es": "Puntos de Salud",
+        "incorrectAnswers_en":[
                             "Hard Points",
                             "High Points"
+                            ],
+        "incorrectAnswers_es":[
+                            "Puntos Duros",
+                            "Puntos Altos"
                             ]
     },
     {
-        "question":"What are \"priority moves\" in Pokémon?",
+        "question_en":"What are \"priority moves\" in Pokémon?",
+        "question_es":"¿Qué son los \"movimientos de prioridad\" en Pokémon?",
         "image":null,        
-        "correctAnswer": "Movements that always attack first",
-        "incorrectAnswers":[
+        "correctAnswer_en": "Movements that always attack first",
+        "correctAnswer_es": "Movimientos que siempre atacan primero",
+        "incorrectAnswers_en":[
                             "Strongest movements",
                             "Most popular movements",
                             "Slowest movements"
+                            ],
+        "incorrectAnswers_es":[
+                            "Movimientos más fuertes",
+                            "Movimientos más populares",
+                            "Movimientos más lentos"
                             ]
     },
     {
-        "question":"What is the maximum number of levels a statistic (other than HP) can be raised in a battle?",
+        "question_en":"What is the maximum number of levels a statistic (other than HP) can be raised in a battle?",
+        "question_es":"¿Cuál es el número máximo de niveles que una estadística (que no sea PS) puede aumentar en una batalla?",
         "image":null,        
-        "correctAnswer": "6 levels",
-        "incorrectAnswers":[
+        "correctAnswer_en": "6 levels",
+        "correctAnswer_es": "6 niveles",
+        "incorrectAnswers_en":[
                             "1 level",
                             "100 levels",
                             "There's no limit"
+                            ],
+        "incorrectAnswers_es":[
+                            "1 nivel",
+                            "100 niveles",
+                            "No hay límite"
                             ]
     },
     {
-        "question":"What does a Pokemon's nature do?",
+        "question_en":"What does a Pokemon's nature do?",
+        "question_es":"¿Qué hace la naturaleza de un Pokémon?",
         "image":null,        
-        "correctAnswer": "Change a Pokémon base stats",
-        "incorrectAnswers":[
+        "correctAnswer_en": "Change a Pokémon base stats",
+        "correctAnswer_es": "Cambia las estadísticas base de un Pokémon",
+        "incorrectAnswers_en":[
                             "It changes the ability",
                             "Know the habitat of a Pokémon",
                             "Change the amount of movements a Pokémon can learn"
+                            ],
+        "incorrectAnswers_es":[
+                            "Cambia la habilidad",
+                            "Conocer el hábitat de un Pokémon",
+                            "Cambia la cantidad de movimientos que un Pokémon puede aprender"
                             ]
     },
     {
-        "question":"What's the use of STAB?",
+        "question_en":"What's the use of STAB?",
+        "question_es":"¿Para qué sirve el STAB?",
         "image":null,        
-        "correctAnswer": "Boost attacks of your own type",
-        "incorrectAnswers":[
+        "correctAnswer_en": "Boost attacks of your own type",
+        "correctAnswer_es": "Potencia los ataques de tu propio tipo",
+        "incorrectAnswers_en":[
                             "Attack before the rival",
                             "It restores your HP",
                             "Its use is purely visual"
+                            ],
+        "incorrectAnswers_es":[
+                            "Atacar antes que el rival",
+                            "Restaura tus PS",
+                            "Su uso es puramente visual"
                             ]
     },
     {
-        "question":"What are the items used for in Pokémon battles?",
+        "question_en":"What are the items used for in Pokémon battles?",
+        "question_es":"¿Para qué sirven los objetos en las batallas de Pokémon?",
         "image":null,        
-        "correctAnswer": "For increasing the stats or healing the Pokémon",
-        "incorrectAnswers":[
+        "correctAnswer_en": "For increasing the stats or healing the Pokémon",
+        "correctAnswer_es": "Para aumentar las estadísticas o curar al Pokémon",
+        "incorrectAnswers_en":[
                             "For having more movements",
                             "Only for selling them"
+                            ],
+        "incorrectAnswers_es":[
+                            "Para tener más movimientos",
+                            "Solo para venderlos"
                             ]
     },
     {
-        "question":"Which one of these is a status condition?",
+        "question_en":"Which one of these is a status condition?",
+        "question_es":"¿Cuál de estos es un estado?",
         "image":null,        
-        "correctAnswer": "Paralized",
-        "incorrectAnswers":[
+        "correctAnswer_en": "Paralized",
+        "correctAnswer_es": "Paralizado",
+        "incorrectAnswers_en":[
                             "Weakened",
                             "Exhausted",
                             "Slowed down"
+                            ],
+        "incorrectAnswers_es":[
+                            "Debilitado",
+                            "Agotado",
+                            "Ralentizado"
                             ]
     }
 ]

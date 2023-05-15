@@ -1,3 +1,5 @@
+import {DB_HOST, DB_PORT} from "./config.js"
+
 document.addEventListener("DOMContentLoaded", () => {
   const moveName = getParameterByName("move");
   if (moveName) {
@@ -17,7 +19,7 @@ function getParameterByName(name, url) {
 
 function fetchMoveDetails(moveName, callback) {
   const id = localStorage.getItem("idMovement");
-  fetch(`http://localhost:8080/getPokemonsWhoLearnsMovements/${id}`)
+  fetch(`http://${DB_HOST}:${DB_PORT}/getPokemonsWhoLearnsMovements/${id}`)
     .then((response) => {
       if (!response.ok) {
         throw new Error("Error al cargar los datos de la API");
