@@ -4,6 +4,9 @@ import io.github.cdimascio.dotenv.Dotenv;
 import spark.Spark;
 import java.sql.*;
 import java.util.ArrayList;
+
+import org.json.JSONObject;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -474,9 +477,59 @@ public class Server {
     }
     
     
+     // Registro de usuarios
+    private static void attendRegisterUserRequest(Connection conn) {
+        Spark.post("/register", (req, res) -> {
+            // Crear objeto JSON a partir del cuerpo de la petición HTTP POST
+            JSONObject requestBody = new JSONObject(req.body());
+
+            String username = requestBody.getString("username");
+            String email = requestBody.getString("email");
+            String birthdate = requestBody.getString("birthdate");
+            String password = requestBody.getString("password");
+            // Validar que los datos no estén vacíos
+            if (username.isEmpty() || email.isEmpty() || birthdate.isEmpty() || password.isEmpty()) {
+                res.status(400); // Código de respuesta para bad request
+                return "Faltan datos";
+            }
+
+            // Verificar si el email del usuario ya existe en la base de datos
+            String query = String.format("SELECT COUNT(*) FROM users WHERE email = '%s'", email);
+            PreparedStatement stmt = conn.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+            rs.next();
+            int count = rs.getInt(1);
+            if (count > 0) {
+                res.status(409); // Código de respuesta para conflicto
+                return "El email del usuario ya existe en la base de datos";
+            }
+
+            // Verificar si el nombre de usuario ya existe en la base de datos
+            query = String.format("SELECT COUNT(*) FROM users WHERE username = '%s'", username);
+            stmt = conn.prepareStatement(query);
+            rs = stmt.executeQuery();
+            rs.next();
+            count = rs.getInt(1);
+            if (count > 0) {
+                res.status(409); // Código de respuesta para conflicto
+                return "El nombre usuario ya existe en la base de datos";
+            }
+
+            // Insertar usuario en la base de datos
+            query = String.format("INSERT INTO users (email, username, password, birthdayDate) VALUES ('%s', '%s', '%s', '%s')", email, username, password, birthdate);
+            stmt = conn.prepareStatement(query);
+            stmt.executeUpdate();
+            
+            stmt.close();
+            conn.close();
+            res.status(200);
+            return "Usuario registrado correctamente";
+        });
+    } 
 
     public static void main(String[] args) throws Exception {
         ConnMysql conn = new ConnMysql();
+        Connection conn2 = connection();
         Server.config();
         Server.redirect();
         Server.attendTutorialRequest();
@@ -493,5 +546,7 @@ public class Server {
         Server.getNatures(conn);
         Server.postPokemon();
         Server.returnCards();
+        Server.attendRegisterUserRequest(conn2);
     }
+
 }
