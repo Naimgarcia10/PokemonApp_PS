@@ -457,6 +457,22 @@ public class Server {
             return "Email sent.";
         });
     }
+
+    private static void getNatures(ConnMysql conn) {
+        Spark.get("/getNatures", (req, res) -> {
+            Gson gson = new GsonBuilder().create();
+            String query = "SELECT name FROM natures";
+            ResultSet rs = conn.queryMysql(query);
+            ArrayList<String> listaNaturalezas = new ArrayList<>();
+            while (rs.next()) {
+                String nature = rs.getString("name");
+                listaNaturalezas.add(nature);
+            }
+            String result = gson.toJson(listaNaturalezas);
+            return result;
+        });
+    }
+    
     
 
     public static void main(String[] args) throws Exception {
@@ -472,6 +488,10 @@ public class Server {
         Server.attendPokemonWhoLearnsMovements(conn);
         Server.attendPokemonAbilitySearcher(conn);
         Server.attendPokemonWhoLearnsAbilities(conn);
+        Server.getPokemonsName(conn);
         Server.sendEmail();
+        Server.getNatures(conn);
+        Server.postPokemon();
+        Server.returnCards();
     }
 }

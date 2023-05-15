@@ -11,6 +11,48 @@
   background-position: center;
 }
 
+/*
+#################################################################
+                        Estilos Sebas                           #
+#################################################################
+*/
+
+
+.nature-title{
+  position: absolute;
+  top: 20%;
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.natures-card{
+  background-color: var(--DarkOrange);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  width: 90%;
+  height: 10rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  position: relative;
+  left: 1rem;
+
+}
+
+
+
+
+
+/*
+#################################################################
+                        Estilos Sebas                           #
+#################################################################
+*/
+
+
+
 .card {
   position: absolute;
   bottom: 14%;

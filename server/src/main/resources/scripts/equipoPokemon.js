@@ -1,5 +1,11 @@
 import { DB_HOST, DB_PORT } from "./config.js"
 
+const url_PokemonsName = `http://${DB_HOST}:${DB_PORT}/getPokemonsName`;
+const url_PostPokemon = `http://${DB_HOST}:${DB_PORT}/postPokemonCard`;
+const url_GetPokemon = `http://${DB_HOST}:${DB_PORT}/getCards`;
+const url_Natures = `http://${DB_HOST}:${DB_PORT}/getNatures`;
+
+
 const card = document.querySelector('.card');
 const overlay = document.querySelector('.overlay');
 const closeBtn = document.querySelector('.close-btn');
@@ -31,9 +37,6 @@ let pokemonSpeed = 0;
 
 let pokemonCount = 0; // Inicializa el contador de Pokémon. Se usa para saber cuántos Pokémon hay en el equipo
 
-const url_PokemonsName = `http://${DB_HOST}:${DB_PORT}/getPokemonsName`;
-const url_PostPokemon = `http://${DB_HOST}:${DB_PORT}/postPokemonCard`;
-const url_GetPokemon = `http://${DB_HOST}:${DB_PORT}/getCards`;
 
 cargaLista();
 
@@ -83,6 +86,12 @@ function updateMovements() {
 
 }
 
+/*
+#########################################################
+#                   eventListeners                      #
+#########################################################
+*/
+
 /*Boton no guardar*/
 closeBtn.addEventListener('click', function () {
     overlay.style.display = 'none';
@@ -92,14 +101,14 @@ closeBtn.addEventListener('click', function () {
 /*Tarjeta Para añadir pokemon (tarjeta con el +) */
 card.addEventListener('click', function () {
     overlay.style.display = 'block';
+
+    showNatures();
 });
 
 
 /*Boton guardar pokemon*/
 saveBtn.addEventListener('click', function () {
 
-    pokemonCount++;
-    updateAddButton();
     const evs = document.querySelectorAll(".ivs");
     const ivs = document.querySelectorAll(".evs");
     let data = {
@@ -142,25 +151,56 @@ saveBtn.addEventListener('click', function () {
 
 });
 
-/*####################################################*/
-function updateAddButton() {
-    // Obtiene el botón de agregar Pokémon.
+/*buscador de pokemon*/
+input.addEventListener("input", filtradoPokemon);
 
-    // Si ya hay 6 Pokémon, oculta el botón. De lo contrario, muéstralo.
-    if (pokemonList.length >= 6) {
-        console.log("Ya hay 6 Pokémon");
-        card.style.display = "none";
-    } else {
-        card.style.display = "block";
-    }
+
+
+/*
+#########################################################
+#                      showNatures                      #
+#########################################################
+*/
+function showNatures() {
+
+    fetch(url_Natures)
+        .then(response => response.json())
+        .then(natures => {
+            console.log("Naturalezas: " + natures);
+            // Crear el elemento select
+            let selectElement = document.createElement('select');
+
+            // Para cada naturaleza, crear una opción y añadirla al select
+            for (let nature of natures) {
+                let option = document.createElement('option');
+                option.value = nature;
+                option.text = nature;
+                selectElement.appendChild(option);
+            }
+
+            // Crear la tarjeta
+            let card = document.createElement('div');
+            card.className = 'natures-card';
+
+            let title = document.createElement('h4');
+            title.textContent = 'Elige una naturaleza';
+            title.className = 'nature-title';
+            card.appendChild(title);
+
+            // Añadir el select a la tarjeta
+            card.appendChild(selectElement);
+
+            // Añadir la tarjeta al div con la clase 'natures'
+            let contenedorPadre = document.querySelector('.contenedor_habilidad_stats');
+            contenedorPadre.appendChild(card);
+        })
+        .catch(error => console.error('Error:', error));
 }
 
 
 
 
-/*buscador de pokemon*/
 
-input.addEventListener("input", filtradoPokemon);
 
 async function cargaLista() {
     const response = await fetch(url_PokemonsName);
@@ -193,12 +233,10 @@ function filtradoPokemon() {
 }
 
 /*
-###########################################################
-click en la lupa
-Seccion: refresca la informacion al seleccionar un pokemon
-###########################################################
+##################################################################
+#   Seccion: refresca la informacion al seleccionar un pokemon   #
+##################################################################
 */
-
 
 searchButton.onclick = async () => {
     const searchTerm = searchBox.value;
