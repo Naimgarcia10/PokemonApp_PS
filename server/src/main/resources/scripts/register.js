@@ -1,11 +1,11 @@
-import {DB_HOST, DB_PORT} from "./config.js"
+import { DB_HOST, DB_PORT } from "./config.js"
 
 // Método para registrar el usuario en la base de datos
-document.addEventListener("DOMContentLoaded", function() {  
+document.addEventListener("DOMContentLoaded", function () {
   const form = document.querySelector(".register");
   console.log(form);
-  form.addEventListener("submit", function(event){
-    event.preventDefault();    
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
     registrarUsuario();
     form.reset();
   })
@@ -21,12 +21,34 @@ function registrarUsuario() {
     'birthdate': document.getElementById('birthdate').value
   }
 
-  // Realizar la solicitud POST al servidor
   fetch(`http://${DB_HOST}:${DB_PORT}/register`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-      body: JSON.stringify(formData)
+    body: JSON.stringify(formData)
   })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(response.status + ' ' + response.statusText);
+    }
+    return response.json();
+  })
+  .then(data => {
+    // Trabajar con los datos obtenidos
+    console.log(data);
+  })
+  .catch(error => {
+    // Manejar el error
+    console.log('Error en la solicitud:', error);
+
+    // Acceder al mensaje de error devuelto por el servidor
+    if (error.response) {
+      error.response.text().then(errorMessage => {
+        console.log('Mensaje de error:', errorMessage);
+      });
+    }
+  });
+
+
 }

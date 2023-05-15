@@ -106,3 +106,42 @@ form{
     color: var(--Teal);
     text-decoration: underline;
 }
+
+.form_input-error{
+    display: none;
+    color: var(--Red);
+    font-size: 0.8rem;
+    margin-top: 0.2rem;
+    margin-bottom: 0.2rem;
+}
+
+.form_input-error.active{
+    display: block;
+}
+
+/* .form_error{
+    display: none;
+    color: var(--Red);
+    font-size: 1.5rem;
+    margin-top: 1rem;
+    margin-bottom: 0.2rem;
+}
+
+.form_error.active{
+    display: block;
+}
+
+.form_errorPict{
+    display: none;
+    
+}
+
+.form_errorPict.active{
+    display: block;
+} */
+
+.form_empty_fields{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

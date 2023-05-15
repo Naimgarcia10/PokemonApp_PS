@@ -414,7 +414,7 @@ public class Server {
     }
 
      // Registro de usuarios
-    private static void attendRegisterUserRequest() {
+    private static void attendRegisterUserRequest(Connection conn) {
         Spark.post("/register", (req, res) -> {
             // Crear objeto JSON a partir del cuerpo de la petición HTTP POST
             JSONObject requestBody = new JSONObject(req.body());
@@ -429,17 +429,26 @@ public class Server {
                 return "Faltan datos";
             }
 
-            Connection conn = connection();
-
-            // Verificar si el usuario ya existe en la base de datos
-            String query = String.format("SELECT COUNT(*) FROM users WHERE email = '%s' OR username = '%s'", email, username);
+            // Verificar si el email del usuario ya existe en la base de datos
+            String query = String.format("SELECT COUNT(*) FROM users WHERE email = '%s'", email);
             PreparedStatement stmt = conn.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
             rs.next();
             int count = rs.getInt(1);
             if (count > 0) {
                 res.status(409); // Código de respuesta para conflicto
-                return "El usuario ya existe en la base de datos";
+                return "El email del usuario ya existe en la base de datos";
+            }
+
+            // Verificar si el nombre de usuario ya existe en la base de datos
+            query = String.format("SELECT COUNT(*) FROM users WHERE username = '%s'", username);
+            stmt = conn.prepareStatement(query);
+            rs = stmt.executeQuery();
+            rs.next();
+            count = rs.getInt(1);
+            if (count > 0) {
+                res.status(409); // Código de respuesta para conflicto
+                return "El nombre usuario ya existe en la base de datos";
             }
 
             // Insertar usuario en la base de datos
@@ -448,13 +457,15 @@ public class Server {
             stmt.executeUpdate();
             
             stmt.close();
-            conn.close();res.status(200);
+            conn.close();
+            res.status(200);
             return "Usuario registrado correctamente";
         });
     } 
 
     public static void main(String[] args) throws Exception {
         ConnMysql conn = new ConnMysql();
+        Connection conn2 = connection();
         Server.config();
         Server.redirect();
         Server.attendTutorialRequest();
@@ -469,7 +480,7 @@ public class Server {
         Server.getPokemonsName(conn);
         Server.postPokemon();
         Server.returnCards();
-        Server.attendRegisterUserRequest();
+        Server.attendRegisterUserRequest(conn2);
     }
 
 }
