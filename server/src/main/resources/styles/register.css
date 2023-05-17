@@ -4,10 +4,10 @@
     justify-content: space-between;
     align-items: center;
     margin-top: 5rem;
-    margin-bottom: 6rem;
+    margin-bottom: 0.5rem;
   }
   
-  #login-container {
+  #register-container {
     background-color: #ff8c00a1;
     width: 23rem;
     padding: 1rem;
@@ -26,8 +26,7 @@
     position: relative;
     margin-right: 2rem;
   } 
-  
-  
+
   #title {
     text-align: center;
     position: relative;
@@ -39,7 +38,32 @@
 form{
     display: flex;
     flex-direction: column;
-    justify-content: center;
+}
+
+.username{
+    position: relative;
+    margin: 0 auto;
+    right: 3rem;
+}
+
+#username{
+    height: 3rem;
+    width: 18rem;
+    text-indent: 50px;
+    color: black;
+    font-size: 1rem;
+}
+
+#username::placeholder{
+    text-align:start;
+    color: black;
+}
+
+#username-img{
+    height: 1.5rem;
+    position: relative;
+    bottom: 2.5rem;
+    left: 0.5rem;
 }
 
 .email{
@@ -68,6 +92,32 @@ form{
     left: 0.5rem;
 }
 
+.birthdate{
+    position: relative;
+    margin: 0 auto;
+    right: 3rem;
+}
+
+#birthdate{
+    height: 3rem;
+    width: 18rem;
+    text-indent: 50px;
+    color: black;
+    font-size: 1rem;
+}
+
+#birthdate::placeholder{
+    text-align:start;
+    color: black;
+}
+
+#birthdate-img{
+    height: 1.5rem;
+    position: relative;
+    bottom: 2.5rem;
+    left: 0.5rem;
+}
+
 .password{
     margin: 0 auto;
     position: relative;
@@ -88,6 +138,32 @@ form{
 }
 
 #password-img{
+    height: 2rem;
+    position: relative;
+    bottom: 2.5rem;
+    left: 0.8rem;
+}
+
+.password2{
+    margin: 0 auto;
+    position: relative;
+    right: 3rem;
+}
+
+#password2{
+    height: 3rem;
+    width: 18rem;
+    text-indent: 50px;
+    color: black;
+    font-size: 1rem;
+}
+
+#password2::placeholder{
+    text-align:start;
+    color: black;
+}
+
+#password2-img{
     height: 2rem;
     position: relative;
     bottom: 2.5rem;
@@ -210,3 +286,9 @@ button {
    /* input:valid ~ .input-border{
      width: 100%;
    } */
+
+.form_empty_fields{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

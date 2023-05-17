@@ -34,14 +34,12 @@ const validateForm = (e) => {
 
 const validateFields = (expresion, input, field) => {
     const fieldErrorText = document.getElementById(`${field}_errorText`);
-    if (expresion.test(input.value)) {
-        fieldErrorText.classList.remove('form_input-error.active');
-        fieldErrorText.classList.add('form_input-error');
-        inputsFields[field] = true;
-    } else {
-        fieldErrorText.classList.remove('form_input-error');
-        fieldErrorText.classList.add('form_input-error.active');
+    if (!expresion.test(input.value)) {
+        fieldErrorText.style = 'display: block; color: var(--Red); font-size: 0.8rem; margin-top: 0.2rem; margin-bottom: 1rem;'
         inputsFields[field] = false;
+    }else{
+        fieldErrorText.style = 'display: none;'
+        inputsFields[field] = true;
     }
 }
 
@@ -50,12 +48,10 @@ const validatePassword2 = () => {
     const password2 = document.getElementById('password2');
     const password2ErrorText = document.getElementById('password2_errorText');
     if (password.value !== password2.value) {
-        password2ErrorText.classList.remove('form_input-error');
-        password2ErrorText.classList.add('form_input-error.active');
+        password2ErrorText.style = 'display: block; color: var(--Red); font-size: 0.8rem; margin-top: 0.2rem; margin-bottom: 0.2rem;'
         inputsFields['password2'] = false;
     } else {
-        password2ErrorText.classList.remove('form_input-error.active');
-        password2ErrorText.classList.add('form_input-error');
+        password2ErrorText.style = 'display: none;'
         inputsFields['password2'] = true;
     }
 }
@@ -65,7 +61,7 @@ $inputs.forEach((input) => {
 }
 );
 
-const $registerForm = document.getElementById('register-form');
+/* const $registerForm = document.getElementById('register-form');
 const birthdateField = document.getElementById('birthdate');
 $registerForm.addEventListener('submit', (e) => {
     const formErrorText = document.getElementById('form_errorText');
@@ -78,12 +74,12 @@ $registerForm.addEventListener('submit', (e) => {
     } else {
         formErrorText.style.cssText = 'display: block; color: var(--Red); font-size: 1.5rem; margin-top: 1rem; margin-bottom: 0.2rem;'
         formErrorPict.style.cssText = 'display: block; width: 200px; height: 200px; margin-right: 0.5rem;'
-        /* setTimeout(() => {
+         setTimeout(() => {
             formErrorText.style.cssText = 'display: none;'
             formErrorPict.style.cssText = 'display: none;'
         }
-            , 3000); */
+            , 3000); 
     }
 }
-);
+); */
 

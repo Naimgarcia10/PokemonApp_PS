@@ -23,9 +23,9 @@ public class Server {
             ArrayList<JsonObject> cards = new ArrayList<>();
             while (result.next()) {
                 JsonObject card = new JsonObject();
-                String[] namesData = returnData(result.getString("idPokemon"), result.getString("idAbility")
-                                            , result.getString("idMovement1"),result.getString("idMovement2")
-                                            , result.getString("idMovement3"), result.getString("idMovement4"));
+                String[] namesData = returnData(result.getString("idPokemon"), result.getString("idAbility"),
+                        result.getString("idMovement1"), result.getString("idMovement2"),
+                        result.getString("idMovement3"), result.getString("idMovement4"));
 
                 card.addProperty("name", namesData[0]);
                 card.addProperty("image", namesData[1]);
@@ -39,9 +39,9 @@ public class Server {
             return cards;
         });
     }
-    
-    private static String[] returnData(String idPokemon, String idAbility, String idMovement1
-                                    ,String idMovement2, String idMovement3, String idMovement4){
+
+    private static String[] returnData(String idPokemon, String idAbility, String idMovement1, String idMovement2,
+            String idMovement3, String idMovement4) {
 
         String[] data = new String[7];
         try {
@@ -96,7 +96,8 @@ public class Server {
         return data;
     }
 
-    private static String[] returnIds (String name, String ability, String movement1, String movement2, String movement3, String movement4){
+    private static String[] returnIds(String name, String ability, String movement1, String movement2, String movement3,
+            String movement4) {
         String[] ids = new String[6];
         try {
             Connection conn = connection();
@@ -167,10 +168,10 @@ public class Server {
             String body = rq.body();
             Gson gson = new Gson();
             JsonObject data = gson.fromJson(body, JsonObject.class);
-            String[] ids = returnIds(data.get("name").getAsString(),data.get("ability").getAsString()
-                                    , data.get("movement1").getAsString(), data.get("movement2").getAsString()
-                                    , data.get("movement3").getAsString(), data.get("movement4").getAsString());
-            
+            String[] ids = returnIds(data.get("name").getAsString(), data.get("ability").getAsString(),
+                    data.get("movement1").getAsString(), data.get("movement2").getAsString(),
+                    data.get("movement3").getAsString(), data.get("movement4").getAsString());
+
             String name = ids[0];
             String ability = ids[1];
             String movement1 = ids[2];
@@ -187,7 +188,7 @@ public class Server {
                     +
                     "evsAttack, evsDefense, evsSpatk, evsSpdef, evsSpeed, " +
                     "ivsAttack, ivsDefense, ivsSpatk, ivsSpdef, ivsSpeed) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            
+
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                 stmt.setString(1, name);
                 stmt.setString(2, ability);
@@ -413,18 +414,22 @@ public class Server {
         });
     }
 
-     // Registro de usuarios
+    // Registro de usuarios
     private static void attendRegisterUserRequest(Connection conn) {
         Spark.post("/register", (req, res) -> {
+            JSONObject responseBody = new JSONObject();
             // Crear objeto JSON a partir del cuerpo de la petición HTTP POST
             JSONObject requestBody = new JSONObject(req.body());
+            Gson gson = new GsonBuilder().create();
 
             String username = requestBody.getString("username");
             String email = requestBody.getString("email");
             String birthdate = requestBody.getString("birthdate");
             String password = requestBody.getString("password");
+
             // Validar que los datos no estén vacíos
-            if (username.isEmpty() || email.isEmpty() || birthdate.isEmpty() || password.isEmpty()) {
+            if (username.isEmpty() || email.isEmpty() || birthdate.isEmpty() ||
+                    password.isEmpty()) {
                 res.status(400); // Código de respuesta para bad request
                 return "Faltan datos";
             }
@@ -437,31 +442,77 @@ public class Server {
             int count = rs.getInt(1);
             if (count > 0) {
                 res.status(409); // Código de respuesta para conflicto
-                return "El email del usuario ya existe en la base de datos";
+                responseBody.put("error", "email");
+                return responseBody.toString();
             }
 
             // Verificar si el nombre de usuario ya existe en la base de datos
-            query = String.format("SELECT COUNT(*) FROM users WHERE username = '%s'", username);
+            query = String.format("SELECT COUNT(*) FROM users WHERE username = '%s'",
+                    username);
             stmt = conn.prepareStatement(query);
             rs = stmt.executeQuery();
             rs.next();
             count = rs.getInt(1);
             if (count > 0) {
                 res.status(409); // Código de respuesta para conflicto
-                return "El nombre usuario ya existe en la base de datos";
+                responseBody.put("error", "username");
+                return responseBody.toString();
             }
 
             // Insertar usuario en la base de datos
-            query = String.format("INSERT INTO users (email, username, password, birthdayDate) VALUES ('%s', '%s', '%s', '%s')", email, username, password, birthdate);
+            query = String.format(
+                    "INSERT INTO users (email, username, password, birthdayDate) VALUES ('%s', '%s', '%s', '%s')",
+                    email, username, password, birthdate);
             stmt = conn.prepareStatement(query);
             stmt.executeUpdate();
-            
-            stmt.close();
-            conn.close();
+
             res.status(200);
-            return "Usuario registrado correctamente";
+            return gson.toJson(email);
         });
-    } 
+    }
+
+    // Inicio de sesión de usuarios
+
+    private static void attendLoginUserRequest(Connection conn) {
+        Spark.post("/login", (req, res) -> {
+            // Crear objeto JSON a partir del cuerpo de la petición HTTP POST
+            JSONObject requestBody = new JSONObject(req.body());
+            Gson gson = new GsonBuilder().create();
+
+            String email = requestBody.getString("email");
+            String password = requestBody.getString("password");
+
+            // Validar que los datos no estén vacíos
+            if (email.isEmpty() || password.isEmpty()) {
+                res.status(400); // Código de respuesta para bad request
+                return "Faltan datos";
+            }
+
+            // Verificar las credenciales del usuario en la base de datos
+            String query = String.format("SELECT COUNT(*) FROM users WHERE email = '%s' AND password = '%s'",
+                    email, password);
+            PreparedStatement stmt = conn.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+            rs.next();
+            int count = rs.getInt(1);
+            if (count == 0) {
+                res.status(401); // Código de respuesta para autenticación fallida
+                return "Credenciales inválidas";
+            }
+
+            // Obtener nombre de usuario
+            query = String.format("SELECT username FROM users WHERE email = '%s' AND password = '%s'", email, password);
+            stmt = conn.prepareStatement(query);
+            rs = stmt.executeQuery();
+            rs.next();
+            String username = rs.getString(1);
+
+            // Autenticación exitosa
+            res.status(200);
+            String[] response = {email, username};
+            return gson.toJson(response);
+        });
+    }
 
     public static void main(String[] args) throws Exception {
         ConnMysql conn = new ConnMysql();
@@ -481,6 +532,7 @@ public class Server {
         Server.postPokemon();
         Server.returnCards();
         Server.attendRegisterUserRequest(conn2);
+        Server.attendLoginUserRequest(conn2);
     }
 
 }

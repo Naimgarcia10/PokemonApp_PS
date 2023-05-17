@@ -1,19 +1,17 @@
 import { DB_HOST, DB_PORT } from "./config.js"
 
-// Método para registrar el usuario en la base de datos
+const form = document.querySelector(".register");
+
 document.addEventListener("DOMContentLoaded", function () {
-  const form = document.querySelector(".register");
   console.log(form);
   form.addEventListener("submit", function (event) {
     event.preventDefault();
     registrarUsuario();
-    form.reset();
   })
 
 });
 
 function registrarUsuario() {
-  // Parámetros a enviar
   var formData = {
     'username': document.getElementById('username').value,
     'email': document.getElementById('email').value,
@@ -31,24 +29,40 @@ function registrarUsuario() {
   .then(response => {
     if (!response.ok) {
       throw new Error(response.status + ' ' + response.statusText);
+    } else if (response.status === 409) {
+      return response.json();
     }
-    return response.json();
   })
   .then(data => {
     // Trabajar con los datos obtenidos
-    console.log(data);
+    alert("Usuario registrado correctamente");
+    form.reset();
+    sessionStorage.removeItem('email');
+    sessionStorage.removeItem('username');
+    window.location.href = 'login.html';
   })
   .catch(error => {
-    // Manejar el error
     console.log('Error en la solicitud:', error);
+    const errorText = document.getElementById("form_errorText");
+    const errorPict = document.getElementById("form_errorPict");
 
-    // Acceder al mensaje de error devuelto por el servidor
+    if (error.message.includes('409')) {
+      errorText.innerHTML = "User already exists, change username or email";
+    } else if (error.message.includes('400')) {
+      errorText.innerHTML = "Please fill all required fields";
+    }
+
+    errorText.style.cssText = 'display: block; color: var(--Red); font-size: 1.5rem; margin-top: 1rem; margin-bottom: 0.2rem;'
+    errorPict.style.cssText = 'display: block; width: 200px; height: 200px; margin-right: 0.5rem;'
+    setTimeout(() => { 
+      errorText.style.cssText = 'display: none;'
+      errorPict.style.cssText = 'display: none;'
+    }, 8000);
+
     if (error.response) {
       error.response.text().then(errorMessage => {
         console.log('Mensaje de error:', errorMessage);
       });
     }
   });
-
-
 }

@@ -33,8 +33,22 @@ header .flag:hover{
     cursor: pointer;
 }
 
+header #flags{
+    width: 5rem;
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+    margin-right: 1rem;
+}
+
 header #spanish{
-    height: 4.5rem;
+    height: 2rem;
+    width: 3rem;
+}
+
+header #english{
+    height: 2rem;
+    width: 3rem;
 }
 
 /*Cambios de sebas*/
@@ -57,7 +71,7 @@ header .navbar_expertos ul li {
     border-style: initial;
     display: inline;
     padding: 1rem;
-    margin: 1rem;
+    margin: 0.7rem;
     background-color: var(--Crimson);
     font-weight: bold;
     font-size: 1rem;
@@ -96,4 +110,21 @@ footer img {
     margin-right: 4rem;
     width: 9rem;
     float: right;
+}
+
+#usernameli{
+    background-color: var(--LightSeaGreen);
+    margin-left: 4rem;
+}
+
+#usernameli a{
+    color: var(--Black);
+}
+
+
+#loginLi {
+    background-color: var(--LightSeaGreen);
+}
+#registerLi {
+    background-color: var(--LightSeaGreen);
 }
