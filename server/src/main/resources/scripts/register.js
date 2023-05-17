@@ -37,6 +37,9 @@ function registrarUsuario() {
   .then(data => {
     // Trabajar con los datos obtenidos
     console.log(data);
+
+    localStorage.setItem('email', data);
+    console.log(localStorage.getItem('email'));
   })
   .catch(error => {
     // Manejar el error

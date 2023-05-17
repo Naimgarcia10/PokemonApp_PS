@@ -1,4 +1,5 @@
 import { DB_HOST, DB_PORT } from "./config.js"
+import {CustomPokemon} from "./classes/customPokemon.js"
 
 const url_PokemonsName = `http://${DB_HOST}:${DB_PORT}/getPokemonsName`;
 const url_PostPokemon = `http://${DB_HOST}:${DB_PORT}/postPokemonCard`;
@@ -6,14 +7,15 @@ const url_GetPokemon = `http://${DB_HOST}:${DB_PORT}/getCards`;
 const url_Natures = `http://${DB_HOST}:${DB_PORT}/getNatures`;
 
 
-const card = document.querySelector('.card');
+const addPokemonBtn = document.querySelector('.addPokemon-btn');
 const overlay = document.querySelector('.overlay');
 const closeBtn = document.querySelector('.close-btn');
 const saveBtn = document.querySelector('.save-btn');
 const searchBox = document.getElementById('input-text');
 const searchButton = document.getElementById('search-button');
 
-
+let customPokemons = [];
+let naturesShown = false;
 const pokemonList = [];
 let movimientos = [];
 let habilidadSeleccionada = '';
@@ -99,21 +101,36 @@ closeBtn.addEventListener('click', function () {
 
 
 /*Tarjeta Para añadir pokemon (tarjeta con el +) */
-card.addEventListener('click', function () {
-    overlay.style.display = 'block';
+addPokemonBtn.addEventListener('click', addPokemon);
 
-    showNatures();
-});
+function addPokemon() {
+    overlay.style.display = 'block';
+}
 
 
 /*Boton guardar pokemon*/
-saveBtn.addEventListener('click', function () {
+saveBtn.addEventListener('click', savePokemon);
+
+/*buscador de pokemon*/
+input.addEventListener("input", filtradoPokemon);
+
+
+
+/*
+#########################################################
+#                      savePokemon                      #
+#########################################################
+*/
+
+
+function savePokemon(){
 
     const evs = document.querySelectorAll(".ivs");
     const ivs = document.querySelectorAll(".evs");
     let data = {
         name: document.querySelector('.nombrePokemon') ? document.querySelector('.nombrePokemon').textContent : "",
         ability: document.querySelector('.selected') ? document.querySelector('.selected').textContent : "",
+        nature: document.querySelector('#nature') ? document.querySelector('#nature').value : "",
         movement1: document.querySelector('#movimiento1') ? document.querySelector('#movimiento1').value : "",
         movement2: document.querySelector('#movimiento2') ? document.querySelector('#movimiento2').value : "",
         movement3: document.querySelector('#movimiento3') ? document.querySelector('#movimiento3').value : "",
@@ -146,14 +163,26 @@ saveBtn.addEventListener('click', function () {
         data.ivs.push(iv.value ? iv.value : 0);
     });
 
+
+    let pokemon = new CustomPokemon(data.name, data.ability, data.nature, "leftovers", data.movement1, data.movement2, data.movement3, data.movement4,
+                                    4, data.evs[1], data.evs[2], data.evs[3], data.evs[4], data.evs[5],
+                                    1, data.ivs[1], data.ivs[2], data.ivs[3], data.ivs[4], data.ivs[5]);
+
+                                    //!!!!!!!!!cambiar 4 por data.evs[0] y 1 por data.ivs[0] cuando se añadan en la base de datos!!!!!!!
+    customPokemons.push(pokemon);
+    console.log(customPokemons);
+    console.log("Los ivs: " + data.ivs);
+    console.log("Los evs: " + data.evs);
+
     post_pokemonCard(data);
     overlay.style.display = 'none';
 
-});
+    sessionStorage.setItem('customPokemons', JSON.stringify(customPokemons));
 
-/*buscador de pokemon*/
-input.addEventListener("input", filtradoPokemon);
+    console.log("Custom Pokemons: " + sessionStorage.getItem('customPokemons'));
+    //getUserIdByEmail();
 
+}
 
 
 /*
@@ -165,34 +194,15 @@ function showNatures() {
 
     fetch(url_Natures)
         .then(response => response.json())
-        .then(natures => {
-            console.log("Naturalezas: " + natures);
-            // Crear el elemento select
-            let selectElement = document.createElement('select');
+        .then(data => {
+            const select = document.getElementById('nature');
 
-            // Para cada naturaleza, crear una opción y añadirla al select
-            for (let nature of natures) {
-                let option = document.createElement('option');
-                option.value = nature;
-                option.text = nature;
-                selectElement.appendChild(option);
-            }
-
-            // Crear la tarjeta
-            let card = document.createElement('div');
-            card.className = 'natures-card';
-
-            let title = document.createElement('h4');
-            title.textContent = 'Elige una naturaleza';
-            title.className = 'nature-title';
-            card.appendChild(title);
-
-            // Añadir el select a la tarjeta
-            card.appendChild(selectElement);
-
-            // Añadir la tarjeta al div con la clase 'natures'
-            let contenedorPadre = document.querySelector('.contenedor_habilidad_stats');
-            contenedorPadre.appendChild(card);
+            data.forEach(nature => {
+                const option = document.createElement('option');
+                option.value = nature;  // Ahora nature es un string
+                option.text = nature;   // Ahora nature es un string
+                select.add(option);
+            });
         })
         .catch(error => console.error('Error:', error));
 }
@@ -200,6 +210,30 @@ function showNatures() {
 
 
 
+/* 
+#########################################################
+#                   getIdUserByEmail                    #
+#########################################################
+*/
+
+function getUserIdByEmail() {
+    // Obtener el email del almacenamiento de la sesión
+    let email = localStorage.getItem('email');
+
+    // Codificar el email para su uso en una URL
+    let encodedEmail = encodeURIComponent(email);
+
+    // Crear la URL para la solicitud
+    let url = `http://${DB_HOST}:${DB_PORT}/getIdByEmail/${encodedEmail}`;
+
+    // Hacer la solicitud y procesar la respuesta
+    fetch(url)
+        .then(response => response.json())
+        .then(idUser => {
+            console.log('El ID del usuario es', idUser);
+        })
+        .catch(error => console.error('Error:', error));
+}
 
 
 async function cargaLista() {
@@ -274,6 +308,7 @@ searchButton.onclick = async () => {
         movimientos.push(movimiento.name);
     });
     updateMovements();
+    showNatures();
 
     /*stats del pokemon*/
     pokemonHp = data[0].hp_base;

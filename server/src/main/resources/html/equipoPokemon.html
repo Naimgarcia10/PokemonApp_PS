@@ -15,17 +15,20 @@
     <script type="module" src="../scripts/components/header_expertos.js"></script>
     <main>
         <div class="container">
-            <div class="card">
-                <div class="icon">+</div>
-            </div>
+        
             <div class="overlay">
                 <div class="popup">
+                    
+                    <!--Buscador Pokemon-->
                     <input type="text" id="input-text" placeholder="Buscar Pokemon...">
                     <img src="../icons/lupa.png" alt="Buscar" id="search-button">
                     <ul id="pokemon-list"></ul>
+
+
+                    <!--Contenido Popup-->
+
+                    <!--Tarjeta Pokemon-->
                     <div class="contenedor">
-
-
                         <div class="tarjetaPokemon">
                             <p class="nombrePokemon">Nombre del pokemon</p>
                             <img class="imagenPokemon" src="../images/pokemon_iterrogante.png" alt="">
@@ -35,8 +38,8 @@
                             </div>
                         </div>
 
+                        <!--Tarjeta Habilidades-->
                         <div class="contenedor_habilidad_stats">
-                            <!--Tarjeta Habilidades-->
                             <div class="tarjetaPokemonHabilidad">
                                 <h4>Elige habilidad</h4>
                                 <div class="habilidad" id="habilidad1">
@@ -66,6 +69,13 @@
                                     <option value="">selecciona movimiento4</option>
                                 </select>
                             </div>
+
+                            <div class="tarjetaNatures">
+                                <h4>Select Nature</h4>
+                                <select class="naturesSelect" id="nature">
+                                    <option value="">select nature</option>
+                                </select>
+                            </div>
                         
                         </div>
                         
@@ -84,11 +94,22 @@
                         </div>
 
                     </div>
+                    
                     <button class="close-btn">No Guardar</button>
                     <button class="save-btn">Guardar</button>
 
                 </div>
             </div>
+
+            <div class="botones">
+                <div class="addPokemon-btn">
+                    <div class="icon">+</div>
+                </div>
+    
+                <button id="saveTeam-btn">Save Team</button>
+
+            </div> 
+
         </div>
 
     </main>
