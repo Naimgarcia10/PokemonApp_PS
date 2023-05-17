@@ -48,6 +48,9 @@ public class Pokemon {
         this.pokemonWeaknesses = null;
     }
 
+    public Pokemon() {
+    }
+
     public void buildPokemonMoves(ConnMysql conn) throws Exception{
 
         String query = "SELECT movements.name AS movement_name, types.name AS type_name, types.picture AS type_picture, movement_class.icon AS class_icon, movements.accuracy, movements.description, movements.power, movements.pp, movements.priority " +

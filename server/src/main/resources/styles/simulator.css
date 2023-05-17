@@ -1,11 +1,44 @@
-#simulatorTitle{
+#simulatorTitle {
     text-align: center;    
 }
 
-#canvasSimulator{
+#canvasSimulator {
     display: flex;
-    /*justify-content: center;
-    align-items: center;
-    text-align: center;*/
-    margin: auto;
+    margin: auto auto 1rem auto;
 }
+
+.search-container {
+    display: flex;
+    align-items: center;
+    margin: 0 auto;
+    position: relative;
+    top: 30%;
+    height: 3rem;
+    width: 15rem;
+}
+
+.search-container input {
+    flex: 1;
+    padding-right: 2rem;
+    text-indent: 0.5rem;
+}
+
+.search-container label {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 2rem;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.search-container img {
+    height: 1rem;
+}
+
+#buttonSimulator{
+    display: block; margin: auto auto auto auto;
+  }

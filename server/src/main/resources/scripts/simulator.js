@@ -16,76 +16,153 @@ document.addEventListener("DOMContentLoaded", async function() {
   dibujarFondo()
   dibujarRectanguloPrincipal();    
   document.querySelector("#buttonSimulator").addEventListener("click", async function(){
-      document.querySelector("#buttonSimulator").disabled = true;        
-      await cargarPokemons();
-      await cargarBotonesAtaques();
-      dibujarPokemon(pokemon2Image);
-      playSound("../../" + pokemon2.cry);
-      await delay(500);
-      dibujarInfoPokemon(pokemon1, pokemon1Image, 1);
-      dibujarInfoPokemon(pokemon2, pokemon2Image, -1);    
-      dibujarAtaques();    
-      //dibujarMensajeTexto();
-      canvas.registerMouseEvents();
-      canvas.canvas.addEventListener("buttonClicked", async function(event){
-        canvas.unregisterMouseEvents();
-        const button = event.detail.button;
-        const movement = pokemon1.movements.find(movement => movement.name === button.texto);            
-        if(movement.currentPP == 0){
-          mensajeTexto = "¡No quedan PP para ese movimiento!";
-          dibujarMensajeTexto();
-          await delay(1200);
-          dibujarTodoSalvoMensajeTexto();
-          canvas.registerMouseEvents();
-          return;
-        }            
-        mensajeTexto = "¡" + pokemon1.name + " usó " + movement.name + "!";
-        dibujarTodoSalvoAtaques();
-        await animatePokemon(pokemon1Image, pokemon2Image, pokemon2Image.x, pokemon2Image.y, 500);            
-        let resultado = pokemon1.attackPokemon(pokemon2, movement);      
-        dibujarInfoPokemon(pokemon2, pokemon2Image, 1);
-        switch(resultado.typeEffectivity){
-          case 2:
-            playSound("../../audio/simulator/super_effective.wav");
-            mensajeTexto = "¡Es super efectivo!";
-            break;
-          case 1:
-            playSound("../../audio/simulator/normal_hit.wav");
-            mensajeTexto = "";         
-            break;
-          case 0.5:
-            playSound("../../audio/simulator/not_effective.wav");
-            mensajeTexto = "No es muy efectivo...";
-            break;
-          case 0:
-            mensajeTexto = "No afecta a " + pokemon2.name + "...";
-            break;
-          default:
-            mensajeTexto = "Pero falló..."
-            break;
-        }            
-        if(mensajeTexto != ""){             
-          dibujarMensajeTexto();
-          await delay(500);
-        }
-        await delay(200);
-        await animatePokemon(pokemon1Image, pokemon2Image, pokemon1Image.originalX, pokemon1Image.originalY, 500);   
-        dibujarTodoSalvoMensajeTexto();
-        canvas.registerMouseEvents();
-      })
+      // comprobamos que los buscadores 1 y 2 no estén vacíos y usamos reportValidity para que salte el mensaje de error
+      let pokemon1Text = document.querySelector("#buscador1").value;      
+      let pokemon2Text = document.querySelector("#buscador2").value;
+      if(pokemon1Text == ""){
+        document.querySelector("#buscador1").reportValidity();
+        return;
+      }
+      if(pokemon2Text == ""){
+        document.querySelector("#buscador2").reportValidity();
+        return;
+      }
+      pokemon1 = await getPokemon(pokemon1Text);
+      if(pokemon1 == null){
+        document.querySelector("#buscador1").setCustomValidity("No se ha encontrado el Pokémon");
+        document.querySelector("#buscador1").reportValidity();
+        return;
+      }
+      pokemon2 = await getPokemon(pokemon2Text);
+      if(pokemon2 == null){
+        document.querySelector("#buscador2").setCustomValidity("No se ha encontrado el Pokémon");
+        document.querySelector("#buscador2").reportValidity();
+        return;
+      }
+      await empezarCombate(); 
   });    
 });
 
+async function empezarCombate(){
+  document.querySelector("#buttonSimulator").disabled = true;
+  await cargarPokemons();
+  await cargarBotonesAtaques();
+  dibujarPokemon(pokemon2Image);
+  playSound("../../" + pokemon2.cry);
+  await delay(500);
+  dibujarInfoPokemon(pokemon1, pokemon1Image, 1);
+  dibujarInfoPokemon(pokemon2, pokemon2Image, -1);    
+  dibujarAtaques();    
+  //dibujarMensajeTexto();
+  canvas.registerMouseEvents();
+  canvas.canvas.addEventListener("buttonClicked", async function(event){        
+    canvas.unregisterMouseEvents();                
+    const button = event.detail.button;
+    const movement = pokemon1.movements.find(movement => movement.name === button.texto);            
+    if(movement.currentPP == 0){
+      mensajeTexto = "¡No quedan PP para ese movimiento!";
+      dibujarMensajeTexto();
+      await delay(1200);
+      dibujarTodoSalvoMensajeTexto();
+      canvas.registerMouseEvents();
+      return;
+    }
+    const randomMovement = pokemon2.movements.filter(movement => movement.currentPP > 0)[Math.floor(Math.random() * pokemon2.movements.filter(movement => movement.currentPP > 0).length)];
+    if (pokemon2.speed > pokemon1.speed) {        
+      if (await performAttack(pokemon2, pokemon1, randomMovement)) {
+        return;
+      }    
+      if (await performAttack(pokemon1, pokemon2, movement)) {
+        return;
+      }
+    } else {
+        if (await performAttack(pokemon1, pokemon2, movement)) {
+          return;
+        }                
+        if (await performAttack(pokemon2, pokemon1, randomMovement)) {
+          return;
+        }
+      canvas.registerMouseEvents();
+      }
+  });
+}
+
+const performAttack = async (attacker, defender, movement) => {
+  await animateAttack(attacker, defender, movement);
+  if (defender.currentHP === 0) {
+    await declareWinner(attacker, defender);
+    finalizarCombate();
+    if (attacker === pokemon1) {
+      playSound("../../audio/simulator/battle_victory.mp3");
+    }
+    return true;
+  }
+  return false;
+};
+
+async function finalizarCombate(){
+  document.querySelector("#buttonSimulator").disabled = true;
+}
+
+async function declareWinner(winnerPokemon, loserPokemon){
+  mensajeTexto = loserPokemon.name + " se debilitó...";
+  dibujarTodoSalvoAtaques();
+  await delay(500);
+  mensajeTexto = "¡" + winnerPokemon.name + " ganó la batalla!";
+  dibujarTodoSalvoAtaques();
+  await delay(1500);
+  return;
+}
+
+async function animateAttack(pokemonAttacker, pokemonReceiver, movement){
+  const imageAttacker = (pokemonAttacker == pokemon1) ? pokemon1Image : pokemon2Image;
+  const imageReceiver = (pokemonReceiver == pokemon1) ? pokemon1Image : pokemon2Image;
+  mensajeTexto = "¡" + pokemonAttacker.name + " usó " + movement.name + "!";
+  dibujarTodoSalvoAtaques();
+  await animatePokemon(imageAttacker, imageReceiver, imageReceiver.x, imageReceiver.y, 500);            
+  let resultado = pokemonAttacker.attackPokemon(pokemonReceiver, movement);      
+  dibujarInfoPokemon(pokemonReceiver, imageReceiver, 1);
+  switch(resultado.typeEffectivity){
+    case 2:
+      playSound("../../audio/simulator/super_effective.wav");
+      mensajeTexto = "¡Es super efectivo!";
+      break;
+    case 1:
+      playSound("../../audio/simulator/normal_hit.wav");
+      mensajeTexto = "";         
+      break;
+    case 0.5:
+      playSound("../../audio/simulator/not_effective.wav");
+      mensajeTexto = "No es muy efectivo...";
+      break;
+    case 0:
+      mensajeTexto = "No afecta a " + pokemon2.name + "...";
+      break;
+    default:
+      mensajeTexto = "Pero falló..."
+      break;
+  }            
+  if(mensajeTexto != ""){             
+    dibujarMensajeTexto();
+    await delay(500);
+  }
+  await delay(200);
+  await animatePokemon(imageAttacker, imageReceiver, imageAttacker.originalX, imageAttacker.originalY, 500);   
+  dibujarTodoSalvoMensajeTexto();
+}
+
+async function comprobarPokemonDebilitado(pokemon){
+  
+}
+
 async function cargarPokemons(){
     let fixedHeight = 200;    
-    let fixedWidth = 200;
-    pokemon1 = await getPokemon("magikarp");    
+    let fixedWidth = 200;       
     pokemon1Image = new CanvasImage(50, (canvas.height - fixedHeight) - 150, fixedWidth, fixedHeight, pokemon1.image);
     await canvas.loadImage(pokemon1Image);
     dibujarPokemon(pokemon1Image);
     playSound("../../" + pokemon1.cry);
-    await delay(500);
-    pokemon2 = await getPokemon("gastly");    
+    await delay(500);    
     pokemon2Image = new CanvasImage(canvas.width - fixedWidth, 0, fixedWidth, fixedHeight, pokemon2.image);
     await canvas.loadImage(pokemon2Image);
 }
@@ -107,6 +184,7 @@ async function getPokemon(name){
         throw new Error("Error al cargar los datos de la API");
     }
     const pokemonJson = await response.json();
+    if(pokemonJson.length == 0) return null;
     const type1Json = await getType(pokemonJson[0].type1.name);       
     const type1 = new Type(type1Json[0].type_name, type1Json[0].type_picture, type1Json[0].doubleDamageTo, type1Json[0].doubleDamageFrom,
       type1Json[0].halfDamageTo, type1Json[0].halfDamageFrom, type1Json[0].noDamageTo, type1Json[0].noDamageFrom)  
@@ -119,6 +197,10 @@ async function getPokemon(name){
     const pokemon = new Pokemon(pokemonJson[0].name, type1, type2, pokemonJson[0].hp_base, pokemonJson[0].attack_base, 
       pokemonJson[0].defense_base, pokemonJson[0].spatk_base, pokemonJson[0].spdef_base, 
       pokemonJson[0].speed_base, pokemonJson[0].image, pokemonJson[0].cry, pokemonJson[0].pokemonMoves);    
+    // filtramos los movimientos que no son de tipo daño
+    pokemon.movements = pokemon.movements.filter(movement => movement.type.name != "status");
+    // randomizamos los movimientos
+    pokemon.movements.sort(() => Math.random() - 0.5);
     for(let i=0;i<4;i++){
       const typeMovementJSON = await getType(pokemon.movements[i].type.name);
       pokemon.movements[i].type = new Type(typeMovementJSON[0].type_name, typeMovementJSON[0].type_picture, typeMovementJSON[0].doubleDamageTo, 

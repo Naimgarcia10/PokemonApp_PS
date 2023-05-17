@@ -78,11 +78,12 @@ public class Server {
             "a3.idAbility = idAbility3 JOIN types t1 on t1.idType = " +
             "pokemon.idType1 LEFT JOIN types t2 on t2.idType = pokemon.idType2 " +
             "where pokemon.name = \"" + pokemonName + "\";";            
-            ResultSet rs = conn.queryMysql(query);
-            rs.next();
+            ResultSet rs = conn.queryMysql(query);            
             Gson gson = new GsonBuilder().serializeNulls().create();
             ArrayList<Pokemon> array = new ArrayList<>();        
-            Pokemon pokemon = new Pokemon(rs.getInt("idPokemon"), 
+            Pokemon pokemon = null;
+            if(rs.next()){
+                pokemon = new Pokemon(rs.getInt("idPokemon"), 
                                         rs.getString("name"), 
                                         rs.getString("ability1"), 
                                         rs.getString("ability2"), 
@@ -99,8 +100,9 @@ public class Server {
                                         rs.getString("cry"));            
             pokemon.buildPokemonMoves(conn);
             pokemon.buildStrategies(conn);
-            pokemon.buildWeaknesses(conn);          
-            array.add(pokemon);
+            pokemon.buildWeaknesses(conn);  
+            }        
+            if(pokemon != null) array.add(pokemon);
             return gson.toJson(array);
         });
     }
