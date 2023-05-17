@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SUGGESTIONS</title>
+    <link rel="stylesheet" href="../styles/index.css">
+    <link rel="stylesheet" href="../styles/suggestions.css">
+    
+</head>
+
+<body>
+    <script type="module" src="../scripts/components/header.js"></script>
+    <main>
+        <div class="suggestion-box">
+            <form id="suggestion-form">
+                <h1>SUGGESTIONS</h1>
+                <input type="email" id="email" name="email" placeholder="E-Mail" required>
+                <br>
+                
+                <label for="suggestion" class="visually-hidden">Sugerencia:</label>
+                <textarea id="suggestion" name="suggestion" rows="4" cols="50" placeholder="Explica brevemente tu sugerencia, le responderemos a la mayor brevedad posible" required></textarea>
+                <br>
+                
+                <button type="submit">Enviar</button>
+            </form>
+        </div>
+    </main>
+    <script type="module" src="../scripts/components/footer.js"></script>
+    <script src="../scripts/emailHandler.js"></script>
+</body>
+
+</html>

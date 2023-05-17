@@ -2,16 +2,98 @@
 *{
   user-select: none;
 }
+
+
+
+
+/*
 .container {
   display: flex;
+  flex-direction: column;
   position: relative;
   height: 100vh;
-  background-image: url("https://cdn.pixabay.com/photo/2018/02/08/22/27/abstract-3142529_960_720.jpg");
   background-size: cover;
   background-position: center;
 }
 
-.card {
+*/
+
+/*
+#################################################################
+                        Estilos Sebas                           #
+#################################################################
+*/
+.tarjetaNatures{
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  background-color: var(--DarkOrange);
+  width: 19rem;
+  height: 8rem;
+  margin: 0 auto;
+  padding-top: 1rem;
+  border-radius: 10px;
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);
+}
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  height: 80rem;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.botones{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  order: 2;
+  align-items: center;
+  margin-left: 2rem;
+  z-index: 0;
+  margin-top: 3rem;
+}
+
+.addPokemon-btn {
+  order: 1;
+  width: 8rem;
+  height: 8rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+}
+
+#saveTeam-btn {
+  order: 3;
+  width: 12rem;
+  height: 50px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 2rem;
+}
+
+
+
+
+/*
+#################################################################
+                        Estilos Sebas                           #
+#################################################################
+*/
+
+
+/*
+.addPokemon-btn {
   position: absolute;
   bottom: 14%;
   left: 8%;
@@ -26,6 +108,7 @@
   cursor: pointer;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
+*/
 
 .icon {
   font-size: 50px;
@@ -43,6 +126,7 @@
   background-color: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(5px);
   display: none;
+  z-index: 1;
 }
 
 .popup {
@@ -63,6 +147,7 @@
   border-radius: 10px;
   text-align: center;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  z-index: 1;
 }
 
 .close-btn {

@@ -1,13 +1,21 @@
 import { DB_HOST, DB_PORT } from "./config.js"
+import {CustomPokemon} from "./classes/customPokemon.js"
 
-const card = document.querySelector('.card');
+const url_PokemonsName = `http://${DB_HOST}:${DB_PORT}/getPokemonsName`;
+const url_PostPokemon = `http://${DB_HOST}:${DB_PORT}/postPokemonCard`;
+const url_GetPokemon = `http://${DB_HOST}:${DB_PORT}/getCards`;
+const url_Natures = `http://${DB_HOST}:${DB_PORT}/getNatures`;
+
+
+const addPokemonBtn = document.querySelector('.addPokemon-btn');
 const overlay = document.querySelector('.overlay');
 const closeBtn = document.querySelector('.close-btn');
 const saveBtn = document.querySelector('.save-btn');
 const searchBox = document.getElementById('input-text');
 const searchButton = document.getElementById('search-button');
 
-
+let customPokemons = [];
+let naturesShown = false;
 const pokemonList = [];
 let movimientos = [];
 let habilidadSeleccionada = '';
@@ -29,11 +37,17 @@ let pokemonSpatk = 0;
 let pokemonSpdef = 0;
 let pokemonSpeed = 0;
 
-const url_PokemonsName = `http://${DB_HOST}:${DB_PORT}/getPokemonsName`;
-const url_PostPokemon = `http://${DB_HOST}:${DB_PORT}/postPokemonCard`;
-const url_GetPokemon = `http://${DB_HOST}:${DB_PORT}/getCards`;
+let pokemonCount = 0; // Inicializa el contador de Pokémon. Se usa para saber cuántos Pokémon hay en el equipo
+
 
 cargaLista();
+
+
+/*
+##############################################
+#           Seleccionar Habilidades          #
+##############################################
+*/
 
 const habilidades = document.querySelectorAll('.tarjetaPokemonHabilidad .habilidad');
 
@@ -45,6 +59,12 @@ habilidades.forEach(habilidad => {
         console.log(habilidadSeleccionada);
     });
 });
+
+/*
+##############################################
+#          Seleccionar  Movimientos          #
+##############################################
+*/
 
 function updateMovements() {
 
@@ -68,21 +88,49 @@ function updateMovements() {
 
 }
 
-card.addEventListener('click', function () {
-    overlay.style.display = 'block';
-});
+/*
+#########################################################
+#                   eventListeners                      #
+#########################################################
+*/
 
+/*Boton no guardar*/
 closeBtn.addEventListener('click', function () {
     overlay.style.display = 'none';
 });
 
-saveBtn.addEventListener('click', function () {
+
+/*Tarjeta Para añadir pokemon (tarjeta con el +) */
+addPokemonBtn.addEventListener('click', addPokemon);
+
+function addPokemon() {
+    overlay.style.display = 'block';
+}
+
+
+/*Boton guardar pokemon*/
+saveBtn.addEventListener('click', savePokemon);
+
+/*buscador de pokemon*/
+input.addEventListener("input", filtradoPokemon);
+
+
+
+/*
+#########################################################
+#                      savePokemon                      #
+#########################################################
+*/
+
+
+function savePokemon(){
 
     const evs = document.querySelectorAll(".ivs");
     const ivs = document.querySelectorAll(".evs");
     let data = {
         name: document.querySelector('.nombrePokemon') ? document.querySelector('.nombrePokemon').textContent : "",
         ability: document.querySelector('.selected') ? document.querySelector('.selected').textContent : "",
+        nature: document.querySelector('#nature') ? document.querySelector('#nature').value : "",
         movement1: document.querySelector('#movimiento1') ? document.querySelector('#movimiento1').value : "",
         movement2: document.querySelector('#movimiento2') ? document.querySelector('#movimiento2').value : "",
         movement3: document.querySelector('#movimiento3') ? document.querySelector('#movimiento3').value : "",
@@ -90,6 +138,23 @@ saveBtn.addEventListener('click', function () {
         evs: [],
         ivs: []
     };
+
+    // Comprobaciones de campos vacíos
+    if (data.name === "" || data.name === "Nombre del pokemon") {
+        alert("Seleccione un Pokémon");
+        return;  // Detiene la ejecución de la función
+    }
+
+    if (data.ability === "") {
+        alert("Seleccione una habilidad");
+        return;  // Detiene la ejecución de la función
+    }
+
+    if (data.movement1 === "" && data.movement2 === "" && data.movement3 === "" && data.movement4 === "") {
+        alert("Seleccione al menos un movimiento");
+        return;  // Detiene la ejecución de la función
+    }
+
     evs.forEach(ev => {
         data.evs.push(ev.value ? ev.value : 0);
     });
@@ -97,12 +162,79 @@ saveBtn.addEventListener('click', function () {
     ivs.forEach(iv => {
         data.ivs.push(iv.value ? iv.value : 0);
     });
+
+
+    let pokemon = new CustomPokemon(data.name, data.ability, data.nature, "leftovers", data.movement1, data.movement2, data.movement3, data.movement4,
+                                    4, data.evs[1], data.evs[2], data.evs[3], data.evs[4], data.evs[5],
+                                    1, data.ivs[1], data.ivs[2], data.ivs[3], data.ivs[4], data.ivs[5]);
+
+                                    //!!!!!!!!!cambiar 4 por data.evs[0] y 1 por data.ivs[0] cuando se añadan en la base de datos!!!!!!!
+    customPokemons.push(pokemon);
+    console.log(customPokemons);
+    console.log("Los ivs: " + data.ivs);
+    console.log("Los evs: " + data.evs);
+
     post_pokemonCard(data);
     overlay.style.display = 'none';
-    
-});
 
-input.addEventListener("input", filtradoPokemon);
+    sessionStorage.setItem('customPokemons', JSON.stringify(customPokemons));
+
+    console.log("Custom Pokemons: " + sessionStorage.getItem('customPokemons'));
+    //getUserIdByEmail();
+
+}
+
+
+/*
+#########################################################
+#                      showNatures                      #
+#########################################################
+*/
+function showNatures() {
+
+    fetch(url_Natures)
+        .then(response => response.json())
+        .then(data => {
+            const select = document.getElementById('nature');
+
+            data.forEach(nature => {
+                const option = document.createElement('option');
+                option.value = nature;  // Ahora nature es un string
+                option.text = nature;   // Ahora nature es un string
+                select.add(option);
+            });
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+
+
+
+/* 
+#########################################################
+#                   getIdUserByEmail                    #
+#########################################################
+*/
+
+function getUserIdByEmail() {
+    // Obtener el email del almacenamiento de la sesión
+    let email = localStorage.getItem('email');
+
+    // Codificar el email para su uso en una URL
+    let encodedEmail = encodeURIComponent(email);
+
+    // Crear la URL para la solicitud
+    let url = `http://${DB_HOST}:${DB_PORT}/getIdByEmail/${encodedEmail}`;
+
+    // Hacer la solicitud y procesar la respuesta
+    fetch(url)
+        .then(response => response.json())
+        .then(idUser => {
+            console.log('El ID del usuario es', idUser);
+        })
+        .catch(error => console.error('Error:', error));
+}
+
 
 async function cargaLista() {
     const response = await fetch(url_PokemonsName);
@@ -111,6 +243,7 @@ async function cargaLista() {
         pokemonList.push(pokemon);
     });
 }
+
 function filtradoPokemon() {
     const searchQuery = this.value.toLowerCase();
     const filteredPokemon = pokemonList.filter(pokemon => pokemon.toLowerCase().startsWith(searchQuery));
@@ -132,6 +265,13 @@ function filtradoPokemon() {
     });
 
 }
+
+/*
+##################################################################
+#   Seccion: refresca la informacion al seleccionar un pokemon   #
+##################################################################
+*/
+
 searchButton.onclick = async () => {
     const searchTerm = searchBox.value;
     searchBox.value = "";
@@ -168,6 +308,7 @@ searchButton.onclick = async () => {
         movimientos.push(movimiento.name);
     });
     updateMovements();
+    showNatures();
 
     /*stats del pokemon*/
     pokemonHp = data[0].hp_base;

@@ -12,20 +12,27 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import java.util.Properties;
+
 public class Server {
 
-    private static void returnCards() {
+    
+
+    private static void returnCards(Connection conn) {
         Spark.get("/getCards", (rq, rs) -> {
-            Connection conn = connection();
+            
             String sql = "SELECT * FROM custom_pokemons";
             PreparedStatement stmt = conn.prepareStatement(sql);
             ResultSet result = stmt.executeQuery();
             ArrayList<JsonObject> cards = new ArrayList<>();
             while (result.next()) {
                 JsonObject card = new JsonObject();
-                String[] namesData = returnData(result.getString("idPokemon"), result.getString("idAbility"),
-                        result.getString("idMovement1"), result.getString("idMovement2"),
-                        result.getString("idMovement3"), result.getString("idMovement4"));
+                String[] namesData = returnData(result.getString("idPokemon"), result.getString("idAbility")
+                                            , result.getString("idMovement1"),result.getString("idMovement2")
+                                            , result.getString("idMovement3"), result.getString("idMovement4"), conn);
 
                 card.addProperty("name", namesData[0]);
                 card.addProperty("image", namesData[1]);
@@ -36,16 +43,16 @@ public class Server {
                 card.addProperty("movement4", namesData[6]);
                 cards.add(card);
             }
+
             return cards;
         });
     }
-
-    private static String[] returnData(String idPokemon, String idAbility, String idMovement1, String idMovement2,
-            String idMovement3, String idMovement4) {
+    
+    private static String[] returnData(String idPokemon, String idAbility, String idMovement1 
+                                      ,String idMovement2, String idMovement3, String idMovement4, Connection conn){
 
         String[] data = new String[7];
         try {
-            Connection conn = connection();
             String sql = "SELECT image, name FROM pokemon WHERE idPokemon = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, idPokemon);
@@ -89,18 +96,19 @@ public class Server {
             rs.next();
             data[6] = rs.getString("name");
 
-        } catch (Exception e) {
+        } 
+        
+        catch (Exception e) {
             System.out.println(e);
         }
+
         System.out.println(data);
         return data;
     }
 
-    private static String[] returnIds(String name, String ability, String movement1, String movement2, String movement3,
-            String movement4) {
+    private static String[] returnIds ( String name, String ability, String movement1, String movement2, String movement3, String movement4, Connection conn){
         String[] ids = new String[6];
         try {
-            Connection conn = connection();
 
             String sql = "SELECT idPokemon FROM pokemon WHERE name = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
@@ -162,16 +170,16 @@ public class Server {
         return DriverManager.getConnection(url, user, password);
     }
 
-    private static void postPokemon() {
+    private static void postPokemon(Connection conn) {
         Spark.post("/postPokemonCard", (rq, res) -> {
 
             String body = rq.body();
             Gson gson = new Gson();
             JsonObject data = gson.fromJson(body, JsonObject.class);
-            String[] ids = returnIds(data.get("name").getAsString(), data.get("ability").getAsString(),
-                    data.get("movement1").getAsString(), data.get("movement2").getAsString(),
-                    data.get("movement3").getAsString(), data.get("movement4").getAsString());
-
+            String[] ids = returnIds(data.get("name").getAsString(),data.get("ability").getAsString()
+                                    , data.get("movement1").getAsString(), data.get("movement2").getAsString()
+                                    , data.get("movement3").getAsString(), data.get("movement4").getAsString(), conn);
+            
             String name = ids[0];
             String ability = ids[1];
             String movement1 = ids[2];
@@ -181,8 +189,6 @@ public class Server {
 
             JsonArray evs = data.get("evs").getAsJsonArray();
             JsonArray ivs = data.get("ivs").getAsJsonArray();
-
-            Connection conn = connection();
 
             String sql = "INSERT INTO custom_pokemons (idPokemon, idAbility, idMovement1, idMovement2, idMovement3, idMovement4, "
                     +
@@ -414,13 +420,104 @@ public class Server {
         });
     }
 
-    // Registro de usuarios
+
+    private static void sendEmail() {
+        Spark.get("/sendEmail", (req, res) -> {
+    
+            final String username = "pokemonpsapp@gmail.com";
+            final String password = "cqys fcif wbxt ynbx"; // replace with your actual password
+    
+            String to = req.queryParams("to");
+            String subject = req.queryParams("subject");
+            String body = req.queryParams("body");
+    
+            Properties props = new Properties();
+            props.put("mail.smtp.auth", "true");
+            props.put("mail.smtp.starttls.enable", "true");
+            props.put("mail.smtp.host", "smtp.gmail.com");
+            props.put("mail.smtp.port", "587");
+    
+            Session session = Session.getInstance(props,
+                    new javax.mail.Authenticator() {
+                        protected PasswordAuthentication getPasswordAuthentication() {
+                            return new PasswordAuthentication(username, password);
+                        }
+                    });
+    
+            try {
+                Message message = new MimeMessage(session);
+                message.setFrom(new InternetAddress(username));
+                message.setRecipients(Message.RecipientType.TO,
+                        InternetAddress.parse(to));
+                message.setSubject(subject);
+                message.setText(body);
+    
+                Transport.send(message);
+    
+                System.out.println("Done");
+    
+            } catch (MessagingException e) {
+                throw new RuntimeException(e);
+            }
+            return "Email sent.";
+        });
+    }
+
+    private static void getNatures(ConnMysql conn) {
+        Spark.get("/getNatures", (req, res) -> {
+            Gson gson = new GsonBuilder().create();
+            String query = "SELECT name FROM natures";
+            ResultSet rs = conn.queryMysql(query);
+            ArrayList<String> listaNaturalezas = new ArrayList<>();
+            while (rs.next()) {
+                String nature = rs.getString("name");
+                listaNaturalezas.add(nature);
+            }
+            String result = gson.toJson(listaNaturalezas);
+            return result;
+        });
+    }
+
+    private static void getIdByEmail(ConnMysql conn) {
+        Spark.get("/getIdByEmail/:email", (req, res) -> {
+            Gson gson = new GsonBuilder().create();
+            String email = req.params(":email");
+            String query = "SELECT idUser FROM users WHERE email = '" + email + "'";
+            ResultSet rs = conn.queryMysql(query);
+            int idUser = -1;
+            if (rs.next()) {
+                idUser = rs.getInt("idUser");
+            }
+            String result = gson.toJson(idUser);
+            return result;
+        });
+    }
+
+    private static void getPokemonIds(ConnMysql conn) {
+        Spark.get("/getPokemonIds", (req, res) -> {
+            Gson gson = new GsonBuilder().create();
+            String query = "SELECT idCustomPokemon FROM custom_pokemons";
+            ResultSet rs = conn.queryMysql(query);
+            ArrayList<Integer> pokemonIds = new ArrayList<>();
+            while (rs.next()) {
+                int pokemonId = rs.getInt("idCustomPokemon");
+                pokemonIds.add(pokemonId);
+            }
+            String result = gson.toJson(pokemonIds);
+            return result;
+        });
+    }
+    
+    
+    
+    
+     // Registro de usuarios
     private static void attendRegisterUserRequest(Connection conn) {
         Spark.post("/register", (req, res) -> {
             JSONObject responseBody = new JSONObject();
             // Crear objeto JSON a partir del cuerpo de la petición HTTP POST
-            JSONObject requestBody = new JSONObject(req.body());
             Gson gson = new GsonBuilder().create();
+            JSONObject requestBody = new JSONObject(req.body());
 
             String username = requestBody.getString("username");
             String email = requestBody.getString("email");
@@ -529,10 +626,14 @@ public class Server {
         Server.attendPokemonAbilitySearcher(conn);
         Server.attendPokemonWhoLearnsAbilities(conn);
         Server.getPokemonsName(conn);
-        Server.postPokemon();
-        Server.returnCards();
+        Server.sendEmail();
+        Server.getNatures(conn);
+        Server.postPokemon(conn2);
+        Server.returnCards(conn2);
         Server.attendRegisterUserRequest(conn2);
         Server.attendLoginUserRequest(conn2);
+        Server.getIdByEmail(conn);
+        Server.getPokemonIds(conn);
     }
 
 }
