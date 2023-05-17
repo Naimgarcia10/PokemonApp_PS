@@ -3,13 +3,29 @@
     width: 50%;
     margin: 8rem auto 0;
     padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     text-align: center;
+    transition: all 0.3s ease-in-out;
 }
 
-#email::placeholder {
+#suggestion-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.suggestion-box:hover {
+    transform: scale(1.02);
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+}
+
+#email::placeholder, #suggestion::placeholder {
     text-align: center;
+    color: #000;
+    opacity: 0.7;
 }
 
 .visually-hidden {
@@ -23,20 +39,99 @@
     border: 0;
 }
 
-#email {
+#email, #suggestion {
     background-color: transparent;
     border: none;
-    border-bottom: 1px solid #000;
+    border-bottom: 2px solid #000;
     outline: none;
-    padding-left: 30px;
+    padding-left: 40px;
+    font-size: 18px;
+    transition: all 0.3s ease-in-out;
+}
+
+#email {
     background-image: url(../images/forms/userIcon.png);
     background-repeat: no-repeat;
     background-size: 20px 20px;
-    background-position: center left;
+    background-position: 10px center;
 }
-
 
 #suggestion {
     background-color: rgba(255, 140, 0, 0.30);
     margin-top: 1.5rem;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+#email:focus, #suggestion:focus {
+    border-bottom: 2px solid #FF8C00;
+    transition: all 0.3s ease-in-out;
+}
+
+#suggestion-form button[type="submit"] {
+    background-color: #FF8C00;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+#suggestion-form button[type="submit"]:hover {
+    background-color: #FFA54F;
+    transition: all 0.3s ease-in-out;
+}
+
+
+.loading-wave {
+  width: 300px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.loading-bar {
+    width: 20px;
+    height: 10px;
+    margin: 0 5px;
+    background-color: #FF8C00;
+    border: 2px solid #000;  /* This line adds a black border */
+    border-radius: 5px;
+    animation: loading-wave-animation 1s ease-in-out infinite;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    padding-top: 2rem;
+  }
+  
+
+
+.loading-bar:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.loading-bar:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.loading-bar:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+@keyframes loading-wave-animation {
+  0% {
+    height: 10px;
+  }
+
+  50% {
+    height: 50px;
+  }
+
+  100% {
+    height: 10px;
+  }
 }

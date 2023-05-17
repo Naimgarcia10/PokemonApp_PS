@@ -8,7 +8,6 @@
     <title>SUGGESTIONS</title>
     <link rel="stylesheet" href="../styles/index.css">
     <link rel="stylesheet" href="../styles/suggestions.css">
-    
 </head>
 
 <body>
@@ -19,13 +18,20 @@
                 <h1>SUGGESTIONS</h1>
                 <input type="email" id="email" name="email" placeholder="E-Mail" required>
                 <br>
-                
                 <label for="suggestion" class="visually-hidden">Sugerencia:</label>
                 <textarea id="suggestion" name="suggestion" rows="4" cols="50" placeholder="Explica brevemente tu sugerencia, le responderemos a la mayor brevedad posible" required></textarea>
                 <br>
-                
                 <button type="submit">Enviar</button>
             </form>
+            <div id="loading-bar" style="display: none;">
+                <p>Sending suggestion...</p>
+                <div class="loading-wave">
+                    <div class="loading-bar"></div>
+                    <div class="loading-bar"></div>
+                    <div class="loading-bar"></div>
+                    <div class="loading-bar"></div>
+                </div>
+            </div>
         </div>
     </main>
     <script type="module" src="../scripts/components/footer.js"></script>
