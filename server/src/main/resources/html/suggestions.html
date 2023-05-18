@@ -16,7 +16,7 @@
         <div class="suggestion-box">
             <form id="suggestion-form">
                 <h1>SUGGESTIONS</h1>
-                <input type="email" id="email" name="email" placeholder="E-Mail" required>
+                <input type="email" id="email" name="email" placeholder="E-Mail" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
                 <br>
                 <label for="suggestion" class="visually-hidden">Sugerencia:</label>
                 <textarea id="suggestion" name="suggestion" rows="4" cols="50" placeholder="Explica brevemente tu sugerencia, le responderemos a la mayor brevedad posible" required></textarea>
@@ -34,6 +34,18 @@
             </div>
         </div>
     </main>
+
+    <!-- El modal -->
+    <div id="myModal" class="modal">
+
+    <!-- Contenido del modal -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+        <p>¡Gracias por tu sugerencia! Nos pondremos en contacto contigo lo antes posible.</p>
+        </div>
+  
+    </div>
+  
     <script type="module" src="../scripts/components/footer.js"></script>
     <script src="../scripts/emailHandler.js"></script>
 </body>
