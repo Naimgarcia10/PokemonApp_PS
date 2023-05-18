@@ -17,11 +17,11 @@
 
     <div id="login-container">
         <h1 id="title">Login</h1>
-        <form action="login" method="post">
+        <form id="login-form" class="login">
 
             <div class="email">
                 <div class="form">
-                    <input class="input" id="email-input"  placeholder="Email" required="" type="email">
+                    <input class="input" id="email"  name="email" placeholder="Email" type="text">
                     <span class="input-border"></span>
                 </div>
                 <img id="email-img" src="../images/forms/mailIcon.png" alt="email-photo">
@@ -29,17 +29,17 @@
 
             <div class="password">
                 <div class="form">
-                    <input class="input" id="password-input" placeholder="Password" required="" type="password">
+                    <input class="input" id="password" name="password" placeholder="Password" type="password">
                     <span class="input-border"></span>
                 </div>
 
                 <img id="password-img" src="../images/forms/passwordIcon.png" alt="password-photo">
             </div>
 
-            <a id="registered" href="register.html"> <h4>¿No estás registrado todavía? Regístrate ahora</h4></a>
+            <a id="registered" href="register.html"> <h4>Are you not registered yet? Register now</h4></a>
             
-            <button id="confirm">
-                <span> Confirmar
+            <button type="submit" id="login-button">
+                <span> Submit
                 </span>
             </button>
         </form>
@@ -49,8 +49,14 @@
         <img id="pokemon_group_right" src="../images/pokemon_group_right.png" alt="pokemon_group_right">
 
 </div>
+
+<div class="form_empty_fields">
+    <p id="form_errorText" class="form_error" style="display: none;"></p>
+    <img src="../images/forms/capitan_pikachu.png" id="form_errorPict" class="form_errorPict" style="display: none;">
+</div>
     
 
     <script type="module" src="../scripts/components/footer.js"></script>
+    <script type="module" src="../scripts/login.js"></script>
 </body>
 </html>

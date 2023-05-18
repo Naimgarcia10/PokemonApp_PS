@@ -194,7 +194,7 @@ public class Server {
                     +
                     "evsAttack, evsDefense, evsSpatk, evsSpdef, evsSpeed, " +
                     "ivsAttack, ivsDefense, ivsSpatk, ivsSpdef, ivsSpeed) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            
+
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                 stmt.setString(1, name);
                 stmt.setString(2, ability);
@@ -425,7 +425,7 @@ public class Server {
         Spark.get("/sendEmail", (req, res) -> {
     
             final String username = "pokemonpsapp@gmail.com";
-            final String password = "cqys fcif wbxt ynbx"; // replace with your actual password
+            final String password = "vvaf fyfp grxk bdgb"; // replace with your actual password
     
             String to = req.queryParams("to");
             String subject = req.queryParams("subject");
@@ -514,6 +514,7 @@ public class Server {
      // Registro de usuarios
     private static void attendRegisterUserRequest(Connection conn) {
         Spark.post("/register", (req, res) -> {
+            JSONObject responseBody = new JSONObject();
             // Crear objeto JSON a partir del cuerpo de la petición HTTP POST
             Gson gson = new GsonBuilder().create();
             JSONObject requestBody = new JSONObject(req.body());
@@ -522,8 +523,10 @@ public class Server {
             String email = requestBody.getString("email");
             String birthdate = requestBody.getString("birthdate");
             String password = requestBody.getString("password");
+
             // Validar que los datos no estén vacíos
-            if (username.isEmpty() || email.isEmpty() || birthdate.isEmpty() || password.isEmpty()) {
+            if (username.isEmpty() || email.isEmpty() || birthdate.isEmpty() ||
+                    password.isEmpty()) {
                 res.status(400); // Código de respuesta para bad request
                 return "Faltan datos";
             }
@@ -536,32 +539,77 @@ public class Server {
             int count = rs.getInt(1);
             if (count > 0) {
                 res.status(409); // Código de respuesta para conflicto
-                return "El email del usuario ya existe en la base de datos";
+                responseBody.put("error", "email");
+                return responseBody.toString();
             }
 
             // Verificar si el nombre de usuario ya existe en la base de datos
-            query = String.format("SELECT COUNT(*) FROM users WHERE username = '%s'", username);
+            query = String.format("SELECT COUNT(*) FROM users WHERE username = '%s'",
+                    username);
             stmt = conn.prepareStatement(query);
             rs = stmt.executeQuery();
             rs.next();
             count = rs.getInt(1);
             if (count > 0) {
                 res.status(409); // Código de respuesta para conflicto
-                return "El nombre usuario ya existe en la base de datos";
+                responseBody.put("error", "username");
+                return responseBody.toString();
             }
 
             // Insertar usuario en la base de datos
-            query = String.format("INSERT INTO users (email, username, password, birthdayDate) VALUES ('%s', '%s', '%s', '%s')", email, username, password, birthdate);
+            query = String.format(
+                    "INSERT INTO users (email, username, password, birthdayDate) VALUES ('%s', '%s', '%s', '%s')",
+                    email, username, password, birthdate);
             stmt = conn.prepareStatement(query);
             stmt.executeUpdate();
-            
-            stmt.close();
-            conn.close();
+
             res.status(200);
             return gson.toJson(email);
         });
     }
-    
+
+    // Inicio de sesión de usuarios
+
+    private static void attendLoginUserRequest(Connection conn) {
+        Spark.post("/login", (req, res) -> {
+            // Crear objeto JSON a partir del cuerpo de la petición HTTP POST
+            JSONObject requestBody = new JSONObject(req.body());
+            Gson gson = new GsonBuilder().create();
+
+            String email = requestBody.getString("email");
+            String password = requestBody.getString("password");
+
+            // Validar que los datos no estén vacíos
+            if (email.isEmpty() || password.isEmpty()) {
+                res.status(400); // Código de respuesta para bad request
+                return "Faltan datos";
+            }
+
+            // Verificar las credenciales del usuario en la base de datos
+            String query = String.format("SELECT COUNT(*) FROM users WHERE email = '%s' AND password = '%s'",
+                    email, password);
+            PreparedStatement stmt = conn.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+            rs.next();
+            int count = rs.getInt(1);
+            if (count == 0) {
+                res.status(401); // Código de respuesta para autenticación fallida
+                return "Credenciales inválidas";
+            }
+
+            // Obtener nombre de usuario
+            query = String.format("SELECT username FROM users WHERE email = '%s' AND password = '%s'", email, password);
+            stmt = conn.prepareStatement(query);
+            rs = stmt.executeQuery();
+            rs.next();
+            String username = rs.getString(1);
+
+            // Autenticación exitosa
+            res.status(200);
+            String[] response = {email, username};
+            return gson.toJson(response);
+        });
+    }
 
     public static void main(String[] args) throws Exception {
         ConnMysql conn = new ConnMysql();
@@ -583,6 +631,7 @@ public class Server {
         Server.postPokemon(conn2);
         Server.returnCards(conn2);
         Server.attendRegisterUserRequest(conn2);
+        Server.attendLoginUserRequest(conn2);
         Server.getIdByEmail(conn);
         Server.getPokemonIds(conn);
     }

@@ -1,81 +1,101 @@
 <!DOCTYPE html>
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
     <link rel="stylesheet" href="../styles/index.css">
-    <link rel="stylesheet" type="text/css" href="../styles/signUp.css">
-
+    <link rel="stylesheet" type="text/css" href="../styles/register.css">
 </head>
 
 <body>
     <script type="module" src="../scripts/components/header_expertos.js"></script>
-    <main>
-        <h1 class="title">Sign Up</h1>
-        <form id="register-form" class="register">
-            <div class="input-container">
-                <div class="input_group_right">
-                    <input class="input" type="text" id="username" name="username" placeholder="User Name">
-                </div>
-                <div class="input_group">
-                    <img class="icons" src="../images/forms/userIcon.png" alt="userIcon">
-                </div>
-                <p id="username_errorText" class="form_input-error">Introduzca un nombre de usuario entre 4 y 12 carácteres, ejemplo válido: JohnDoe_15</p>
-            </div>
-            <div class="input-container">
-                <div class="input_group_right">
-                    <input class="input" type="text" id="email" name="email" placeholder="E-Mail">
-                    <span class="input-border"></span>
-                </div>
-                <div>
-                    <img class="icons" id="mailIcon" src="../images/forms/mailIcon.png" alt="mailIcon">
-                </div>
-                <p id="email_errorText" class="form_input-error">Correo inválido, un ejemplo de correo válido es: john@correo.com</p>
-            </div>
-            <div class="input-container">
-                <div class="input_group_right">
-                    <input class="input" type="date" id="birthdate" name="birthdate" placeholder="Birthday Date">
-                    <span class="input-border"></span>
-                </div>
-                <div>
-                    <img class="icons" src="../images/forms/calendarIcon.png" alt="calendarIcon"> 
-                </div>
-            </div>
-            <div class="input-container">
-                <div class="input_group_right">
-                    <input class="input" type="password" id="password" name="password" placeholder="Password">
-                    <span class="input-border"></span>
-                </div>
-                <div>
-                    <img class="icons" src="../images/forms/passwordIcon.png" alt="passwordIcon">
-                </div>
-                <p id="password_errorText" class="form_input-error">Contraseña inválida, por favor introduzca una contraseña de 4 a 12 carácteres</p>
-            </div>
-            <div class="input-container">
-                <div class="input_group_right">
-                    <input class="input" type="password" id="password2" name="password2" placeholder=" Confirm Password">
-                    <span class="input-border"></span>
-                </div>
-                <div>
-                    <img class="icons" src="../images/forms/passwordIcon.png" alt="passwordIcon">
-                </div>
-                <p id="password2_errorText" class="form_input-error">Las contraseñas deben coincidir</p>
-            </div>
 
-            <div id="div-a">
-                <a id="isRegistered" href="Login.html">Already Registered? Sign In</a>
-            </div>
+    <div id="main-container">
 
-            <div id="register-button-div">
-                <button type="submit" id="register-button">Sign Up</button>
-            </div>
-            
-        </form>
-        <div class="form_empty_fields">
-            <p id="form_errorText" class="form_error" style="display: none;">Please fill in all the fields</p>
-            <img src="../images/forms/capitan_pikachu.png" id="form_errorPict" class="form_errorPict" style="display: none;">
+
+            <img id="pokemon_group_left" src="../images/pokemon_group_left.png" alt="pokemon_group_left">
+
+        <div id="register-container">
+            <h1 id="title">Sign Up</h1>
+            <form id="register-form" class="register">
+
+                <div class="username">
+                    <div class="form">
+                        <input class="input" id="username" name="username" placeholder="Username" type="text">
+                        <span class="input-border"></span>
+                    </div>
+                    <img id="username-img" src="../images/forms/userIcon.png" alt="username-photo">
+                </div>
+
+                <p id="username_errorText" style="display: none;">Introduzca un nombre de usuario entre 4 y 12 carácteres, ejemplo válido: JohnDoe_15</p>
+                
+
+                <div class="email">
+                    <div class="form">
+                        <input class="input" id="email" name="email" placeholder="Email" type="text">
+                        <span class="input-border"></span>
+                    </div>
+                    <img id="email-img" src="../images/forms/mailIcon.png" alt="email-photo">
+                </div>
+
+                <p id="email_errorText" style="display: none;">Correo inválido, un ejemplo de correo válido es: john@correo.com</p>
+                
+
+                <div class="birthdate">
+                    <div class="form">
+                        <input class="input" id="birthdate" name="birthdate" placeholder="Email" type="date">
+                        <span class="input-border"></span>
+                    </div>
+                    <img id="birthdate-img" src="../images/forms/calendarIcon.png" alt="birthdate-photo">
+                </div>
+
+                <div class="password">
+                    <div class="form">
+                        <input class="input" id="password" name="password" placeholder="Password" type="password">
+                        <span class="input-border"></span>
+                    </div>
+
+                    <img id="password-img" src="../images/forms/passwordIcon.png" alt="password-photo">
+                </div>
+
+                <p id="password_errorText" style="display: none;">Contraseña inválida, por favor introduzca una contraseña de 4 a 12 carácteres</p>
+                
+
+                <div class="password2">
+                    <div class="form">
+                        <input class="input" id="password2" name="password2" placeholder="Repeat Password"
+                            type="password">
+                        <span class="input-border"></span>
+                    </div>
+
+                    <img id="password2-img" src="../images/forms/passwordIcon.png" alt="password-photo">
+                </div>
+
+                <p id="password2_errorText" style="display: none;">Las contraseñas deben coincidir</p>
+                
+
+                <a id="registered" href="Login.html"><h4>Already Registered? Sign In</h4></a>
+
+                <button type="submit" id="register-button">
+                    <span> Submit
+                    </span>
+                </button>
+            </form>
         </div>
-    </main>
+
+
+        <img id="pokemon_group_right" src="../images/pokemon_group_right.png" alt="pokemon_group_right">
+    </div>
+
+    <div class="form_empty_fields">
+        <p id="form_errorText" class="form_error" style="display: none;"></p>
+        <img src="../images/forms/capitan_pikachu.png" id="form_errorPict" class="form_errorPict" style="display: none;">
+    </div>
+
+    <script type="module" src="../scripts/components/footer.js"></script>
     <script type="module" src="../scripts/register.js"></script>
     <script src="../scripts/formsValidation.js"></script>
 </body>
