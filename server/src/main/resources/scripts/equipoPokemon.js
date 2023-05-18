@@ -155,6 +155,11 @@ function savePokemon(){
         return;  // Detiene la ejecución de la función
     }
 
+    if (data.nature === "") {
+        alert("Seleccione una naturaleza");
+        return;  // Detiene la ejecución de la función
+    }
+
     evs.forEach(ev => {
         data.evs.push(ev.value ? ev.value : 0);
     });
@@ -164,23 +169,16 @@ function savePokemon(){
     });
 
 
-    let pokemon = new CustomPokemon(data.name, data.ability, data.nature, "leftovers", data.movement1, data.movement2, data.movement3, data.movement4,
-                                    4, data.evs[1], data.evs[2], data.evs[3], data.evs[4], data.evs[5],
-                                    1, data.ivs[1], data.ivs[2], data.ivs[3], data.ivs[4], data.ivs[5]);
+    let pokemon = new CustomPokemon(data.name, data.ability, data.nature, 1, data.movement1, data.movement2, data.movement3, data.movement4,
+                                    data.evs[0], data.evs[1], data.evs[2], data.evs[3], data.evs[4], data.evs[5],
+                                    data.ivs[0], data.ivs[1], data.ivs[2], data.ivs[3], data.ivs[4], data.ivs[5]);
 
-                                    //!!!!!!!!!cambiar 4 por data.evs[0] y 1 por data.ivs[0] cuando se añadan en la base de datos!!!!!!!
     customPokemons.push(pokemon);
-    console.log(customPokemons);
-    console.log("Los ivs: " + data.ivs);
-    console.log("Los evs: " + data.evs);
-
-    post_pokemonCard(data);
+    
+    //post_pokemonCard(data);
     overlay.style.display = 'none';
 
-    sessionStorage.setItem('customPokemons', JSON.stringify(customPokemons));
-
-    console.log("Custom Pokemons: " + sessionStorage.getItem('customPokemons'));
-    //getUserIdByEmail();
+    showPokemonWithoutLogin();
 
 }
 
@@ -205,6 +203,40 @@ function showNatures() {
             });
         })
         .catch(error => console.error('Error:', error));
+}
+
+/* 
+#########################################################
+#             showPokemonWithoutLogin                   #
+#########################################################
+*/
+
+async function showPokemonWithoutLogin() {
+
+    const searchTerm = sessionStorage.getItem("inputPokemon");
+    searchBox.value = "";
+    pokemonUl.innerHTML = "";
+    const valorInputCodificado = encodeURIComponent(searchTerm);
+    const url_Pokemon = `http://${DB_HOST}:${DB_PORT}/getPokemon/${valorInputCodificado}`;
+    const response = await fetch(url_Pokemon);
+    const data = await response.json();
+
+    console.log(data);
+
+    const contenedor = document.querySelector('.container');
+    const card = document.createElement('div');
+    card.innerHTML = `  <div class="imagen_nombre">
+                        <h3>${data[0].name}</h3>
+                        <img src="${data[0].image}" alt="">
+                        </div>`;
+
+    card.classList.add('cardPokemon');
+    contenedor.appendChild(card);
+
+
+
+    
+
 }
 
 
@@ -274,6 +306,7 @@ function filtradoPokemon() {
 
 searchButton.onclick = async () => {
     const searchTerm = searchBox.value;
+    sessionStorage.setItem('inputPokemon', searchTerm);
     searchBox.value = "";
     pokemonUl.innerHTML = "";
     const valorInputCodificado = encodeURIComponent(searchTerm);
@@ -281,21 +314,21 @@ searchButton.onclick = async () => {
     const response = await fetch(url_Pokemon);
     const data = await response.json();
 
-    /*nombre del pokemon*/
+    
     const nombrePokemon = document.querySelector('.nombrePokemon');
     nombrePokemon.textContent = data[0].name;
 
-    /*imagen del pokemon*/
+    
     const imagenPokemon = document.querySelector('.imagenPokemon');
     imagenPokemon.src = data[0].image;
 
-    /*tipo del pokemon*/
+    
     const tipoPokemon1 = document.querySelector('.tipoPokemon1');
     const tipoPokemon2 = document.querySelector('.tipoPokemon2');
     tipoPokemon1.src = data[0].type1;
     tipoPokemon2.src = data[0].type2;
 
-    /*habilidad del pokemon*/
+   
     const habilidadPokemon1 = document.querySelector('#habilidad1');
     const habilidadPokemon2 = document.querySelector('#habilidad2');
     const habilidadPokemon3 = document.querySelector('#habilidad3');
@@ -303,14 +336,14 @@ searchButton.onclick = async () => {
     habilidadPokemon2.textContent = data[0].ability2;
     habilidadPokemon3.textContent = data[0].ability3;
 
-    /*movimientos del pokemon*/
+   
     data[0].pokemonMoves.forEach(movimiento => {
         movimientos.push(movimiento.name);
     });
     updateMovements();
     showNatures();
 
-    /*stats del pokemon*/
+ 
     pokemonHp = data[0].hp_base;
     pokemonAttack = data[0].attack_base;
     pokemonDefense = data[0].defense_base;
@@ -327,7 +360,12 @@ searchButton.onclick = async () => {
 
     updateStats();
 
+
+
+
+
 }
+
 function updateStats() {
     const statsDiv = document.getElementById('stats');
     const progress = statsDiv.querySelectorAll('.progress');
