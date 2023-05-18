@@ -210,3 +210,9 @@ button {
    /* input:valid ~ .input-border{
      width: 100%;
    } */
+
+   .form_empty_fields{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

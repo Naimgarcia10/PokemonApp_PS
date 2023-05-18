@@ -35,18 +35,11 @@ function registrarUsuario() {
   })
   .then(data => {
     // Trabajar con los datos obtenidos
-<<<<<<< HEAD
     alert("Usuario registrado correctamente");
     form.reset();
     sessionStorage.removeItem('email');
     sessionStorage.removeItem('username');
     window.location.href = 'login.html';
-=======
-    console.log(data);
-
-    localStorage.setItem('email', data);
-    console.log(localStorage.getItem('email'));
->>>>>>> 4cb8de226469ce95103dc6e861a7bd7db02b307e
   })
   .catch(error => {
     console.log('Error en la solicitud:', error);

@@ -71,7 +71,7 @@ header .navbar_expertos ul li {
     border-style: initial;
     display: inline;
     padding: 1rem;
-    margin: 0.7rem;
+    margin: 0.5rem;
     background-color: var(--Crimson);
     font-weight: bold;
     font-size: 1rem;
@@ -112,19 +112,9 @@ footer img {
     float: right;
 }
 
-#usernameli{
-    background-color: var(--LightSeaGreen);
-    margin-left: 4rem;
-}
-
-#usernameli a{
-    color: var(--Black);
-}
-
-
 #loginLi {
     background-color: var(--LightSeaGreen);
 }
 #registerLi {
     background-color: var(--LightSeaGreen);
-}
+} 
