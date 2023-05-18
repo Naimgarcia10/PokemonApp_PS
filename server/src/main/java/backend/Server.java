@@ -4,6 +4,7 @@ import io.github.cdimascio.dotenv.Dotenv;
 import spark.Spark;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.json.JSONObject;
 
@@ -493,7 +494,45 @@ public class Server {
         });
     }
 
-    private static void getPokemonIds(ConnMysql conn) {
+    private static void getPokemonCardById(Connection conn) {
+        Spark.get("/getPokemonCardById/:id", (req, res) -> {
+            int idPokemon = Integer.parseInt(req.params(":id"));
+            Gson gson = new GsonBuilder().create();
+            String query = "SELECT name, image FROM pokemon WHERE idPokemon = ?";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setInt(1, idPokemon);
+            ResultSet rs = stmt.executeQuery();
+            HashMap<String, String> pokemonCard = new HashMap<>();
+            if (rs.next()) {
+                pokemonCard.put("name", rs.getString("name"));
+                pokemonCard.put("image", rs.getString("image"));
+            }
+            String result = gson.toJson(pokemonCard);
+            return result;
+        });
+    }
+   
+    private static void getIdByName(Connection conn) {
+        Spark.get("/getIdByName/:name", (req, res) -> {
+            HashMap<String, Integer> idPokemon = new HashMap<>();
+            try {
+                String name = req.params(":name");
+                String query = "SELECT idPokemon FROM pokemon WHERE name = ?";
+                PreparedStatement stmt = conn.prepareStatement(query);
+                stmt.setString(1, name);
+                ResultSet rs = stmt.executeQuery();
+                if (rs.next()) {
+                    idPokemon.put("idPokemon", rs.getInt("idPokemon"));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return new GsonBuilder().create().toJson(idPokemon);
+        });
+    }
+    
+
+    private static void getcustomPokemonIds(ConnMysql conn) {
         Spark.get("/getPokemonIds", (req, res) -> {
             Gson gson = new GsonBuilder().create();
             String query = "SELECT idCustomPokemon FROM custom_pokemons";
@@ -633,7 +672,10 @@ public class Server {
         Server.attendRegisterUserRequest(conn2);
         Server.attendLoginUserRequest(conn2);
         Server.getIdByEmail(conn);
-        Server.getPokemonIds(conn);
+        Server.getcustomPokemonIds(conn);
+        Server.getPokemonCardById(conn2);
+        Server.getIdByName(conn2);
+        
     }
 
 }

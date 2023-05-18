@@ -14,7 +14,7 @@ const saveBtn = document.querySelector('.save-btn');
 const searchBox = document.getElementById('input-text');
 const searchButton = document.getElementById('search-button');
 
-let customPokemons = [];
+let customPokemons = JSON.parse(sessionStorage.getItem("customPokemons")) || [];
 let naturesShown = false;
 const pokemonList = [];
 let movimientos = [];
@@ -123,7 +123,7 @@ input.addEventListener("input", filtradoPokemon);
 */
 
 
-function savePokemon(){
+async function savePokemon(){
 
     const evs = document.querySelectorAll(".ivs");
     const ivs = document.querySelectorAll(".evs");
@@ -169,16 +169,39 @@ function savePokemon(){
     });
 
 
-    let pokemon = new CustomPokemon(data.name, data.ability, data.nature, 1, data.movement1, data.movement2, data.movement3, data.movement4,
+    let idPokemon= await getIdPokemonByName(data.name)
+    console.log("Id pokemon dentro de funcion: " + idPokemon);
+
+    let pokemon = new CustomPokemon(idPokemon, data.ability, data.nature, 1, data.movement1, data.movement2, data.movement3, data.movement4,
                                     data.evs[0], data.evs[1], data.evs[2], data.evs[3], data.evs[4], data.evs[5],
                                     data.ivs[0], data.ivs[1], data.ivs[2], data.ivs[3], data.ivs[4], data.ivs[5]);
 
-    customPokemons.push(pokemon);
-    
-    //post_pokemonCard(data);
-    overlay.style.display = 'none';
 
-    showPokemonWithoutLogin();
+
+        if (customPokemons.length >=6) {
+            alert("Equipo completo");
+            return
+            
+        }
+
+        customPokemons.push(pokemon);
+        sessionStorage.setItem("customPokemons", JSON.stringify(customPokemons));
+        if (customPokemons.length == 6) {
+            addPokemonBtn.style.display = 'none';
+            
+        }
+        else{
+            addPokemonBtn.style.display = 'flex';
+        }
+
+        
+        
+        //post_pokemonCard(data);
+        overlay.style.display = 'none';
+
+        showPokemonWithoutLogin();
+
+    
 
 }
 
@@ -212,32 +235,37 @@ function showNatures() {
 */
 
 async function showPokemonWithoutLogin() {
-
-    const searchTerm = sessionStorage.getItem("inputPokemon");
-    searchBox.value = "";
-    pokemonUl.innerHTML = "";
-    const valorInputCodificado = encodeURIComponent(searchTerm);
-    const url_Pokemon = `http://${DB_HOST}:${DB_PORT}/getPokemon/${valorInputCodificado}`;
-    const response = await fetch(url_Pokemon);
-    const data = await response.json();
-
-    console.log(data);
-
+    // Obtener el contenedor
     const contenedor = document.querySelector('.container');
-    const card = document.createElement('div');
-    card.innerHTML = `  <div class="imagen_nombre">
-                        <h3>${data[0].name}</h3>
-                        <img src="${data[0].image}" alt="">
-                        </div>`;
 
-    card.classList.add('cardPokemon');
-    contenedor.appendChild(card);
+    // Limpiar sólo las tarjetas de Pokémon del contenedor
+    let pokemonCards = contenedor.querySelectorAll('.cardPokemon');
+    pokemonCards.forEach(card => card.remove());
 
-
-
+    if (customPokemons.length != 0) {
+        for (let i = 0; i < customPokemons.length; i++) {
+            let id =  customPokemons[i].idPokemon;
     
+            const url_pokemonCard = `http://${DB_HOST}:${DB_PORT}/getPokemonCardById/${id}`;
 
+            const response = await fetch(url_pokemonCard);
+            const data = await response.json();
+
+            console.log(data);
+
+            const card = document.createElement('div');
+            card.innerHTML = `  <div class="imagen_nombre">
+                                <h3>${data.name}</h3>
+                                <img src="${data.image}" alt="">
+                                </div>`;
+
+            card.classList.add('cardPokemon');
+            contenedor.appendChild(card);
+        }
+    }
+    else{return;}
 }
+
 
 
 
@@ -266,6 +294,32 @@ function getUserIdByEmail() {
         })
         .catch(error => console.error('Error:', error));
 }
+
+
+/* 
+#########################################################
+#                 getIdPokemonByName                    #
+#########################################################
+*/
+
+async function getIdPokemonByName(name) {
+    // Crear la URL para la solicitud
+    let url = `http://${DB_HOST}:${DB_PORT}/getIdByName/${name}`;
+
+    // Hacer la solicitud y procesar la respuesta
+    try {
+        let response = await fetch(url);
+        let idPokemon = await response.json();
+        console.log('El ID del pokemon es', idPokemon.idPokemon);
+        return idPokemon.idPokemon;
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+
+
+
 
 
 async function cargaLista() {
@@ -521,6 +575,7 @@ window.addEventListener('DOMContentLoaded', ()=>{
     updateIvs();
     listener_for_evs();
     listener_for_ivs();
+    showPokemonWithoutLogin();
 });
 
 function modificate_stats(previousValue, input, index) {
