@@ -420,7 +420,7 @@ public class Server {
         Spark.get("/sendEmail", (req, res) -> {
     
             final String username = "pokemonpsapp@gmail.com";
-            final String password = "cqys fcif wbxt ynbx"; // replace with your actual password
+            final String password = "vvaf fyfp grxk bdgb"; // replace with your actual password
     
             String to = req.queryParams("to");
             String subject = req.queryParams("subject");
