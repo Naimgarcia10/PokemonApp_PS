@@ -37,6 +37,24 @@ class Canvas{
         if(!this.buttons.some(b => b.texto === button.texto)) this.buttons.push(button);        
     }
 
+    dibujarOvalo(x, y, width, height, borderRadius, color) {
+        this.context.beginPath();
+        this.context.moveTo(x + borderRadius, y);
+        this.context.lineTo(x + width - borderRadius, y);
+        this.context.arcTo(x + width, y, x + width, y + borderRadius, borderRadius);
+        this.context.lineTo(x + width, y + height - borderRadius);
+        this.context.arcTo(x + width, y + height, x + width - borderRadius, y + height, borderRadius);
+        this.context.lineTo(x + borderRadius, y + height);
+        this.context.arcTo(x, y + height, x, y + height - borderRadius, borderRadius);
+        this.context.lineTo(x, y + borderRadius);
+        this.context.arcTo(x, y, x + borderRadius, y, borderRadius);
+        this.context.closePath();
+
+        this.context.fillStyle = color;
+        this.context.fill();    
+    }
+      
+
     async loadImage(canvasImage, overwriteDimensions = false){
         return new Promise((resolve, reject) => {
           const image = new Image();
@@ -70,7 +88,7 @@ class Canvas{
         const rect = this.canvas.getBoundingClientRect();        
         const mouseX = event.clientX - rect.left;
         const mouseY = event.clientY - rect.top;
-        //console.log("mouseX = " + mouseX + " mouseY = " + mouseY)
+        console.log("mouseX = " + mouseX + " mouseY = " + mouseY)
         
         // Comprobamos si el ratón está dentro de algún botón               
         const selectedButton = this.getSelectedButton(mouseX, mouseY);

@@ -8,13 +8,15 @@ import { Type } from "./classes/type.js";
 var canvas;
 var pokemon1, pokemon2;
 var pokemon1Image, pokemon2Image;
+var backgroundImage;
 var button1Image, button2Image, button3Image, button4Image;
 var mensajeTexto;
+var battleMusic = new Audio("../../audio/simulator/battle_theme.mp3");
 
 document.addEventListener("DOMContentLoaded", async function() {
   canvas = new Canvas(document.getElementById("canvasSimulator"));    
-  dibujarFondo()
-  dibujarRectanguloPrincipal();    
+  await cargarFondo();
+  dibujarFondo();  
   document.querySelector("#buttonSimulator").addEventListener("click", async function(){
       // comprobamos que los buscadores 1 y 2 no estén vacíos y usamos reportValidity para que salte el mensaje de error
       let pokemon1Text = document.querySelector("#buscador1").value;      
@@ -45,14 +47,22 @@ document.addEventListener("DOMContentLoaded", async function() {
 
 async function empezarCombate(){
   document.querySelector("#buttonSimulator").disabled = true;
+  battleMusic.volume = 0.3;
+  battleMusic.play();
+  battleMusic.loop = true;
   await cargarPokemons();
   await cargarBotonesAtaques();
+  await delay(1000);
+  dibujarPokemon(pokemon1Image);
+  await playSound("../../" + pokemon1.cry);
   dibujarPokemon(pokemon2Image);
-  playSound("../../" + pokemon2.cry);
+  await playSound("../../" + pokemon2.cry);
+
   await delay(500);
-  dibujarInfoPokemon(pokemon1, pokemon1Image, 1);
-  dibujarInfoPokemon(pokemon2, pokemon2Image, -1);    
+  dibujarInfoPokemon(pokemon1, pokemon1Image);
+  dibujarInfoPokemon(pokemon2, pokemon2Image);    
   dibujarAtaques();    
+
   //dibujarMensajeTexto();
   canvas.registerMouseEvents();
   canvas.canvas.addEventListener("buttonClicked", async function(event){        
@@ -82,23 +92,10 @@ async function empezarCombate(){
         if (await performAttack(pokemon2, pokemon1, randomMovement)) {
           return;
         }
-      canvas.registerMouseEvents();
       }
+      canvas.registerMouseEvents(); 
   });
 }
-
-const performAttack = async (attacker, defender, movement) => {
-  await animateAttack(attacker, defender, movement);
-  if (defender.currentHP === 0) {
-    await declareWinner(attacker, defender);
-    finalizarCombate();
-    if (attacker === pokemon1) {
-      playSound("../../audio/simulator/battle_victory.mp3");
-    }
-    return true;
-  }
-  return false;
-};
 
 async function finalizarCombate(){
   document.querySelector("#buttonSimulator").disabled = true;
@@ -106,33 +103,37 @@ async function finalizarCombate(){
 
 async function declareWinner(winnerPokemon, loserPokemon){
   mensajeTexto = loserPokemon.name + " se debilitó...";
-  dibujarTodoSalvoAtaques();
-  await delay(500);
+  dibujarTodoSalvoAtaques(winnerPokemon === pokemon1);
+  battleMusic.pause();
+  await delay(1200);
   mensajeTexto = "¡" + winnerPokemon.name + " ganó la batalla!";
-  dibujarTodoSalvoAtaques();
+  dibujarTodoSalvoAtaques(winnerPokemon === pokemon1);
+  if(winnerPokemon == pokemon1){
+    playSound("../../audio/simulator/battle_victory.mp3");
+  }
   await delay(1500);
   return;
 }
 
-async function animateAttack(pokemonAttacker, pokemonReceiver, movement){
+async function performAttack(pokemonAttacker, pokemonReceiver, movement){
   const imageAttacker = (pokemonAttacker == pokemon1) ? pokemon1Image : pokemon2Image;
   const imageReceiver = (pokemonReceiver == pokemon1) ? pokemon1Image : pokemon2Image;
   mensajeTexto = "¡" + pokemonAttacker.name + " usó " + movement.name + "!";
-  dibujarTodoSalvoAtaques();
-  await animatePokemon(imageAttacker, imageReceiver, imageReceiver.x, imageReceiver.y, 500);            
+  dibujarTodoSalvoAtaques(pokemonAttacker === pokemon1);
+  await animatePokemon(imageAttacker, imageReceiver, imageReceiver.x, imageReceiver.y, 500);
   let resultado = pokemonAttacker.attackPokemon(pokemonReceiver, movement);      
-  dibujarInfoPokemon(pokemonReceiver, imageReceiver, 1);
+  dibujarTodoSalvoAtaques(pokemonAttacker === pokemon1);
   switch(resultado.typeEffectivity){
     case 2:
-      playSound("../../audio/simulator/super_effective.wav");
+      await playSound("../../audio/simulator/super_effective.wav");
       mensajeTexto = "¡Es super efectivo!";
       break;
     case 1:
-      playSound("../../audio/simulator/normal_hit.wav");
+      await playSound("../../audio/simulator/normal_hit.wav");
       mensajeTexto = "";         
       break;
     case 0.5:
-      playSound("../../audio/simulator/not_effective.wav");
+      await playSound("../../audio/simulator/not_effective.wav");
       mensajeTexto = "No es muy efectivo...";
       break;
     case 0:
@@ -141,40 +142,46 @@ async function animateAttack(pokemonAttacker, pokemonReceiver, movement){
     default:
       mensajeTexto = "Pero falló..."
       break;
-  }            
+  }   
+  if(pokemonReceiver.currentHP == 0){
+    await declareWinner(pokemonAttacker, pokemonReceiver);       
+    return true;
+  }  
   if(mensajeTexto != ""){             
     dibujarMensajeTexto();
     await delay(500);
   }
-  await delay(200);
   await animatePokemon(imageAttacker, imageReceiver, imageAttacker.originalX, imageAttacker.originalY, 500);   
   dibujarTodoSalvoMensajeTexto();
+  return false;
 }
 
-async function comprobarPokemonDebilitado(pokemon){
-  
+async function cargarFondo(){
+  backgroundImage = new CanvasImage(0, 0, canvas.width, canvas.height, "../../images/simulator/battleBackground.jpg");
+  await canvas.loadImage(backgroundImage);
 }
 
 async function cargarPokemons(){
     let fixedHeight = 200;    
     let fixedWidth = 200;       
-    pokemon1Image = new CanvasImage(50, (canvas.height - fixedHeight) - 150, fixedWidth, fixedHeight, pokemon1.image);
-    await canvas.loadImage(pokemon1Image);
-    dibujarPokemon(pokemon1Image);
-    playSound("../../" + pokemon1.cry);
-    await delay(500);    
-    pokemon2Image = new CanvasImage(canvas.width - fixedWidth, 0, fixedWidth, fixedHeight, pokemon2.image);
+    pokemon1Image = new CanvasImage(150, (canvas.height - fixedHeight) - 150, fixedWidth, fixedHeight, pokemon1.image);
+    await canvas.loadImage(pokemon1Image);  
+    pokemon2Image = new CanvasImage(canvas.width - 320, 40, fixedWidth, fixedHeight, pokemon2.image);
     await canvas.loadImage(pokemon2Image);
 }
 
 async function cargarBotonesAtaques(){
+
   button1Image = new CanvasImage(0, 0, 0, 0, pokemon1.movements[0].type.picture);
-  button2Image = new CanvasImage(0, 0, 0, 0, pokemon1.movements[1].type.picture);
-  button3Image = new CanvasImage(0, 0, 0, 0, pokemon1.movements[2].type.picture);
-  button4Image = new CanvasImage(0, 0, 0, 0, pokemon1.movements[3].type.picture);
   await canvas.loadImage(button1Image, true);
+  if(pokemon1.movements.length == 1) return; // si solo tiene un movimiento, no cargamos los demás botones
+  button2Image = new CanvasImage(0, 0, 0, 0, pokemon1.movements[1].type.picture);
   await canvas.loadImage(button2Image, true);
+  if(pokemon1.movements.length == 2) return; // si solo tiene dos movimientos, no cargamos los demás botones
+  button3Image = new CanvasImage(0, 0, 0, 0, pokemon1.movements[2].type.picture);
   await canvas.loadImage(button3Image, true);
+  if(pokemon1.movements.length == 3) return; // si solo tiene tres movimientos, no cargamos el último botón
+  button4Image = new CanvasImage(0, 0, 0, 0, pokemon1.movements[3].type.picture);
   await canvas.loadImage(button4Image, true);
 }
 
@@ -194,6 +201,8 @@ async function getPokemon(name){
       type2 = new Type(type2Json[0].type_name, type2Json[0].type_picture, type2Json[0].doubleDamageTo, type2Json[0].doubleDamageFrom,
         type2Json[0].halfDamageTo, type2Json[0].halfDamageFrom, type2Json[0].noDamageTo, type2Json[0].noDamageFrom);
     }    
+    // filtramos los movimientos que no son de tipo daño
+    pokemonJson[0].pokemonMoves = pokemonJson[0].pokemonMoves.filter(movement => movement.category != "/images/movements/status.png");
     const pokemon = new Pokemon(pokemonJson[0].name, type1, type2, pokemonJson[0].hp_base, pokemonJson[0].attack_base, 
       pokemonJson[0].defense_base, pokemonJson[0].spatk_base, pokemonJson[0].spdef_base, 
       pokemonJson[0].speed_base, pokemonJson[0].image, pokemonJson[0].cry, pokemonJson[0].pokemonMoves);    
@@ -201,7 +210,7 @@ async function getPokemon(name){
     pokemon.movements = pokemon.movements.filter(movement => movement.type.name != "status");
     // randomizamos los movimientos
     pokemon.movements.sort(() => Math.random() - 0.5);
-    for(let i=0;i<4;i++){
+    for(let i=0;i<pokemon.movements.length;i++){
       const typeMovementJSON = await getType(pokemon.movements[i].type.name);
       pokemon.movements[i].type = new Type(typeMovementJSON[0].type_name, typeMovementJSON[0].type_picture, typeMovementJSON[0].doubleDamageTo, 
         typeMovementJSON[0].doubleDamageFrom, typeMovementJSON[0].halfDamageTo, typeMovementJSON[0].halfDamageFrom, typeMovementJSON[0].noDamageTo, typeMovementJSON[0].noDamageFrom);
@@ -219,14 +228,19 @@ async function getType(name){
     return typeJson;
 }
 
-function dibujarTodoSalvoAtaques(){
+function dibujarTodoSalvoAtaques(pokemon1Arriba = true){
   canvas.clearCanvas();
   dibujarFondo()
   dibujarRectanguloPrincipal();
-  dibujarPokemon(pokemon1Image);
-  dibujarPokemon(pokemon2Image);    
-  dibujarInfoPokemon(pokemon1, pokemon1Image, 1);
-  dibujarInfoPokemon(pokemon2, pokemon2Image, -1);
+  if(pokemon1Arriba){
+    dibujarPokemon(pokemon2Image);
+    dibujarPokemon(pokemon1Image);
+  } else{
+    dibujarPokemon(pokemon1Image);
+    dibujarPokemon(pokemon2Image);
+  }  
+  dibujarInfoPokemon(pokemon1, pokemon1Image);
+  dibujarInfoPokemon(pokemon2, pokemon2Image);
   dibujarMensajeTexto();
 }
 
@@ -236,8 +250,8 @@ function dibujarTodoSalvoMensajeTexto(){
   dibujarRectanguloPrincipal();
   dibujarPokemon(pokemon1Image);
   dibujarPokemon(pokemon2Image);
-  dibujarInfoPokemon(pokemon1, pokemon1Image, 1);
-  dibujarInfoPokemon(pokemon2, pokemon2Image, -1);
+  dibujarInfoPokemon(pokemon1, pokemon1Image);
+  dibujarInfoPokemon(pokemon2, pokemon2Image);
   dibujarAtaques();
 }
 
@@ -246,22 +260,31 @@ function dibujarPokemon(pokemonImage){
 }
 
 function dibujarFondo(){
-  canvas.context.fillStyle = "lightblue";
-  canvas.context.fillRect(0,0,canvas.width,canvas.height);
+  /*canvas.context.fillStyle = "lightblue";
+  canvas.context.fillRect(0,0,canvas.width,canvas.height);*/
+  canvas.context.drawImage(backgroundImage.imageObject, 0, 0, canvas.width, canvas.height);
 }
 
-function dibujarInfoPokemon(pokemon, pokemonImage, signo){       
+function dibujarInfoPokemon(pokemon, pokemonImage){       
 
-  let extraSuma = 0;
-  if(signo == -1) extraSuma = 200; 
-  const barraVidaX = pokemonImage.originalX + (200 + extraSuma) * signo;
-  const barraVidaY = pokemonImage.originalY + 80;
-  const barraVidaHeight = 25;
-  const barraVidaWidth = 320;
+  let restaX = 0;
+  let restaY = 0;
+  let signo = 1;
+  if(pokemonImage == pokemon2Image){
+    signo = -1;
+  }
+  if(signo == -1){
+    restaX = -405;
+    restaY = -179;
+  }
+  const barraVidaX = 576 + restaX;
+  const barraVidaY = 280 + restaY;
+  const barraVidaHeight = 13;
+  const barraVidaWidth = 169;
+  //return;  
   
-  // Dibujar el fondo de la barra de vida (rojo)
-  canvas.context.fillStyle = "grey";
-  canvas.context.fillRect(barraVidaX, barraVidaY, barraVidaWidth, barraVidaHeight);
+  // Dibujar el fondo de la barra de vida (rojo)  
+  canvas.dibujarOvalo(barraVidaX, barraVidaY, barraVidaWidth, barraVidaHeight, 6, "grey");
 
   const vidaMaxima = pokemon.hp;
   const vidaActual = pokemon.currentHP;  
@@ -269,27 +292,27 @@ function dibujarInfoPokemon(pokemon, pokemonImage, signo){
   const vidaActualWidth = (vidaActual / vidaMaxima) * barraVidaWidth;
   
   // Dibujar la vida actual (verde)
-  canvas.context.fillStyle = "green";
-  canvas.context.fillRect(barraVidaX, barraVidaY, vidaActualWidth, vidaActualHeight);
+  canvas.dibujarOvalo(barraVidaX, barraVidaY, vidaActualWidth, barraVidaHeight, 6, "green");
  
   // Dibujar texto con los puntos de vida debajo y centrado
-  canvas.context.fillStyle = "black";
-  canvas.context.font = "20px Arial";
-  canvas.context.textAlign = "center";
-  canvas.context.textBaseline = "alphabetic";
-  canvas.context.fillText(`${vidaActual}/${vidaMaxima}`, barraVidaX + barraVidaWidth / 2, barraVidaY + barraVidaHeight + 20);
-  canvas.context.textAlign = "start";
-  
+  if(signo != -1){
+    canvas.context.fillStyle = "black";
+      canvas.context.font = "20px Arial";
+      canvas.context.textAlign = "center";
+      canvas.context.textBaseline = "alphabetic";
+      canvas.context.fillText(`${vidaActual}/${vidaMaxima}`, barraVidaX + barraVidaWidth / 2, barraVidaY + barraVidaHeight + 25);
+      canvas.context.textAlign = "start";
+  }    
 
   // Dibujar el nombre del Pokémon
   canvas.context.fillStyle = "black";
   canvas.context.font = "20px Arial";
-  canvas.context.fillText(pokemon.name, barraVidaX , barraVidaY - 10);
+  canvas.context.fillText(pokemon.name, barraVidaX - 50, barraVidaY - 13);
 
   // Dibujar el nivel del pokémon
   canvas.context.fillStyle = "black";
   canvas.context.font = "20px Arial";
-  canvas.context.fillText(`Nivel: ${pokemon.level}`, barraVidaX + 230, barraVidaY - 10);
+  canvas.context.fillText(`${pokemon.level}`, barraVidaX + 128, barraVidaY - 13);
 }
 
 function dibujarRectanguloPrincipal(){
@@ -335,8 +358,8 @@ async function animatePokemon(pokemonMoving, pokemonStatic, finalX, finalY, dura
       dibujarFondo();
       dibujarRectanguloPrincipal();
       dibujarMensajeTexto();
-      dibujarInfoPokemon(pokemon1, pokemon1Image, 1);
-      dibujarInfoPokemon(pokemon2, pokemon2Image, -1);
+      dibujarInfoPokemon(pokemon1, pokemon1Image);
+      dibujarInfoPokemon(pokemon2, pokemon2Image);
       dibujarPokemon(pokemonStatic);
       dibujarPokemon(pokemonMoving);
       currentFrame++;
@@ -345,20 +368,28 @@ async function animatePokemon(pokemonMoving, pokemonStatic, finalX, finalY, dura
   });  
 }
 
-function playSound(soundPath) {
-  console.log(soundPath);
-  const sound = new Audio(soundPath);
-  sound.play();
+async function playSound(soundPath) {
+  return new Promise((resolve, reject) => {
+    const sound = new Audio(soundPath);
+    sound.addEventListener('ended', resolve);
+    sound.addEventListener('error', reject);
+    sound.play();
+    return sound;
+  });
 }
 
+
 function dibujarAtaques(){  
-    const button1 = new AttackButton(200, 360, 150, 50, "white", "20px Verdana", pokemon1.movements[0], button1Image);  
-    const button2 = new AttackButton(400, 360, 150, 50, "white", "20px Verdana", pokemon1.movements[1], button2Image);
-    const button3 = new AttackButton(200, 430, 150, 50, "white", "20px Verdana", pokemon1.movements[2], button3Image);
-    const button4 = new AttackButton(400, 430, 150, 50, "white", "20px Verdana", pokemon1.movements[3], button4Image);  
+    const button1 = new AttackButton(200, 360, 150, 50, "white", "20px Verdana", pokemon1.movements[0], button1Image);
     canvas.dibujarBoton(button1);
+    if(pokemon1.movements.length == 1) return; // si solo tiene un movimiento, no dibujamos los demás botones
+    const button2 = new AttackButton(400, 360, 150, 50, "white", "20px Verdana", pokemon1.movements[1], button2Image);
     canvas.dibujarBoton(button2);
+    if(pokemon1.movements.length == 2) return; // si solo tiene dos movimientos, no dibujamos los demás botones
+    const button3 = new AttackButton(200, 430, 150, 50, "white", "20px Verdana", pokemon1.movements[2], button3Image);
     canvas.dibujarBoton(button3);
+    if(pokemon1.movements.length == 3) return; // si solo tiene tres movimientos, no dibujamos el último botón
+    const button4 = new AttackButton(400, 430, 150, 50, "white", "20px Verdana", pokemon1.movements[3], button4Image);  
     canvas.dibujarBoton(button4);
 }
 
