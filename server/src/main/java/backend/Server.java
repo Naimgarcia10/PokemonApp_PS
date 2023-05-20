@@ -2,6 +2,8 @@ package backend;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import spark.Spark;
+
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,6 +13,7 @@ import org.json.JSONObject;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import javax.mail.*;
@@ -19,144 +22,65 @@ import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
 public class Server {
-
-    
-
-    private static void returnCards(Connection conn) {
-        Spark.get("/getCards", (rq, rs) -> {
-            
-            String sql = "SELECT * FROM custom_pokemons";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            ResultSet result = stmt.executeQuery();
-            ArrayList<JsonObject> cards = new ArrayList<>();
+    private static void returnCards(ConnMysql conn) {
+        Spark.get("/getCards/:username", (rq, rs) -> {
+            String param = rq.params(":username");                        
+            String query = "SELECT idCustomPokemon1, idCustomPokemon2, idCustomPokemon3, idCustomPokemon4, idCustomPokemon5, idCustomPokemon6 " + 
+            "FROM pokemon_teams " +
+            "WHERE idUser = (SELECT idUser FROM users WHERE username = '" + param + "');";
+            ResultSet result = conn.queryMysql(query);
+            ArrayList<CustomPokemon> cards = new ArrayList<>();
             while (result.next()) {
-                JsonObject card = new JsonObject();
-                String[] namesData = returnData(result.getString("idPokemon"), result.getString("idAbility")
-                                            , result.getString("idMovement1"),result.getString("idMovement2")
-                                            , result.getString("idMovement3"), result.getString("idMovement4"), conn);
-
-                card.addProperty("name", namesData[0]);
-                card.addProperty("image", namesData[1]);
-                card.addProperty("ability", namesData[2]);
-                card.addProperty("movement1", namesData[3]);
-                card.addProperty("movement2", namesData[4]);
-                card.addProperty("movement3", namesData[5]);
-                card.addProperty("movement4", namesData[6]);
-                cards.add(card);
+                for (int i = 1; i <= 6; i++) {
+                    int idCustomPokemon = result.getInt("idCustomPokemon" + i);
+                    if (idCustomPokemon != 0) {
+                        cards.add(getCustomPokemon(conn, idCustomPokemon));
+                    }
+                }
             }
-
-            return cards;
+            Gson gson = new GsonBuilder().serializeNulls().create();
+            return gson.toJson(cards);            
         });
     }
-    
-    private static String[] returnData(String idPokemon, String idAbility, String idMovement1 
-                                      ,String idMovement2, String idMovement3, String idMovement4, Connection conn){
 
-        String[] data = new String[7];
-        try {
-            String sql = "SELECT image, name FROM pokemon WHERE idPokemon = ?";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, idPokemon);
-            ResultSet rs = stmt.executeQuery();
-            rs.next();
-            data[0] = rs.getString("name");
-            data[1] = rs.getString("image");
-
-            sql = "SELECT name FROM abilities WHERE idAbility = ?";
-            stmt = conn.prepareStatement(sql);
-            stmt.setString(1, idAbility);
-            rs = stmt.executeQuery();
-            rs.next();
-            data[2] = rs.getString("name");
-
-            sql = "SELECT name FROM movements WHERE idMovement = ?";
-            stmt = conn.prepareStatement(sql);
-            stmt.setString(1, idMovement1);
-            rs = stmt.executeQuery();
-            rs.next();
-            data[3] = rs.getString("name");
-
-            sql = "SELECT name FROM movements WHERE idMovement = ?";
-            stmt = conn.prepareStatement(sql);
-            stmt.setString(1, idMovement2);
-            rs = stmt.executeQuery();
-            rs.next();
-            data[4] = rs.getString("name");
-
-            sql = "SELECT name FROM movements WHERE idMovement = ?";
-            stmt = conn.prepareStatement(sql);
-            stmt.setString(1, idMovement3);
-            rs = stmt.executeQuery();
-            rs.next();
-            data[5] = rs.getString("name");
-
-            sql = "SELECT name FROM movements WHERE idMovement = ?";
-            stmt = conn.prepareStatement(sql);
-            stmt.setString(1, idMovement4);
-            rs = stmt.executeQuery();
-            rs.next();
-            data[6] = rs.getString("name");
-
-        } 
-        
-        catch (Exception e) {
-            System.out.println(e);
-        }
-
-        System.out.println(data);
-        return data;
-    }
-
-    private static String[] returnIds ( String name, String ability, String movement1, String movement2, String movement3, String movement4, Connection conn){
-        String[] ids = new String[6];
-        try {
-
-            String sql = "SELECT idPokemon FROM pokemon WHERE name = ?";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, name);
-            ResultSet rs = stmt.executeQuery();
-            rs.next();
-            ids[0] = rs.getString("idPokemon");
-
-            sql = "SELECT idAbility FROM abilities WHERE name = ?";
-            stmt = conn.prepareStatement(sql);
-            stmt.setString(1, ability);
-            rs = stmt.executeQuery();
-            rs.next();
-            ids[1] = rs.getString("idAbility");
-
-            sql = "SELECT idMovement FROM movements WHERE name = ?";
-            stmt = conn.prepareStatement(sql);
-            stmt.setString(1, movement1);
-            rs = stmt.executeQuery();
-            rs.next();
-            ids[2] = rs.getString("idMovement");
-
-            sql = "SELECT idMovement FROM movements WHERE name = ?";
-            stmt = conn.prepareStatement(sql);
-            stmt.setString(1, movement2);
-            rs = stmt.executeQuery();
-            rs.next();
-            ids[3] = rs.getString("idMovement");
-
-            sql = "SELECT idMovement FROM movements WHERE name = ?";
-            stmt = conn.prepareStatement(sql);
-            stmt.setString(1, movement3);
-            rs = stmt.executeQuery();
-            rs.next();
-            ids[4] = rs.getString("idMovement");
-
-            sql = "SELECT idMovement FROM movements WHERE name = ?";
-            stmt = conn.prepareStatement(sql);
-            stmt.setString(1, movement4);
-            rs = stmt.executeQuery();
-            rs.next();
-            ids[5] = rs.getString("idMovement");
-
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        return ids;
+    private static CustomPokemon getCustomPokemon(ConnMysql conn, int idCustomPokemon) throws Exception{
+        String query = "SELECT pokemon.name, abilities.name as ability, natures.name as nature, objects.name as item, movs1.name as movement1, movs2.name as movement2, movs3.name as movement3, movs4.name as movement4, evsHp, evsAttack, evsDefense, evsSpatk, evsSpdef, evsSpeed, ivsHp, ivsAttack, ivsDefense, ivsSpatk, ivsSpdef, ivsSpeed, pokemon.image " +  
+        "FROM custom_pokemons " +
+        "INNER JOIN pokemon ON custom_pokemons.idPokemon = pokemon.idPokemon " + 
+        "INNER JOIN abilities ON custom_pokemons.idAbility = abilities.idAbility " +
+        "INNER JOIN natures ON custom_pokemons.idNature = natures.idNature " +
+        "INNER JOIN objects ON custom_pokemons.idItem = objects.idObject " +
+        "INNER JOIN movements movs1 ON custom_pokemons.idMovement1 = movs1.idMovement " +
+        "INNER JOIN movements movs2 ON custom_pokemons.idMovement2 = movs2.idMovement " +
+        "INNER JOIN movements movs3 ON custom_pokemons.idMovement3 = movs3.idMovement " +
+        "INNER JOIN movements movs4 ON custom_pokemons.idMovement4 = movs4.idMovement " +         
+        "WHERE idCustomPokemon = " + idCustomPokemon + ";";        
+        ResultSet rs = conn.queryMysql(query);
+        rs.next();        
+        CustomPokemon custompokemon = new CustomPokemon(
+        rs.getString("name"), 
+        rs.getString("ability"),
+        rs.getString("nature"),
+        rs.getString("item"),
+        rs.getString("movement1"),
+        rs.getString("movement2"),
+        rs.getString("movement3"),
+        rs.getString("movement4"),
+        rs.getInt("evsHp"),
+        rs.getInt("evsAttack"),
+        rs.getInt("evsDefense"),
+        rs.getInt("evsSpatk"),
+        rs.getInt("evsSpdef"),
+        rs.getInt("evsSpeed"),
+        rs.getInt("ivsHp"),
+        rs.getInt("ivsAttack"),
+        rs.getInt("ivsDefense"),
+        rs.getInt("ivsSpatk"),
+        rs.getInt("ivsSpdef"),
+        rs.getInt("ivsSpeed"),
+        rs.getString("image")
+        );
+        return custompokemon;
     }
 
     private static Connection connection() throws Exception {
@@ -169,57 +93,6 @@ public class Server {
         String user = dotenv.get("DB_USER");
         String password = dotenv.get("DB_PASSWORD");
         return DriverManager.getConnection(url, user, password);
-    }
-
-    private static void postPokemon(Connection conn) {
-        Spark.post("/postPokemonCard", (rq, res) -> {
-
-            String body = rq.body();
-            Gson gson = new Gson();
-            JsonObject data = gson.fromJson(body, JsonObject.class);
-            String[] ids = returnIds(data.get("name").getAsString(),data.get("ability").getAsString()
-                                    , data.get("movement1").getAsString(), data.get("movement2").getAsString()
-                                    , data.get("movement3").getAsString(), data.get("movement4").getAsString(), conn);
-            
-            String name = ids[0];
-            String ability = ids[1];
-            String movement1 = ids[2];
-            String movement2 = ids[3];
-            String movement3 = ids[4];
-            String movement4 = ids[5];
-
-            JsonArray evs = data.get("evs").getAsJsonArray();
-            JsonArray ivs = data.get("ivs").getAsJsonArray();
-
-            String sql = "INSERT INTO custom_pokemons (idPokemon, idAbility, idMovement1, idMovement2, idMovement3, idMovement4, "
-                    +
-                    "evsAttack, evsDefense, evsSpatk, evsSpdef, evsSpeed, " +
-                    "ivsAttack, ivsDefense, ivsSpatk, ivsSpdef, ivsSpeed) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-                stmt.setString(1, name);
-                stmt.setString(2, ability);
-                stmt.setString(3, movement1);
-                stmt.setString(4, movement2);
-                stmt.setString(5, movement3);
-                stmt.setString(6, movement4);
-                stmt.setString(7, evs.get(0).getAsString());
-                stmt.setString(8, evs.get(1).getAsString());
-                stmt.setString(9, evs.get(2).getAsString());
-                stmt.setString(10, evs.get(3).getAsString());
-                stmt.setString(11, evs.get(4).getAsString());
-                stmt.setString(12, ivs.get(0).getAsString());
-                stmt.setString(13, ivs.get(1).getAsString());
-                stmt.setString(14, ivs.get(2).getAsString());
-                stmt.setString(15, ivs.get(3).getAsString());
-                stmt.setString(16, ivs.get(4).getAsString());
-                stmt.executeUpdate();
-            }
-            String sql2 = "SELECT MAX(idCustomPokemon) FROM custom_pokemons";
-            PreparedStatement stmt2 = conn.prepareStatement(sql2);
-            ResultSet rs = stmt2.executeQuery();
-            return rs.next() ? rs.getString(1) : "0";
-        });
     }
 
     private static void config() {
@@ -498,7 +371,7 @@ public class Server {
         Spark.get("/getPokemonCardById/:id", (req, res) -> {
             int idPokemon = Integer.parseInt(req.params(":id"));
             Gson gson = new GsonBuilder().create();
-            String query = "SELECT name, image FROM pokemon WHERE idPokemon = ?";
+            String query = "SELECT name, image, idPokemon FROM pokemon WHERE idPokemon = ?";
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setInt(1, idPokemon);
             ResultSet rs = stmt.executeQuery();
@@ -506,6 +379,7 @@ public class Server {
             if (rs.next()) {
                 pokemonCard.put("name", rs.getString("name"));
                 pokemonCard.put("image", rs.getString("image"));
+                pokemonCard.put("idPokemon", rs.getString("idPokemon"));
             }
             String result = gson.toJson(pokemonCard);
             return result;
@@ -530,22 +404,120 @@ public class Server {
             return new GsonBuilder().create().toJson(idPokemon);
         });
     }
-    
 
-    private static void getcustomPokemonIds(ConnMysql conn) {
-        Spark.get("/getPokemonIds", (req, res) -> {
-            Gson gson = new GsonBuilder().create();
-            String query = "SELECT idCustomPokemon FROM custom_pokemons";
-            ResultSet rs = conn.queryMysql(query);
-            ArrayList<Integer> pokemonIds = new ArrayList<>();
-            while (rs.next()) {
-                int pokemonId = rs.getInt("idCustomPokemon");
-                pokemonIds.add(pokemonId);
+    private static void postTeam(Connection conn) {
+        Spark.post("/postTeam/:username", (rq, res) -> {
+            String username = rq.params(":username");
+            String body = rq.body();            
+            Gson gson = new Gson();
+            JsonArray pokemons = gson.fromJson(body, JsonArray.class);
+            String query = "";
+            int counter = 0;
+            Integer[] idCustomPokemons = new Integer[6];       
+            for (JsonElement element : pokemons) {
+                JsonObject pokemon = element.getAsJsonObject();
+                
+                // CADA VEZ QUE LLAMO A POST TEAM, CREO NUEVAS FILAS
+                // HAY QUE HACER QUE SE ACTUALICEN EN VEZ DE CREAR NUEVAS
+                
+                query = String.format(
+                "INSERT INTO custom_pokemons(idPokemon, idAbility, idNature, idItem, idMovement1, idMovement2, idMovement3, idMovement4, evsHp, evsAttack, evsDefense, evsSpatk, evsSpdef, evsSpeed, ivsHp, ivsAttack, ivsDefense, ivsSpatk, ivsSpdef, ivsSpeed)" +
+                "SELECT " + 
+                "(SELECT idPokemon FROM pokemon WHERE pokemon.name = '%s'), " + //idPokemon
+                "(SELECT idAbility FROM abilities WHERE abilities.name = '%s'), " + //idAbility
+                "(SELECT idNature FROM natures WHERE natures.name = '%s'), " + //idNature
+                "(SELECT idObject FROM objects WHERE objects.name = '%s'), " + //idItem
+                "(SELECT idMovement FROM movements WHERE movements.name = '%s'), " + //idMovement1
+                "(SELECT idMovement FROM movements WHERE movements.name = '%s'), " + //idMovement2
+                "(SELECT idMovement FROM movements WHERE movements.name = '%s'), " + //idMovement3
+                "(SELECT idMovement FROM movements WHERE movements.name = '%s'), " + //idMovement4
+                "%d, " + //evsHp
+                "%d, " + //evsAttack
+                "%d, " + //evsDefense
+                "%d, " + //evsSpatk
+                "%d, " + //evsSpdef
+                "%d, " + //evsSpeed
+                "%d, " + //ivsHp
+                "%d, " + //ivsAttack
+                "%d, " + //ivsDefense
+                "%d, " + //ivsSpatk
+                "%d, " + //ivsSpdef
+                "%d", //ivsSpeed
+                pokemon.get("name").getAsString(),
+                pokemon.get("ability").getAsString(),
+                pokemon.get("nature").getAsString(),
+                pokemon.get("item").getAsString(),
+                pokemon.get("movement1").getAsString(),
+                pokemon.get("movement2").getAsString(),
+                pokemon.get("movement3").getAsString(),
+                pokemon.get("movement4").getAsString(),
+                pokemon.get("evsHp").getAsInt(),
+                pokemon.get("evsAttack").getAsInt(),
+                pokemon.get("evsDefense").getAsInt(),
+                pokemon.get("evsSpatk").getAsInt(),
+                pokemon.get("evsSpdef").getAsInt(),
+                pokemon.get("evsSpeed").getAsInt(),
+                pokemon.get("ivsHp").getAsInt(),
+                pokemon.get("ivsAttack").getAsInt(),
+                pokemon.get("ivsDefense").getAsInt(),
+                pokemon.get("ivsSpatk").getAsInt(),
+                pokemon.get("ivsSpdef").getAsInt(),
+                pokemon.get("ivsSpeed").getAsInt()
+                );
+                PreparedStatement stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+                stmt.executeUpdate();
+
+                ResultSet generatedKeys = stmt.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    int generatedId = generatedKeys.getInt(1);
+                    // Aquí puedes utilizar la ID generada como necesites
+                    System.out.println("ID generada: " + generatedId);
+                    idCustomPokemons[counter] = generatedId;
+                    counter++;
+                }                              
             }
-            String result = gson.toJson(pokemonIds);
-            return result;
+            // Compruebo que el usuario no esté ya en la tabla "pokemon_teams"
+            query = "SELECT COUNT(*) " +
+                        "FROM pokemon_teams INNER JOIN users ON pokemon_teams.idUser = users.idUser " +
+                            "WHERE users.username = " + "'" + username + "'";        
+            
+            PreparedStatement statement = conn.prepareStatement(query);
+            ResultSet rs = statement.executeQuery();        
+            if (rs.next()) {
+                counter = rs.getInt(1);
+            }
+            if (counter == 0) {
+                // Si no está, lo inserto
+                System.out.println("No estaba ese usuario, lo inserto");
+                query = "INSERT INTO pokemon_teams(idUser, idCustomPokemon1, idCustomPokemon2, idCustomPokemon3, idCustomPokemon4, idCustomPokemon5, idCustomPokemon6) " +
+                        "VALUES( " + 
+                        "(SELECT idUser FROM users WHERE username = " + "'" + username + "'), " +
+                        idCustomPokemons[0] + ", " +
+                        idCustomPokemons[1] + ", " +
+                        idCustomPokemons[2] + ", " +
+                        idCustomPokemons[3] + ", " +
+                        idCustomPokemons[4] + ", " +
+                        idCustomPokemons[5] + 
+                        ");";            
+            } else{
+                // Si está, lo actualizo
+                query = String.format(
+                        "UPDATE pokemon_teams " +
+                        "SET idCustomPokemon1 = %d, idCustomPokemon2 = %d, idCustomPokemon3 = %d, idCustomPokemon4 = %d, idCustomPokemon5 = %d, idCustomPokemon6 = %d " +
+                        "WHERE idUser = (SELECT idUser FROM users WHERE username = '%s');"
+                        , idCustomPokemons[0], idCustomPokemons[1], idCustomPokemons[2], idCustomPokemons[3], idCustomPokemons[4], idCustomPokemons[5], username);                        
+            }
+            System.out.println("=====================================");
+            System.out.println("LA CONSULTA ES: ");
+            System.out.println(query);
+            System.out.println("=====================================");
+            statement = conn.prepareStatement(query);
+            statement.executeUpdate();
+            return "Pokemons successfully inserted into the database.";
         });
     }
+    
+    
     
     
     
@@ -666,15 +638,14 @@ public class Server {
         Server.attendPokemonWhoLearnsAbilities(conn);
         Server.getPokemonsName(conn);
         Server.sendEmail();
-        Server.getNatures(conn);
-        Server.postPokemon(conn2);
-        Server.returnCards(conn2);
+        Server.getNatures(conn);        
+        Server.returnCards(conn);
         Server.attendRegisterUserRequest(conn2);
         Server.attendLoginUserRequest(conn2);
-        Server.getIdByEmail(conn);
-        Server.getcustomPokemonIds(conn);
+        Server.getIdByEmail(conn);        
         Server.getPokemonCardById(conn2);
         Server.getIdByName(conn2);
+        Server.postTeam(conn2);
         
     }
 

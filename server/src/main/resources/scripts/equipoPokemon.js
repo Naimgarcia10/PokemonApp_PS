@@ -3,7 +3,6 @@ import {CustomPokemon} from "./classes/customPokemon.js"
 
 const url_PokemonsName = `http://${DB_HOST}:${DB_PORT}/getPokemonsName`;
 const url_PostPokemon = `http://${DB_HOST}:${DB_PORT}/postPokemonCard`;
-const url_GetPokemon = `http://${DB_HOST}:${DB_PORT}/getCards`;
 const url_Natures = `http://${DB_HOST}:${DB_PORT}/getNatures`;
 
 
@@ -13,8 +12,11 @@ const closeBtn = document.querySelector('.close-btn');
 const saveBtn = document.querySelector('.save-btn');
 const searchBox = document.getElementById('input-text');
 const searchButton = document.getElementById('search-button');
+const saveTeamBtn = document.getElementById('saveTeam-btn');
 
-let customPokemons = JSON.parse(sessionStorage.getItem("customPokemons")) || [];
+
+
+let customPokemons = [];
 let naturesShown = false;
 const pokemonList = [];
 let movimientos = [];
@@ -36,6 +38,8 @@ let pokemonDefense = 0;
 let pokemonSpatk = 0;
 let pokemonSpdef = 0;
 let pokemonSpeed = 0;
+
+let pokemonJSON = null;
 
 let pokemonCount = 0; // Inicializa el contador de Pokémon. Se usa para saber cuántos Pokémon hay en el equipo
 
@@ -114,6 +118,12 @@ saveBtn.addEventListener('click', savePokemon);
 /*buscador de pokemon*/
 input.addEventListener("input", filtradoPokemon);
 
+saveTeamBtn.addEventListener('click', function(){
+    saveCustomPokemons(customPokemons)
+});
+
+
+
 
 
 /*
@@ -124,7 +134,10 @@ input.addEventListener("input", filtradoPokemon);
 
 
 async function savePokemon(){
-
+    if (customPokemons.length >=6) {
+        alert("Equipo completo");
+        return;        
+    }
     const evs = document.querySelectorAll(".ivs");
     const ivs = document.querySelectorAll(".evs");
     let data = {
@@ -136,7 +149,8 @@ async function savePokemon(){
         movement3: document.querySelector('#movimiento3') ? document.querySelector('#movimiento3').value : "",
         movement4: document.querySelector('#movimiento4') ? document.querySelector('#movimiento4').value : "",
         evs: [],
-        ivs: []
+        ivs: [],
+        image: document.querySelector(".imagenPokemon") ? document.querySelector(".imagenPokemon").getAttribute("src") : "",
     };
 
     // Comprobaciones de campos vacíos
@@ -166,45 +180,29 @@ async function savePokemon(){
 
     ivs.forEach(iv => {
         data.ivs.push(iv.value ? iv.value : 0);
-    });
+    });    
 
+    let weaknesses = pokemonJSON.pokemonWeaknesses.x4.concat(pokemonJSON.pokemonWeaknesses.x2);
+    let resistances = pokemonJSON.pokemonWeaknesses.x1medio.concat(pokemonJSON.pokemonWeaknesses.x1cuarto);
+    let immunities = pokemonJSON.pokemonWeaknesses.x0;
 
-    let idPokemon= await getIdPokemonByName(data.name)
-    console.log("Id pokemon dentro de funcion: " + idPokemon);
-
-    let pokemon = new CustomPokemon(idPokemon, data.ability, data.nature, 1, data.movement1, data.movement2, data.movement3, data.movement4,
+    let custompokemon = new CustomPokemon(data.name, data.ability, data.nature, "leftovers", data.movement1, data.movement2, data.movement3, data.movement4,
                                     data.evs[0], data.evs[1], data.evs[2], data.evs[3], data.evs[4], data.evs[5],
-                                    data.ivs[0], data.ivs[1], data.ivs[2], data.ivs[3], data.ivs[4], data.ivs[5]);
+                                    data.ivs[0], data.ivs[1], data.ivs[2], data.ivs[3], data.ivs[4], data.ivs[5], data.image, weaknesses, resistances, immunities,
+                                    pokemonHp, pokemonAttack, pokemonDefense, pokemonSpatk, pokemonSpdef, pokemonSpeed);                                           
 
-
-
-        if (customPokemons.length >=6) {
-            alert("Equipo completo");
-            return
-            
-        }
-
-        customPokemons.push(pokemon);
-        sessionStorage.setItem("customPokemons", JSON.stringify(customPokemons));
-        if (customPokemons.length == 6) {
-            addPokemonBtn.style.display = 'none';
-            
-        }
-        else{
-            addPokemonBtn.style.display = 'flex';
-        }
-
-        
-        
-        //post_pokemonCard(data);
-        overlay.style.display = 'none';
-
-        showPokemonWithoutLogin();
-
-    
-
+                                    
+    console.log(custompokemon);
+    customPokemons.push(custompokemon);    
+    if (customPokemons.length == 6) {
+        addPokemonBtn.style.display = 'none';        
+    }
+    else{
+        addPokemonBtn.style.display = 'flex';
+    }        
+    overlay.style.display = 'none';
+    createCard(custompokemon.name, custompokemon.image, custompokemon.idCustomPokemon);
 }
-
 
 /*
 #########################################################
@@ -228,47 +226,64 @@ function showNatures() {
         .catch(error => console.error('Error:', error));
 }
 
-/* 
-#########################################################
-#             showPokemonWithoutLogin                   #
-#########################################################
-*/
-
-async function showPokemonWithoutLogin() {
-    // Obtener el contenedor
+function createCard(pokemonName, pokemonImage, idCustomPokemon){
     const contenedor = document.querySelector('.container');
+    const card = document.createElement('div');                        
+    const image_name = document.createElement('div');
+    const nameElement = document.createElement('h3');
+    const imgElement = document.createElement('img');
 
-    // Limpiar sólo las tarjetas de Pokémon del contenedor
-    let pokemonCards = contenedor.querySelectorAll('.cardPokemon');
-    pokemonCards.forEach(card => card.remove());
+    // Establecer los atributos de los elementos
+    nameElement.innerText = pokemonName;
+    imgElement.src = pokemonImage;
+    imgElement.alt = "";
 
-    if (customPokemons.length != 0) {
-        for (let i = 0; i < customPokemons.length; i++) {
-            let id =  customPokemons[i].idPokemon;
-    
-            const url_pokemonCard = `http://${DB_HOST}:${DB_PORT}/getPokemonCardById/${id}`;
+    // Agregar los elementos a la tarjeta
+    image_name.appendChild(nameElement);
+    image_name.appendChild(imgElement);
+    imgElement.classList.add('imagePokemon');
+    card.appendChild(image_name);
+    card.id = idCustomPokemon;
 
-            const response = await fetch(url_pokemonCard);
-            const data = await response.json();
+    card.classList.add('tarjetitaPokemon');
 
-            console.log(data);
+    // Agregar la tarjeta al contenedor
+    contenedor.appendChild(card);
 
-            const card = document.createElement('div');
-            card.innerHTML = `  <div class="imagen_nombre">
-                                <h3>${data.name}</h3>
-                                <img src="${data.image}" alt="">
-                                </div>`;
-
-            card.classList.add('cardPokemon');
-            contenedor.appendChild(card);
-        }
-    }
-    else{return;}
+    card.addEventListener('click', () =>{
+        overlay.style.display = 'block';
+    });
 }
 
 
+/* 
+#########################################################
+#                   saveCustomPokemons                  #
+#########################################################
+*/
 
+function saveCustomPokemons(customPokemons) {
+    console.log("HOLAAAAAAAAAAAAA");
+    let username = sessionStorage.getItem("username");
+    const url_customPokemon = `http://${DB_HOST}:${DB_PORT}/postTeam/${username}`;
 
+    fetch(url_customPokemon, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(customPokemons),
+    })
+    .then(response => response.text())
+    .then(data => {
+        console.log('Success:', data);
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+
+    
+}
 
 /* 
 #########################################################
@@ -294,33 +309,6 @@ function getUserIdByEmail() {
         })
         .catch(error => console.error('Error:', error));
 }
-
-
-/* 
-#########################################################
-#                 getIdPokemonByName                    #
-#########################################################
-*/
-
-async function getIdPokemonByName(name) {
-    // Crear la URL para la solicitud
-    let url = `http://${DB_HOST}:${DB_PORT}/getIdByName/${name}`;
-
-    // Hacer la solicitud y procesar la respuesta
-    try {
-        let response = await fetch(url);
-        let idPokemon = await response.json();
-        console.log('El ID del pokemon es', idPokemon.idPokemon);
-        return idPokemon.idPokemon;
-    } catch (error) {
-        console.error('Error:', error);
-    }
-}
-
-
-
-
-
 
 async function cargaLista() {
     const response = await fetch(url_PokemonsName);
@@ -367,21 +355,18 @@ searchButton.onclick = async () => {
     const url_Pokemon = `http://${DB_HOST}:${DB_PORT}/getPokemon/${valorInputCodificado}`;
     const response = await fetch(url_Pokemon);
     const data = await response.json();
-
+    pokemonJSON = data;
     
     const nombrePokemon = document.querySelector('.nombrePokemon');
     nombrePokemon.textContent = data[0].name;
-
     
     const imagenPokemon = document.querySelector('.imagenPokemon');
     imagenPokemon.src = data[0].image;
-
     
     const tipoPokemon1 = document.querySelector('.tipoPokemon1');
     const tipoPokemon2 = document.querySelector('.tipoPokemon2');
     tipoPokemon1.src = data[0].type1;
     tipoPokemon2.src = data[0].type2;
-
    
     const habilidadPokemon1 = document.querySelector('#habilidad1');
     const habilidadPokemon2 = document.querySelector('#habilidad2');
@@ -389,7 +374,6 @@ searchButton.onclick = async () => {
     habilidadPokemon1.textContent = data[0].ability1;
     habilidadPokemon2.textContent = data[0].ability2;
     habilidadPokemon3.textContent = data[0].ability3;
-
    
     data[0].pokemonMoves.forEach(movimiento => {
         movimientos.push(movimiento.name);
@@ -403,7 +387,7 @@ searchButton.onclick = async () => {
     pokemonDefense = data[0].defense_base;
     pokemonSpatk = data[0].spatk_base;
     pokemonSpdef = data[0].spdef_base;
-    pokemonSpeed = data[0].speed_base;
+    pokemonSpeed = data[0].speed_base;    
 
     pokemonHpBase = pokemonHp;
     pokemonAttackBase = pokemonAttack;
@@ -413,10 +397,6 @@ searchButton.onclick = async () => {
     pokemonSpeedBase = pokemonSpeed;
 
     updateStats();
-
-
-
-
 
 }
 
@@ -570,12 +550,12 @@ function listener_for_ivs() {
 }
 
 window.addEventListener('DOMContentLoaded', ()=>{
-    loadCards();
+    let username = sessionStorage.getItem("username");
+    loadCards(username);
     showStats();
     updateIvs();
     listener_for_evs();
-    listener_for_ivs();
-    showPokemonWithoutLogin();
+    listener_for_ivs();    
 });
 
 function modificate_stats(previousValue, input, index) {
@@ -623,36 +603,19 @@ function modificate_stats_evs(input, index) {
     }
 }
 
-
-function post_pokemonCard(data) {
-    fetch(url_PostPokemon, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    })
+function loadCards(username) {    
+    console.log(username);
+    if(username == null) return;
+    fetch(`http://${DB_HOST}:${DB_PORT}/getCards/${username}`)
         .then(response => response.json())
-        .then(data => console.log(data))
-        .catch(error => console.error(error));
-}
-
-function loadCards() {
-
-    fetch(url_GetPokemon)
-        .then(response => response.json())
-        .then(data => {
-            const contenedor = document.querySelector('.container');
-            data.forEach(element => {
-                const card = document.createElement('div');
-                card.innerHTML = `  <div class="imagen_nombre">
-                                    <h3>${element.name}</h3>
-                                    <img src="${element.image}" alt="">
-                                    </div>`;
-
-                card.classList.add('cardPokemon');
-                contenedor.appendChild(card);
-
+        .then(data => {            
+            data.forEach(pokemonJson => {
+                let custompokemon = new CustomPokemon(pokemonJson.name, pokemonJson.ability, pokemonJson.nature, pokemonJson.item, pokemonJson.movement1, pokemonJson.movement2,
+                    pokemonJson.movement3, pokemonJson.movement4, pokemonJson.evsHp, pokemonJson.evsAttack, pokemonJson.evsDefense, pokemonJson.evsSpatk, pokemonJson.evsSpdef,
+                    pokemonJson.evsSpeed, pokemonJson.ivsHp, pokemonJson.ivsAttack, pokemonJson.ivsDefense, pokemonJson.ivsSpatk, pokemonJson.ivsSpdef, pokemonJson.ivsSpeed,
+                    pokemonJson.image)
+                customPokemons.push(custompokemon); // Añadimos el pokemon a la lista de pokemons                
+                createCard(custompokemon.name, custompokemon.image, custompokemon.idCustomPokemon);
             });
         })
         .catch(error => console.error(error));

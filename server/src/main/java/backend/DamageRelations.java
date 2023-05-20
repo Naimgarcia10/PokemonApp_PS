@@ -112,8 +112,7 @@ public class DamageRelations {
                                 "LEFT JOIN type_zerodamage tz2 ON t1.idType = tz2.idTypeImmune " + 
                                 "LEFT JOIN types t7 ON t7.idType = tz2.idTypeZeroDamage " + 
                         String.format("WHERE t1.picture IN ('%s', '%s') ", type1, type2) + 
-                        "GROUP BY t1.idType;";
-                System.out.println(query);
+                        "GROUP BY t1.idType;";                
                 ResultSet rs = conn.queryMysql(query);                
                 List<DamageRelations> listaDamageRelations = new ArrayList<DamageRelations>();
                 while (rs.next()) {
