@@ -36,8 +36,7 @@ export class CustomPokemon {
         this.defense = defense;
         this.spatk = spatk;
         this.spdef = spdef;
-        this.speed = speed;
-        this.movementType1 = movement     
+        this.speed = speed;    
         
         /* Para pintar */
         this.image = image;

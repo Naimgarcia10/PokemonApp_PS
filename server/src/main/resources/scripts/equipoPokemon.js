@@ -182,6 +182,9 @@ async function savePokemon(){
         data.ivs.push(iv.value ? iv.value : 0);
     });    
 
+
+    console.log("pokemonJSON antes de dar fallos" + pokemonJSON);
+    console.log("pokemonWeaknessesX2" + pokemonJSON.pokemonWeaknesses.x2);
     let weaknesses = pokemonJSON.pokemonWeaknesses.x4.concat(pokemonJSON.pokemonWeaknesses.x2);
     let resistances = pokemonJSON.pokemonWeaknesses.x1medio.concat(pokemonJSON.pokemonWeaknesses.x1cuarto);
     let immunities = pokemonJSON.pokemonWeaknesses.x0;
@@ -355,7 +358,8 @@ searchButton.onclick = async () => {
     const url_Pokemon = `http://${DB_HOST}:${DB_PORT}/getPokemon/${valorInputCodificado}`;
     const response = await fetch(url_Pokemon);
     const data = await response.json();
-    pokemonJSON = data;
+    pokemonJSON = data[0];
+    console.log("MALDITO POKEMONJSON" + pokemonJSON);
     
     const nombrePokemon = document.querySelector('.nombrePokemon');
     nombrePokemon.textContent = data[0].name;
