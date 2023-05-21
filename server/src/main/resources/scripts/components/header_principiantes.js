@@ -1,5 +1,4 @@
-import { loadOver } from "./function.js"
-import { cargarSelectorIdiomas } from "./header.js";
+import { loadOver, cargarSelectorIdiomas } from "./function.js"
 loadOver("header.html", document.querySelector('script[src="../scripts/components/header_principiantes.js"]'))
 document.addEventListener("HeaderCargado", function () {
     // mostrar header principiantes
@@ -22,8 +21,5 @@ document.addEventListener("HeaderCargado", function () {
 
             const quizz_a = document.querySelector("#quizz_a");
             quizz_a.innerHTML = idiomas["beginner_funcionalities"][`${idioma_usuario}`][3];
-
-            const languagepicker = document.querySelector("#languagepicker");
-            languagepicker.innerHTML = idiomas["beginner_funcionalities"][`${idioma_usuario}`][4] + ":";
         })
 })

@@ -1,4 +1,5 @@
 .env
 server/target/
 server/target/backend/
-.vscode
+server/target/classes/
+.vscode/

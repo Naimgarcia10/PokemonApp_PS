@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulator</title>
+
+    <link rel="stylesheet" href="../styles/index.css">    
+    <link rel="stylesheet" href="../styles/simulator.css">
+</head>
+<body>
+    <script type="module" src="../scripts/components/header_expertos.js"></script>
+
+    <h1 id="simulatorTitle">Simulator</h1>
+    <canvas id="canvasSimulator" width="800" height="500"></canvas>    
+    <div class="search-container">
+        <input type="text" id="buscador1" placeholder="Introduce Pokemon 1..." required>
+        <label for="buscador1">
+            <img src="../icons/lupa.png" alt="lupa">
+        </label>
+    </div>
+    <div class="search-container">
+        <input type="text" id="buscador2" placeholder="Introduce Pokemon 2..." required>
+        <label for="buscador2">
+            <img src="../icons/lupa.png" alt="lupa">
+        </label>
+    </div>
+    <button id="buttonSimulator">Start</button>    
+
+    <script type="module" src="../scripts/components/footer.js"></script>
+    <script type="module" src="../scripts/simulator.js"></script>
+</body>
+</html>

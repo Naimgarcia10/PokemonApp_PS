@@ -23,6 +23,19 @@ export const loadOver = (route, node) => fetch(route)
         let elm = document.createElement("div")
         elm.innerHTML = `<div class="loaded">${data}</div>`
         frag.append(elm)
-        node.replaceWith(frag)
+        if(node != null) node.replaceWith(frag)        
         if(route === "header.html") document.dispatchEvent(headerCargado);
     })
+
+export const cargarSelectorIdiomas = () => {        
+    const spanishFlag = document.querySelector("#spanish");
+    const englishFlag = document.querySelector("#english");
+    spanishFlag.addEventListener("click", () => {
+        localStorage.setItem("userLanguage", "es");
+        location.reload();
+    });
+    englishFlag.addEventListener("click", () => {
+        localStorage.setItem("userLanguage", "en");
+            location.reload();
+    });    
+}

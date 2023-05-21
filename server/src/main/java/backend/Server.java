@@ -102,7 +102,7 @@ public class Server {
 
     private static void config() {
         Spark.staticFiles.location("");
-        Spark.port(8080);
+        Spark.port(4200);
     }
 
     private static void redirect() {
@@ -122,7 +122,15 @@ public class Server {
 
     private static void attendTypesRequest(ConnMysql conn) {
         Spark.get("/getTypes", (req, res) -> {
-            return new DamageRelations().build_damage_SQL(conn);
+            return new DamageRelations().build_damage_SQL(conn, null);
+        });
+    }
+
+    //Type
+    private static void attendTypeRequest(ConnMysql conn){                
+        Spark.get("/getType/:type", (req, res) -> {
+            String typeName = req.params(":type");
+            return new DamageRelations().build_damage_SQL(conn, typeName);
         });
     }
 
@@ -147,36 +155,39 @@ public class Server {
         Spark.get("/getPokemon/:pokemonName", (rq, res) -> {
             String pokemonName = rq.params(":pokemonName");
             String query = "SELECT idPokemon, pokemon.name, a1.name as ability1, " +
-                    "a2.name as ability2, a3.name as ability3, t1.picture as type1, " +
-                    "t2.picture as type2, hpBase, attackBase, defenseBase, spatkBase, " +
-                    "spdefBase, speedBase, image FROM pokemon JOIN abilities a1 on " +
-                    "a1.idAbility = idAbility1 LEFT JOIN abilities a2 on " +
-                    "a2.idAbility = idAbility2 LEFT JOIN abilities a3 on " +
-                    "a3.idAbility = idAbility3 JOIN types t1 on t1.idType = " +
-                    "pokemon.idType1 LEFT JOIN types t2 on t2.idType = pokemon.idType2 " +
-                    "where pokemon.name = \"" + pokemonName + "\";";
-            ResultSet rs = conn.queryMysql(query);
-            rs.next();
+            "a2.name as ability2, a3.name as ability3, t1.name as type1Name, t1.picture as type1Picture, " +
+            "t2.name as type2Name, t2.picture as type2Picture, hpBase, attackBase, defenseBase, spatkBase, " +
+            "spdefBase, speedBase, image, cry FROM pokemon JOIN abilities a1 on " +
+            "a1.idAbility = idAbility1 LEFT JOIN abilities a2 on " +
+            "a2.idAbility = idAbility2 LEFT JOIN abilities a3 on " +
+            "a3.idAbility = idAbility3 JOIN types t1 on t1.idType = " +
+            "pokemon.idType1 LEFT JOIN types t2 on t2.idType = pokemon.idType2 " +
+            "where pokemon.name = \"" + pokemonName + "\";";            
+            ResultSet rs = conn.queryMysql(query);            
             Gson gson = new GsonBuilder().serializeNulls().create();
-            ArrayList<Pokemon> array = new ArrayList<>();
-            Pokemon pokemon = new Pokemon(rs.getInt("idPokemon"),
-                    rs.getString("name"),
-                    rs.getString("ability1"),
-                    rs.getString("ability2"),
-                    rs.getString("ability3"),
-                    rs.getString("type1"),
-                    rs.getString("type2"),
-                    rs.getInt("hpBase"),
-                    rs.getInt("attackBase"),
-                    rs.getInt("defenseBase"),
-                    rs.getInt("spatkBase"),
-                    rs.getInt("spdefBase"),
-                    rs.getInt("speedBase"),
-                    rs.getString("image"));
+            ArrayList<Pokemon> array = new ArrayList<>();        
+            Pokemon pokemon = null;
+            if(rs.next()){
+                pokemon = new Pokemon(rs.getInt("idPokemon"), 
+                                        rs.getString("name"), 
+                                        rs.getString("ability1"), 
+                                        rs.getString("ability2"), 
+                                        rs.getString("ability3"), 
+                                        new Type(rs.getString("type1Name"), rs.getString("type1Picture")),
+                                        rs.getString("type2Name") == null ? null : new Type(rs.getString("type2Name"), rs.getString("type2Picture")),
+                                        rs.getInt("hpBase"), 
+                                        rs.getInt("attackBase"), 
+                                        rs.getInt("defenseBase"), 
+                                        rs.getInt("spatkBase"), 
+                                        rs.getInt("spdefBase"), 
+                                        rs.getInt("speedBase"), 
+                                        rs.getString("image"),
+                                        rs.getString("cry"));            
             pokemon.buildPokemonMoves(conn);
             pokemon.buildStrategies(conn);
-            pokemon.buildWeaknesses(conn);
-            array.add(pokemon);
+            pokemon.buildWeaknesses(conn);  
+            }        
+            if(pokemon != null) array.add(pokemon);
             return gson.toJson(array);
         });
     }
@@ -634,6 +645,7 @@ public class Server {
         Server.redirect();
         Server.attendTutorialRequest();
         Server.attendTypesRequest(conn);
+        Server.attendTypeRequest(conn);
         Server.attendGlossaryRequest(conn);
         Server.attendPokemonSearcher(conn);
         Server.attendPokemonItemSearcher(conn);

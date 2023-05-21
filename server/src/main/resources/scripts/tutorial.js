@@ -6,10 +6,6 @@ document.addEventListener("DOMContentLoaded", () => {
     let texto = document.getElementById("texto-tutorial");
     let idioma_usuario = localStorage.getItem("userLanguage");
     if(idioma_usuario == null) idioma_usuario = "en";    
-    const titulo = document.querySelector(".titulo");
-    titulo.textContent = "Pokemon Tutorial";
-    if (idioma_usuario == "es") titulo.textContent = "Tutorial Pokemon";
-    
 
     fetch(`http://${DB_HOST}:${DB_PORT}/tutorial/` + 0)
         .then(response => {
