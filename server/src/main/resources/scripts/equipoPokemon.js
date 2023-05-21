@@ -13,6 +13,7 @@ const saveBtn = document.querySelector('.save-btn');
 const searchBox = document.getElementById('input-text');
 const searchButton = document.getElementById('search-button');
 const saveTeamBtn = document.getElementById('saveTeam-btn');
+const evalTeamBtn = document.getElementById('evaluate-btn');
 
 
 
@@ -124,6 +125,14 @@ saveTeamBtn.addEventListener('click', function(){
 
 
 
+evalTeamBtn.addEventListener('click', function(){
+    console.log("EVALUAR EQUIPO");
+    showPokemonTeamEvaluation(customPokemons);
+
+
+});
+
+
 
 
 /*
@@ -182,9 +191,6 @@ async function savePokemon(){
         data.ivs.push(iv.value ? iv.value : 0);
     });    
 
-
-    console.log("pokemonJSON antes de dar fallos" + pokemonJSON);
-    console.log("pokemonWeaknessesX2" + pokemonJSON.pokemonWeaknesses.x2);
     let weaknesses = pokemonJSON.pokemonWeaknesses.x4.concat(pokemonJSON.pokemonWeaknesses.x2);
     let resistances = pokemonJSON.pokemonWeaknesses.x1medio.concat(pokemonJSON.pokemonWeaknesses.x1cuarto);
     let immunities = pokemonJSON.pokemonWeaknesses.x0;
@@ -266,7 +272,6 @@ function createCard(pokemonName, pokemonImage, idCustomPokemon){
 */
 
 function saveCustomPokemons(customPokemons) {
-    console.log("HOLAAAAAAAAAAAAA");
     let username = sessionStorage.getItem("username");
     const url_customPokemon = `http://${DB_HOST}:${DB_PORT}/postTeam/${username}`;
 
@@ -287,6 +292,129 @@ function saveCustomPokemons(customPokemons) {
 
     
 }
+
+/* 
+#########################################################
+#                 showPokemonTeamEvaluation             #
+#########################################################
+*/
+
+function showPokemonTeamEvaluation(customPokemons) {
+    let weaknessesSet = new Set();
+    let resistancesSet = new Set();
+    let immunitiesSet = new Set();
+    let statsSum = {attack: 0, defense: 0, spatk: 0, spdef: 0, speed: 0};
+
+    customPokemons.forEach(pokemon => {
+        if(pokemon.weaknesses) {
+            pokemon.weaknesses.forEach(weakness => {
+                weaknessesSet.add(weakness);
+            });
+        }
+        if(pokemon.resistances) {
+            pokemon.resistances.forEach(resistance => {
+                resistancesSet.add(resistance);
+            });
+        }
+        if(pokemon.immunities) {
+            pokemon.immunities.forEach(immunity => {
+                immunitiesSet.add(immunity);
+            });
+        }
+        for(let stat in statsSum) {
+            if(pokemon[stat]) {
+                statsSum[stat] += pokemon[stat];
+            }
+        }
+    });
+
+    let results = {
+        weaknesses: Array.from(weaknessesSet),
+        resistances: Array.from(resistancesSet),
+        immunities: Array.from(immunitiesSet),
+        averageStats: {}
+    };
+
+    for(let stat in statsSum) {
+        results.averageStats[stat] = statsSum[stat] / customPokemons.length;
+    }
+
+    let evaluationsDiv = document.getElementById('evaluations');
+    evaluationsDiv.innerHTML = '';
+    let title = document.createElement('h2');
+    title.textContent = 'Team Evaluation';
+    title.classList.add('evaluationsTitle');
+    evaluationsDiv.appendChild(title);
+
+
+    for(let category in results) {
+        if(category === 'averageStats') {
+
+            let statTitle = document.createElement('h3');
+            statTitle.classList.add('statTitle');
+            statTitle.textContent = 'Average Stats';
+            evaluationsDiv.appendChild(statTitle);
+
+            for(let stat in results.averageStats) {
+
+                let statDiv = document.createElement('div');
+                statDiv.classList.add('stat');
+
+                let label = document.createElement('span');
+                label.textContent = `${stat}: `;
+
+                let progressBar = document.createElement('progress');
+                progressBar.value = results.averageStats[stat];
+                progressBar.max = 255; // Assuming stat maximum as 100
+                progressBar.className = 'stat-progress'; // Add class
+
+                let statValue = document.createElement('span');
+                statValue.textContent = ` ${Math.round(results.averageStats[stat])}`;
+
+
+                statDiv.appendChild(label);
+                statDiv.appendChild(progressBar);
+                statDiv.appendChild(statValue);
+
+                evaluationsDiv.appendChild(statDiv);
+            }
+        } else {
+            let text;
+            switch(category) {
+                case 'weaknesses':
+                    text = 'Your team is weak to: ';
+                    break;
+                case 'resistances':
+                    text = 'Your team is resistant to: ';
+                    break;
+                case 'immunities':
+                    text = 'Your team is immune to: ';
+                    break;
+            }
+
+            let categoryDiv = document.createElement('div');
+            categoryDiv.classList.add('category');
+            let textNode = document.createElement('h3');
+            textNode.textContent = text;
+            categoryDiv.appendChild(textNode);
+
+            results[category].forEach(imgSrc => {
+                let img = document.createElement('img');
+                img.src = imgSrc;
+                categoryDiv.appendChild(img);
+            });
+
+            evaluationsDiv.appendChild(categoryDiv);
+        }
+    }
+}
+
+
+
+
+
+
+
 
 /* 
 #########################################################
@@ -359,7 +487,6 @@ searchButton.onclick = async () => {
     const response = await fetch(url_Pokemon);
     const data = await response.json();
     pokemonJSON = data[0];
-    console.log("MALDITO POKEMONJSON" + pokemonJSON);
     
     const nombrePokemon = document.querySelector('.nombrePokemon');
     nombrePokemon.textContent = data[0].name;
@@ -559,7 +686,7 @@ window.addEventListener('DOMContentLoaded', ()=>{
     showStats();
     updateIvs();
     listener_for_evs();
-    listener_for_ivs();    
+    listener_for_ivs();
 });
 
 function modificate_stats(previousValue, input, index) {
@@ -609,18 +736,27 @@ function modificate_stats_evs(input, index) {
 
 function loadCards(username) {    
     console.log(username);
-    if(username == null) return;
+    if (username == null) return;
     fetch(`http://${DB_HOST}:${DB_PORT}/getCards/${username}`)
         .then(response => response.json())
-        .then(data => {            
-            data.forEach(pokemonJson => {
-                let custompokemon = new CustomPokemon(pokemonJson.name, pokemonJson.ability, pokemonJson.nature, pokemonJson.item, pokemonJson.movement1, pokemonJson.movement2,
-                    pokemonJson.movement3, pokemonJson.movement4, pokemonJson.evsHp, pokemonJson.evsAttack, pokemonJson.evsDefense, pokemonJson.evsSpatk, pokemonJson.evsSpdef,
-                    pokemonJson.evsSpeed, pokemonJson.ivsHp, pokemonJson.ivsAttack, pokemonJson.ivsDefense, pokemonJson.ivsSpatk, pokemonJson.ivsSpdef, pokemonJson.ivsSpeed,
-                    pokemonJson.image)
-                customPokemons.push(custompokemon); // Añadimos el pokemon a la lista de pokemons                
+        .then(async datos => {                     
+            for (const pokemonJson of datos) {
+                const url_Pokemon = `http://${DB_HOST}:${DB_PORT}/getPokemon/${pokemonJson.name}`;
+                const response = await fetch(url_Pokemon);
+                const pokedata = await response.json();
+                const pokemon = pokedata[0];
+                let weaknesses = pokemon.pokemonWeaknesses.x4.concat(pokemon.pokemonWeaknesses.x2);
+                let resistances = pokemon.pokemonWeaknesses.x1medio.concat(pokemon.pokemonWeaknesses.x1cuarto);
+                let immunities = pokemon.pokemonWeaknesses.x0;
+                /* DEBERÍA CALCULAR EL ATAQUE, DEFENSA, SPATK, SPDEF, Y SPEED, UTILIZANDO LOS EVS/IVS/NATURE. NO SE HACE TODAVÍA. HACERLO? */
+                let custompokemon = new CustomPokemon(pokemon.name, pokemon.ability, pokemon.nature, pokemon.item, pokemon.movement1, pokemon.movement2,
+                    pokemon.movement3, pokemon.movement4, pokemon.evsHp, pokemon.evsAttack, pokemon.evsDefense, pokemon.evsSpatk, pokemon.evsSpdef,
+                    pokemon.evsSpeed, pokemon.ivsHp, pokemon.ivsAttack, pokemon.ivsDefense, pokemon.ivsSpatk, pokemon.ivsSpdef, pokemon.ivsSpeed,
+                    pokemon.image, weaknesses, resistances, immunities, pokemon.attack_base, pokemon.defense_base, pokemon.spatk_base, pokemon.spdef_base, pokemon.speed_base);                
+                customPokemons.push(custompokemon); // Añadimos el pokemon a la lista de pokemons
+                sessionStorage.setItem('customPokemons', JSON.stringify(customPokemons));                
                 createCard(custompokemon.name, custompokemon.image, custompokemon.idCustomPokemon);
-            });
+            }
         })
         .catch(error => console.error(error));
 }

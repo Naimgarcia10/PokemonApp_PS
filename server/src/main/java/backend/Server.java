@@ -3,7 +3,6 @@ package backend;
 import io.github.cdimascio.dotenv.Dotenv;
 import spark.Spark;
 
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,19 +26,23 @@ public class Server {
             String param = rq.params(":username");                        
             String query = "SELECT idCustomPokemon1, idCustomPokemon2, idCustomPokemon3, idCustomPokemon4, idCustomPokemon5, idCustomPokemon6 " + 
             "FROM pokemon_teams " +
-            "WHERE idUser = (SELECT idUser FROM users WHERE username = '" + param + "');";
+            "WHERE idUser = (SELECT idUser FROM users WHERE username = '" + param + "');";            
             ResultSet result = conn.queryMysql(query);
             ArrayList<CustomPokemon> cards = new ArrayList<>();
             while (result.next()) {
-                for (int i = 1; i <= 6; i++) {
+                for (int i = 1; i <= 6; i++) {                    
                     int idCustomPokemon = result.getInt("idCustomPokemon" + i);
                     if (idCustomPokemon != 0) {
                         cards.add(getCustomPokemon(conn, idCustomPokemon));
                     }
                 }
             }
-            Gson gson = new GsonBuilder().serializeNulls().create();
-            return gson.toJson(cards);            
+            Gson gson = new GsonBuilder().serializeNulls().create();            
+            String asdf = gson.toJson(cards);
+            System.out.println("=====================================");
+            System.out.println(asdf);
+            System.out.println("=====================================");
+            return asdf;            
         });
     }
 
@@ -54,7 +57,9 @@ public class Server {
         "INNER JOIN movements movs2 ON custom_pokemons.idMovement2 = movs2.idMovement " +
         "INNER JOIN movements movs3 ON custom_pokemons.idMovement3 = movs3.idMovement " +
         "INNER JOIN movements movs4 ON custom_pokemons.idMovement4 = movs4.idMovement " +         
-        "WHERE idCustomPokemon = " + idCustomPokemon + ";";        
+        "WHERE idCustomPokemon = " + idCustomPokemon + ";";
+        System.out.println("LA SENTENCIA QUE HACE QUE REVIENTE TODO ES: " + query);
+        System.out.println("=====================================");
         ResultSet rs = conn.queryMysql(query);
         rs.next();        
         CustomPokemon custompokemon = new CustomPokemon(

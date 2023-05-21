@@ -42,7 +42,7 @@
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
-  height: 80rem;
+  height: 20rem;
   padding: 10px;
   box-sizing: border-box;
 }
@@ -107,6 +107,116 @@
   height: 7rem;
   width: 7rem;
 }
+
+.evaluations{
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  background-image: linear-gradient(to bottom, var(--Crimson), var(--Coral));
+  width: 40rem;
+  height: 40rem;
+  margin: 0 auto;
+  padding-top: 1rem;
+  border-radius: 10px;
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);
+  margin-top: 1rem;
+  padding: 1rem;
+
+}
+
+.evaluations img{
+  margin-left: 1rem;
+}
+
+.evaluationsTitle{
+  text-align: center;
+  justify-content: start;
+  color: white;
+}
+
+#evaluate-btn{
+    order: 4;
+    width: 12rem;
+    height: 50px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 2rem;
+}
+
+.category{
+  margin-bottom: 2rem;
+}
+
+.category-text{
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.stat{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 1rem;
+  gap: 1rem;
+  margin: 0 auto;
+}
+
+.stat span{
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.statTitle{
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.progressBar{
+  width: 20rem;
+  height: 1.5rem;
+  background-color: #eee;
+  border-radius: 10px;
+  flex-grow: 1;
+  gap: 10px;
+}
+
+#evaluations .stat {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+#evaluations .stat span:first-child {
+  width: 100px; /* adjust as needed */
+}
+
+#evaluations .stat span:last-child {
+  width: 50px; /* adjust as needed */
+}
+
+#evaluations .stat-progress {
+  flex-grow: 1;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+#evaluations .stat-progress::-webkit-progress-bar {
+  background-color: white;
+}
+
+#evaluations .stat-progress::-webkit-progress-value {
+  background-color: #4CAF50;
+}
+
+#evaluations .stat-progress::-moz-progress-bar {
+  background-color: #4CAF50;
+}
+
+
+
 
 
 /*
