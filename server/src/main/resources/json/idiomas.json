@@ -45,6 +45,7 @@
       "BUSCAR OBJETOS",
       "BUSCAR MOVIMIENTOS",
       "BUSCAR HABILIDADES",
+      "SIMULADOR",
       "EVALUAR EQUIPO"
     ],
     "en": [
@@ -52,6 +53,7 @@
       "SEARCH OBJECTS",
       "SEARCH MOVEMENTS",
       "SEARCH ABILITIES",
+      "SIMULATOR",
       "EVALUATE TEAM"
     ]
   },

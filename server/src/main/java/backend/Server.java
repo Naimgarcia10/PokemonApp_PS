@@ -39,9 +39,6 @@ public class Server {
             }
             Gson gson = new GsonBuilder().serializeNulls().create();            
             String asdf = gson.toJson(cards);
-            System.out.println("=====================================");
-            System.out.println(asdf);
-            System.out.println("=====================================");
             return asdf;            
         });
     }
@@ -58,8 +55,6 @@ public class Server {
         "INNER JOIN movements movs3 ON custom_pokemons.idMovement3 = movs3.idMovement " +
         "INNER JOIN movements movs4 ON custom_pokemons.idMovement4 = movs4.idMovement " +         
         "WHERE idCustomPokemon = " + idCustomPokemon + ";";
-        System.out.println("LA SENTENCIA QUE HACE QUE REVIENTE TODO ES: " + query);
-        System.out.println("=====================================");
         ResultSet rs = conn.queryMysql(query);
         rs.next();        
         CustomPokemon custompokemon = new CustomPokemon(
@@ -102,7 +97,7 @@ public class Server {
 
     private static void config() {
         Spark.staticFiles.location("");
-        Spark.port(4200);
+        Spark.port(8080);
     }
 
     private static void redirect() {
@@ -485,9 +480,7 @@ public class Server {
 
                 ResultSet generatedKeys = stmt.getGeneratedKeys();
                 if (generatedKeys.next()) {
-                    int generatedId = generatedKeys.getInt(1);
-                    // Aquí puedes utilizar la ID generada como necesites
-                    System.out.println("ID generada: " + generatedId);
+                    int generatedId = generatedKeys.getInt(1);                                        
                     idCustomPokemons[counter] = generatedId;
                     counter++;
                 }                              
@@ -523,10 +516,6 @@ public class Server {
                         "WHERE idUser = (SELECT idUser FROM users WHERE username = '%s');"
                         , idCustomPokemons[0], idCustomPokemons[1], idCustomPokemons[2], idCustomPokemons[3], idCustomPokemons[4], idCustomPokemons[5], username);                        
             }
-            System.out.println("=====================================");
-            System.out.println("LA CONSULTA ES: ");
-            System.out.println(query);
-            System.out.println("=====================================");
             statement = conn.prepareStatement(query);
             statement.executeUpdate();
             return "Pokemons successfully inserted into the database.";

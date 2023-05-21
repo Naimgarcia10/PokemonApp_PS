@@ -24,11 +24,14 @@ document.addEventListener("HeaderCargado", function () {
             const search_ability_a = document.querySelector("#search_ability_a");
             search_ability_a.innerHTML = idiomas["expert_funcionalities"][`${idioma_usuario}`][3];
 
+            const simulator_a = document.querySelector("#simulator_a");
+            simulator_a.innerHTML = idiomas["expert_funcionalities"][`${idioma_usuario}`][4];
+
             const evaluate_team_a = document.querySelector("#evaluate_team_a");
-            evaluate_team_a.innerHTML = idiomas["expert_funcionalities"][`${idioma_usuario}`][4];
+            evaluate_team_a.innerHTML = idiomas["expert_funcionalities"][`${idioma_usuario}`][5];
 
             const languagepicker = document.querySelector("#languagepicker");
-            languagepicker.innerHTML = idiomas["expert_funcionalities"][`${idioma_usuario}`][5] + ":";
+            languagepicker.innerHTML = idiomas["expert_funcionalities"][`${idioma_usuario}`][6] + ":";
         })
 
         const logoutLi = document.getElementById('logoutLi');

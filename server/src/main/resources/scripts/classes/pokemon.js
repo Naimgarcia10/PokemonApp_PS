@@ -54,7 +54,7 @@ export class Pokemon{
                 return;
             }            
             console.log(movement);
-            pokemon2.currentHP -= damage;
+            pokemon2.currentHP -= Math.floor(damage);
             if(pokemon2.currentHP < 0) pokemon2.currentHP = 0;
             return {
                 damage: damage,
