@@ -73,7 +73,7 @@
 
 #saveTeam-btn {
   order: 3;
-  width: 12rem;
+  width: 10rem;
   height: 50px;
   box-sizing: border-box;
   display: flex;
@@ -91,8 +91,8 @@
   padding-right: 1rem;
   font-size: large;
   position: relative;
-  width: 10rem;
-  height: 10rem;
+  width: 11rem;
+  height: 11rem;
   border-radius: 10px;
   background-color: darkorange;
   display: block;
@@ -119,7 +119,7 @@
   padding-top: 1rem;
   border-radius: 10px;
   box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);
-  margin-top: 1rem;
+  margin-top: 5rem;
   padding: 1rem;
 
 }
@@ -136,7 +136,7 @@
 
 #evaluate-btn{
     order: 4;
-    width: 12rem;
+    width: 10rem;
     height: 50px;
     box-sizing: border-box;
     display: flex;
@@ -149,9 +149,13 @@
   margin-bottom: 2rem;
 }
 
+.category h3{
+  color: white;
+}
+
 .category-text{
   font-size: 1.5rem;
-  font-weight: bold;
+  font-weight: bold;color: white;
 }
 
 .stat{
@@ -166,11 +170,14 @@
 .stat span{
   font-size: 1.2rem;
   font-weight: bold;
+  color: white;
 }
 
 .statTitle{
   text-align: center;
   margin-top: 1rem;
+  color: white;
+  font-size: 1.5rem;
 }
 
 .progressBar{

@@ -285,12 +285,12 @@ function saveCustomPokemons(customPokemons) {
     .then(response => response.text())
     .then(data => {
         console.log('Success:', data);
+        alert("Equipo guardado correctamente");
     })
     .catch((error) => {
         console.error('Error:', error);
     });
 
-    
 }
 
 /* 
@@ -339,7 +339,13 @@ function showPokemonTeamEvaluation(customPokemons) {
         results.averageStats[stat] = statsSum[stat] / customPokemons.length;
     }
 
-    let evaluationsDiv = document.getElementById('evaluations');
+    /*let evaluationsDiv = document.getElementById('evaluations');*/
+    let main = document.querySelector('main');
+
+    let evaluationsDiv = document.createElement('div');
+    evaluationsDiv.classList.add('evaluations');
+    evaluationsDiv.id = 'evaluations';
+    
     evaluationsDiv.innerHTML = '';
     let title = document.createElement('h2');
     title.textContent = 'Team Evaluation';
@@ -407,6 +413,7 @@ function showPokemonTeamEvaluation(customPokemons) {
             evaluationsDiv.appendChild(categoryDiv);
         }
     }
+    main.appendChild(evaluationsDiv);
 }
 
 
